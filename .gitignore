@@ -1,0 +1,30 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+*.tsbuildinfo
+
+# sanity
+/.sanity
+/dist
+sanity/extract.json
+sanity/seed/out/
+
+# testing
+/test-results/
+/playwright-report/
+/tests/visual/__screenshots__/
+/blob-report/
+
+# env files (never commit secrets)
+.env*.local
+.env
+
+# os / editor
+.DS_Store
+Thumbs.db
+*.log
+.vercel

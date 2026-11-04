@@ -1,0 +1,207 @@
+CHANGE #1 - IMPROVE CONTENT CALENDAR GRAPHIC (Above)
+
+
+  ●​ Make the orange square the unmistakable hero. Add a callout or label like “Day 1: your
+     production day” with a short line pointing to it, and consider enlarging it slightly or giving
+     it a glow.
+  ●​ Explain or remove the navy and dark purple squares. If they represent something
+     (long-form pieces, big launches, video vs. posts), add them to the legend. If they’re just
+     visual texture, make them the same family as the light purple so they stop competing.
+  ●​ Add a one-line caption under the title. For example: “Each square is a day you publish.
+     All of it comes from the single orange day.” That removes the guesswork.
+  ●​ Show the contrast with an animation or a before/after. Since there’s already a Replay
+     button, have the orange day light up first, then have the purple squares fill in from it, like
+     a ripple. That visually proves “one day to 365.”
+  ●​ Consider a simpler comparison. A small “typical approach” row showing 365 orange
+     squares (effort every day) next to this one with a single orange square would make the
+     value obvious instantly.
+  ●​ Increase label contrast. The month labels and “YOUR CONTENT YEAR” are light gray
+     on white and a bit hard to read.
+CHANGE #2 - REMOVE PHRASE BECAUSE IT IS NOT CLEAR ENOUGH
+
+
+CHANGE #3 - FIX WRITING STYLE AND FOLLOW THESE BRAND GUIDELINES
+
+
+Always use active voice throughout all body copy. Avoid passive constructions, unnecessary
+
+gerunds (words ending in “ly” and “-ing”), and past tense whenever possible. Prioritize strong,
+
+direct verbs and present-tense language.
+
+
+Write from the perspective of our team and our collective expertise. Use language such as “our
+
+team at Reel Good News,” “we believe,” “we help,” and “our approach” rather than centering
+
+every message on Jenna as an individual.
+
+
+Position Reel Good News as a team, a brand, and a trusted strategic partner. Jenna can serve
+
+as the founder and subject-matter expert, but the copy should communicate the collective
+
+experience, perspective, and capabilities of RGN.
+Keep the voice confident, direct, warm, and grounded in expertise. Avoid unnecessary fluff,
+
+corporate jargon, and overly promotional language.
+
+
+
+
+CHANGE #4 - CHANGE THIS HEADLINE TO “RECENT WINS & MILESTONES”
+
+
+CHANGE #5 - ONLY USE THESE FONTS ON THE WESBITE
+
+
+Heading/title font is Anton
+Handwritten font on the website: Benedict
+All other body text and copy: Nunito Sans
+
+CHANGE #6 - TYPOGRAPHY & FONT USAGE
+
+
+Remove the Benedict font from all primary headlines. Reserve Benedict for select subheadlines
+
+and editorial accents, consistent with its use on the original website. Use the primary brand
+
+typeface for major headlines to maintain a clear visual hierarchy, consistent typography, and
+
+brand continuity. Never mix two different typefaces within the same headline. Each heading
+
+must use one consistent font throughout. Reserve font combinations for distinct headline and
+
+subheadline elements, not within a single headline.
+
+
+CHANGE #7 - FIX CONFUSING LANGUAGE
+The website uses the words “trust” and “believed” in ways that feel unnatural and, at times,
+
+grammatically incorrect. For example, a person would not be described as “good at trust,” and
+
+we cannot promise that an audience will believe someone. These words do not accurately
+
+communicate the value of our work and can make the messaging feel awkward or misleading.
+
+
+Please review the website and revise these phrases to describe what RGN can actually help
+
+businesses achieve: build credibility, establish authority, communicate expertise, strengthen
+
+relationships, and earn customer confidence. Focus on clear, natural language that reflects
+
+outcomes we can meaningfully influence rather than guarantees we cannot make.
+
+
+This issue appears throughout the website, so isolated edits will not fully address it. Please
+
+review the messaging across all pages and revise the language to reflect the actual purpose
+
+and value of our work. The word “trust” should appear only where it adds meaningful context,
+
+not as a recurring theme or generic marketing term. It should not appear on the Careers page.
+
+
+Use our Go-to-Market Strategy document as the primary source of truth for these revisions.
+
+Align the website language with our positioning, core services, target audience, and value
+
+proposition rather than making edits based on individual word choices alone.
+
+
+CHANGE #8 - REVISE HEADLINE COPY
+Remove the phrase “A market that cannot tell the best from the loudest.” Customer feedback
+
+indicates that this message feels confusing and does not communicate our value proposition
+
+clearly.
+
+
+Replace it with:
+
+
+“The industry needs your voice. We can help.”
+
+
+Prioritize clear, accessible language that speaks directly to the audience's opportunity and
+
+positions RGN as a strategic partner. Avoid clever phrasing when it comes at the expense of
+
+clarity.
+
+
+CHANGE #9 - CONCISE COPY
+
+
+Remove unnecessary words from all headlines, subheadlines, and lists. Prioritize concise, direct
+
+language that communicates value quickly. Eliminate redundant phrases, filler words, and
+
+unnecessary explanations. Every word should serve a clear purpose.
+
+
+Avoid overusing second-person language, particularly the words “you” and “your.” Lead with the
+
+value, outcome, or benefit rather than repeatedly addressing the reader directly. Use strong,
+
+declarative statements instead.
+
+
+For example, replace:
+
+
+“You get a recommendation and a proposal that fits. We will send your top 10 quick wins.”
+
+
+With:
+
+
+“Receive a tailored recommendation and 10 quick wins.”
+
+
+Keep copy tight, specific, professional, and easy to scan. Do not sacrifice clarity or substance
+
+for brevity.
+CHANGE #10 - VISUAL IDENTITY
+
+
+The character should be built into the design itself, not just added through the logo and colors. If
+
+we can do this, it is possible to get a lot more sales because it will make us different and distinct.
+
+The website needs to use the same visual style as our social media templates. The goal is to
+
+make the website look and feel like Reel Good News, not like a generic agency website.
+
+
+Please use the existing brand samples, social media templates, and official logo assets as your
+
+design guide. Bring the same textures, patterns, and visual details from the social templates into
+
+the website.
+
+
+For example:
+
+
+   ●​ Use the “R” emblem as a subtle watermark in the corners of the main page.
+
+   ●​ Use the textured, street-like background from the social templates to add depth and
+
+       character.
+
+   ●​ Use other textures and design details from the templates in website backgrounds,
+
+       section transitions, and accents.
+
+
+The character should come from the design itself, not just the logo and colors. These small
+
+details will help make the website unique and memorable.
+
+
+I have already provided the examples and assets needed. Please use them as the foundation
+
+for the website’s visual style. We do not need to create a new design direction.
+

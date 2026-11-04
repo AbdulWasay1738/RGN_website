@@ -1,0 +1,9 @@
+node_modules
+.next
+reference
+content-seed
+docs
+public
+sanity.types.ts
+sanity/extract.json
+*.md

@@ -1,0 +1,83 @@
+[
+  {
+    "id": "attract",
+    "n": 1,
+    "step": "01",
+    "word": "Attract",
+    "title": "Attract the Right Audience",
+    "full": "Attract the Right Audience: Nail Your Go-to-Market Strategy First",
+    "headline": "Know the audience before a single piece of content gets made.",
+    "regular": 199,
+    "intro": 99,
+    "summary": "Nail the go-to-market strategy first. Define the audience, clarify the value and choose the right messages before a dollar goes to production.",
+    "short": "Nail your go-to-market strategy first",
+    "blockLabel": "The problem",
+    "block": "Businesses create content before they know whom they need to reach, what makes them valuable, or which messages will resonate.",
+    "learn": [
+      "Define the audience",
+      "Clarify what makes the business valuable",
+      "Identify the messages that earn attention and credibility",
+      "Connect expertise and customer outcomes to the questions buyers already ask"
+    ],
+    "leave": "A practical go-to-market direction that guides what to create, where to share it and how to lead interested people toward the business.",
+    "leave2": "A stronger foundation before time and money go into production.",
+    "bestfor": "Founders and marketing teams",
+    "slug": "attract-the-right-audience",
+    "blockHighlight": "which messages will resonate."
+  },
+  {
+    "id": "create",
+    "n": 2,
+    "step": "03",
+    "word": "Create",
+    "title": "Build a Year of Content From One Production Day",
+    "full": "Build a Year of Content From One Production Day",
+    "headline": "A year of content starts weeks before the cameras turn on.",
+    "regular": 399,
+    "intro": 249,
+    "summary": "Plan a focused shoot, capture credible customer stories and turn the footage into a year of marketing content.",
+    "short": "Plan the shoot, capture the stories",
+    "blockLabel": "Who it is for",
+    "block": "Business owners, founders and marketing teams who want to build credibility, show customer results and keep a steady supply of marketing content without frequent video shoots.",
+    "learn": [
+      "Select and invite the right participants",
+      "Prepare interview questions that draw out real stories",
+      "Write an effective introduction and outro",
+      "Organize the production schedule",
+      "Vet a videographer",
+      "Find the strongest moments and organize footage around key messages",
+      "Turn interviews into short-form videos and other marketing assets"
+    ],
+    "leave": "A repeatable system that captures authentic social proof and turns one production day into a year of useful marketing content.",
+    "leave2": "Pairs with the live workshop on February 4.",
+    "bestfor": "Business owners and marketing teams",
+    "slug": "build-a-year-of-content",
+    "blockHighlight": "without frequent video shoots."
+  },
+  {
+    "id": "broadcast",
+    "n": 3,
+    "step": "04",
+    "word": "Broadcast",
+    "title": "Reach the Right Audience at the Right Time",
+    "full": "Reach the Right Audience at the Right Time",
+    "headline": "Great content only works when the right people see it.",
+    "regular": 199,
+    "intro": 99,
+    "summary": "Match content to buyer questions, channels and timing. Publish with purpose, not at random.",
+    "short": "Distribution with purpose",
+    "blockLabel": "The problem",
+    "block": "Businesses create useful content but publish without a deliberate distribution strategy connected to customer questions and buying decisions.",
+    "learn": [
+      "Build a distribution plan",
+      "Match material to audience needs",
+      "Select channels and set the timing for each piece",
+      "Connect topics to the questions buyers ask on the path to a decision"
+    ],
+    "leave": "A consistent approach that keeps the business visible, builds credibility and moves interested people to the next step.",
+    "leave2": "Put the content library to work with purpose, not at random.",
+    "bestfor": "Teams with content already made",
+    "slug": "reach-the-right-audience",
+    "blockHighlight": "connected to customer questions and buying decisions."
+  }
+]

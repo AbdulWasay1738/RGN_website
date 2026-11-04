@@ -1,0 +1,66 @@
+{
+  "areas": [
+    "Marketing efficiency",
+    "Sales enablement",
+    "Expertise capture",
+    "Content strategy",
+    "Measurement"
+  ],
+  "questions": [
+    {
+      "area": "Marketing efficiency",
+      "question": "How often does your team create new content from scratch instead of reusing what you already have?",
+      "options": [
+        "Almost always",
+        "Often",
+        "Sometimes",
+        "Rarely"
+      ],
+      "status": "draft"
+    },
+    {
+      "area": "Sales enablement",
+      "question": "When a prospect asks for proof, how quickly can your team send a relevant customer story?",
+      "options": [
+        "The same day",
+        "Within a week",
+        "We would have to make one",
+        "We do not have any yet"
+      ],
+      "status": "draft"
+    },
+    {
+      "area": "Expertise capture",
+      "question": "Where does most of your company’s expertise live today?",
+      "options": [
+        "In published content",
+        "In internal documents",
+        "In a few people’s heads",
+        "Nowhere written down"
+      ],
+      "status": "draft"
+    },
+    {
+      "area": "Content strategy",
+      "question": "How closely does your content match the questions buyers ask on sales calls?",
+      "options": [
+        "Very closely",
+        "Somewhat",
+        "Not really",
+        "We have not checked"
+      ],
+      "status": "draft"
+    },
+    {
+      "area": "Measurement",
+      "question": "Which best describes how you judge marketing performance?",
+      "options": [
+        "Pipeline and revenue",
+        "Leads and inquiries",
+        "Views and followers",
+        "We do not measure it yet"
+      ],
+      "status": "draft"
+    }
+  ]
+}
