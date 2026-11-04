@@ -1,0 +1,96 @@
+.wrap {
+  position: relative;
+  padding: 24px 24px 24px 0;
+}
+.wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 48px 48px;
+  background: var(--lav);
+  border-radius: 20px;
+  transform: rotate(4deg);
+}
+.report {
+  position: relative;
+  background: var(--white);
+  color: var(--navy);
+  border-radius: 20px;
+  padding: 30px;
+  transform: rotate(-2deg);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform 0.5s var(--ease);
+}
+.report:hover {
+  transform: rotate(0);
+}
+.head {
+  justify-content: space-between;
+  gap: 12px;
+}
+.sample {
+  font: 700 10px var(--fm);
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.title {
+  font: 400 22px/1.1 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.prepared {
+  font-size: 13px;
+  color: var(--muted);
+}
+.logo {
+  height: 22px;
+  width: auto;
+}
+.bars {
+  border-top: 1px solid #eeeae2;
+  padding-top: 14px;
+}
+.barRow {
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.animOn :global(.bar) i {
+  animation: grow 1.2s var(--ease) backwards;
+  animation-delay: calc(var(--k) * 120ms + 0.2s);
+}
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+.priorities {
+  background: var(--paper);
+  border-radius: 12px;
+  padding: 14px;
+}
+.prioritiesLabel {
+  font: 700 10px var(--fm);
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.priority {
+  align-items: center;
+}
+.num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 22px;
+}

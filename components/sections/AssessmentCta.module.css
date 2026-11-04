@@ -1,0 +1,17 @@
+.band {
+  position: relative;
+}
+.row {
+  align-items: center;
+}
+.area {
+  font-weight: 700;
+  align-items: center;
+}
+.areaNum {
+  font: 700 12px var(--fm);
+  color: var(--lav);
+}
+.mock {
+  flex-basis: 400px;
+}

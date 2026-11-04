@@ -1,0 +1,64 @@
+.cardFig {
+  margin: 0;
+  background: var(--navy2);
+  color: var(--white);
+}
+.cardImg {
+  aspect-ratio: 1;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+}
+.cardCaption {
+  padding: 20px 22px;
+}
+.cardTitle {
+  font-size: 22px;
+}
+.cardText {
+  color: var(--soft2);
+  font-size: 15px;
+}
+.linkCard {
+  background: var(--lav);
+  color: var(--navy);
+  padding: 30px;
+  justify-content: space-between;
+  gap: 20px;
+}
+.linkEyebrow {
+  color: var(--navy) !important;
+}
+.linkTitle {
+  font-size: 36px;
+  line-height: 1.05;
+}
+.linkText {
+  font-weight: 700;
+}
+
+.tiltFig {
+  margin: 0;
+}
+.tiltImg {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  transition: transform 0.5s var(--ease);
+}
+.tiltLeft {
+  transform: rotate(-2deg);
+}
+.tiltRight {
+  transform: rotate(2deg);
+}
+.tiltFig:hover .tiltImg {
+  transform: rotate(0) scale(1.02);
+}
+.tiltCaption {
+  font-size: 14px;
+  color: var(--soft2);
+}

@@ -1,0 +1,46 @@
+.hero {
+  padding-block: 88px 112px;
+  align-items: flex-start;
+}
+.top {
+  align-items: flex-start;
+}
+h1.xl {
+  font-size: clamp(64px, 8vw, 120px);
+}
+.noMargin {
+  margin: 0;
+}
+h2.panelHeadline {
+  font-size: clamp(30px, 3.2vw, 42px);
+}
+.quote {
+  margin: 12px 0 0;
+  background: var(--lav-t);
+  border-radius: 22px;
+  padding: 26px;
+}
+.quoteText {
+  margin: 0;
+  font: 600 22px/1.3 var(--fb);
+}
+.quoteBy {
+  font-size: 14px;
+}
+.role {
+  padding: 28px;
+}
+.roleTitle {
+  font-size: 24px;
+}
+.roleTitle a {
+  text-decoration: none;
+}
+.roleNote {
+  font-size: 15px;
+}
+@media (max-width: 760px) {
+  .hero {
+    padding-block: 64px 72px;
+  }
+}

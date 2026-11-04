@@ -1,0 +1,225 @@
+/* ---------- hero ---------- */
+.heroRow {
+  padding-block: 64px 96px;
+  align-items: flex-start;
+}
+.heroCopy {
+  padding-top: 12px;
+}
+.word {
+  font-size: 44px;
+  line-height: 1;
+}
+h1.title {
+  font-size: clamp(42px, 5.4vw, 78px);
+}
+.priceCard {
+  max-width: 420px;
+  background: var(--white);
+  border-radius: 26px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(9, 21, 39, 0.12);
+}
+@media (min-width: 1000px) {
+  .priceCard {
+    position: sticky;
+    top: 96px;
+  }
+}
+div.cardCover {
+  height: 200px;
+}
+div.cardCover :global(.big) {
+  font-size: 280px;
+  bottom: -64px;
+}
+.coverLabel {
+  font: 700 11px var(--fm);
+  letter-spacing: 0.14em;
+  color: var(--lav);
+  position: relative;
+  text-transform: uppercase;
+}
+div.cardCover span.coverWord {
+  font-size: 44px;
+}
+.cardBody {
+  padding: 28px;
+}
+.introBox {
+  background: var(--peach);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--peach-i);
+  font-size: 14px;
+}
+.bundleLink {
+  align-self: center;
+  text-decoration: underline;
+  text-align: center;
+}
+.features {
+  border-top: 1px solid #eeeae2;
+  padding-top: 14px;
+  font-size: 14px;
+  color: var(--text);
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+.feature {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.featureIcon {
+  color: var(--lav-i);
+  display: flex;
+}
+
+/* ---------- path bar ---------- */
+.pathSection {
+  border-bottom: 1px solid #eeeae2;
+}
+.pathbar {
+  padding-block: 36px;
+  list-style: none;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.pathItem {
+  text-decoration: none;
+  background: var(--paper);
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  text-align: left;
+  height: 100%;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+a.pathItem:hover {
+  transform: translateY(-2px);
+}
+.pathHere {
+  background: var(--navy);
+  color: var(--white);
+}
+.pathNum {
+  font: 400 36px/1 var(--fd);
+  color: transparent;
+  -webkit-text-stroke: 1.2px var(--navy);
+}
+.pathHere .pathNum {
+  color: var(--white);
+  -webkit-text-stroke: 0;
+}
+.pathText {
+  line-height: 1.3;
+}
+.pathSub {
+  font-size: 13px;
+  color: var(--muted);
+}
+.pathHere .pathSub {
+  color: var(--lav);
+}
+
+/* ---------- problem ---------- */
+.problemRow {
+  align-items: flex-start;
+}
+.problemLabel {
+  padding-top: 14px;
+}
+.problem {
+  flex: 1 1 600px;
+  min-width: 0;
+  margin: 0;
+  font: 400 clamp(30px, 3.6vw, 50px) / 1.13 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- covers ---------- */
+.tileNum {
+  font: 700 13px var(--fm);
+  color: var(--lav);
+}
+:global(.tile.lv) .tileNum {
+  color: var(--navy);
+}
+.tileText {
+  margin: 0;
+  font: 400 22px/1.2 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- outcome ---------- */
+.outcomeStatement {
+  margin: 0;
+  font: 400 clamp(28px, 3vw, 40px) / 1.15 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.outcomeNote {
+  margin: 0;
+  color: var(--text);
+  font-size: 18px;
+}
+.detailValue {
+  font-size: 17px;
+  line-height: 1.3;
+}
+
+/* ---------- bundle upsell ---------- */
+section.upsellSection {
+  padding-bottom: 0;
+}
+div.upsell {
+  background: var(--lav);
+  border-radius: 28px;
+  padding: clamp(28px, 4vw, 56px);
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: center;
+}
+.upsellCopy {
+  flex-basis: 380px;
+}
+h2.upsellHeadline {
+  font-size: clamp(30px, 3.4vw, 46px);
+}
+.upsellBody {
+  margin: 0;
+  font-size: 18px;
+}
+
+/* ---------- faq + teacher ---------- */
+.teacher {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  background: var(--paper);
+  border-radius: 18px;
+  padding: 16px;
+}
+.teacherImg {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.teacherText {
+  line-height: 1.35;
+}
+.teacherNote {
+  font-size: 14px;
+  color: var(--muted);
+}

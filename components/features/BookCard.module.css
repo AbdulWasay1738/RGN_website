@@ -1,0 +1,49 @@
+.book:global(.card) {
+  padding: 32px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 28px;
+  align-items: center;
+}
+.art {
+  flex: 0 0 150px;
+  display: flex;
+  justify-content: center;
+}
+.spine {
+  height: 196px;
+}
+.cover {
+  width: 132px;
+  height: 196px;
+}
+.accent {
+  font: 400 21px/1 var(--fd);
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.rest {
+  font: 400 21px/1 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.author {
+  font: 800 9px var(--fb);
+  letter-spacing: 0.14em;
+  color: var(--lav);
+  text-transform: uppercase;
+}
+.body {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+.chip {
+  align-self: flex-start;
+}
+.text {
+  margin: 0;
+  color: var(--text);
+}
+.cta {
+  align-self: flex-start;
+}

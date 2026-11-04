@@ -1,0 +1,30 @@
+.course {
+  box-shadow: 0 1px 0 var(--rule);
+}
+.chip {
+  align-self: flex-start;
+  position: relative;
+}
+.body {
+  padding: 26px;
+  flex-grow: 1;
+}
+.title {
+  margin: 0;
+  font: 400 27px/1.1 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.summary {
+  margin: 0;
+  color: var(--text);
+  font-size: 16px;
+  flex-grow: 1;
+}
+.price {
+  border-top: 1px solid #eeeae2;
+  padding-top: 16px;
+}
+.enroll {
+  flex: 1;
+}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import { HONEYPOT_FIELD, TIMESTAMP_FIELD } from '@/lib/forms'
 
 type BaseProps = {
@@ -132,8 +132,11 @@ export function Consent({ id, name, children }: { id: string; name: string; chil
 
 /** Honeypot + render timestamp. Put inside every <form>. */
 export function SpamTraps() {
-  const [renderedAt, setRenderedAt] = useState('')
-  useEffect(() => setRenderedAt(String(Date.now())), [])
+  const stamp = useRef<HTMLInputElement>(null)
+  // Set after mount so server and client markup match.
+  useEffect(() => {
+    if (stamp.current) stamp.current.value = String(Date.now())
+  }, [])
   return (
     <>
       <div className="hp" aria-hidden="true">
@@ -142,7 +145,7 @@ export function SpamTraps() {
           <input type="text" name={HONEYPOT_FIELD} tabIndex={-1} autoComplete="off" defaultValue="" />
         </label>
       </div>
-      <input type="hidden" name={TIMESTAMP_FIELD} value={renderedAt} />
+      <input type="hidden" name={TIMESTAMP_FIELD} ref={stamp} defaultValue="" />
     </>
   )
 }

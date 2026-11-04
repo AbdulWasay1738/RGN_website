@@ -1,0 +1,25 @@
+.darkRow {
+  padding: 20px;
+  border-radius: 16px;
+}
+.orangeBox {
+  background: var(--orange);
+  padding: 20px;
+  border-radius: 16px;
+  align-self: flex-start;
+}
+.brushBox {
+  position: relative;
+  flex: 1 1 300px;
+  height: 260px;
+}
+.feltBox {
+  position: relative;
+  flex: 0 0 240px;
+  height: 300px;
+  overflow: hidden;
+}
+.tearBox {
+  position: relative;
+  padding-block: 80px;
+}

@@ -1,0 +1,70 @@
+.bodyCol {
+  padding-top: 30px;
+  font-size: 18px;
+  color: var(--text);
+}
+.bodyCol.dark {
+  color: var(--soft);
+}
+.bodyPlain > :global(*) {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.bodyPlain p {
+  margin: 0;
+}
+.bodyLead > :global(*) {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.bodyLead p {
+  margin: 0;
+  font-size: clamp(18px, 1.6vw, 21px);
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 62ch;
+}
+.dark.bodyLead p {
+  color: var(--soft);
+}
+.closing {
+  margin: 0;
+  color: var(--navy);
+  font-weight: 700;
+}
+.closingDark {
+  color: var(--white);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.item {
+  background: var(--white);
+  color: var(--navy);
+  border-radius: 20px;
+  padding: 22px 24px;
+}
+.num {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+.numLast {
+  background: var(--orange);
+}
+.itemText {
+  font-size: 19px;
+  line-height: 1.35;
+}

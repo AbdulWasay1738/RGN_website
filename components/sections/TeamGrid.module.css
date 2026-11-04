@@ -1,0 +1,93 @@
+.media {
+  height: 340px;
+  background: var(--lav-t);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.reel {
+  position: absolute;
+  left: 50%;
+  top: 24px;
+  width: 300px;
+  height: 300px;
+  margin-left: -150px;
+}
+.cutout {
+  position: relative;
+  height: 320px;
+  width: auto;
+}
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.meta {
+  padding: 24px;
+  align-items: flex-end;
+  gap: 12px;
+}
+.who {
+  line-height: 1.3;
+}
+.name {
+  font-size: 26px;
+}
+.placeholder {
+  border: 2px dashed #c3c8d2;
+  border-radius: 24px;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  text-align: center;
+  min-height: 420px;
+  color: var(--muted);
+}
+.plus {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--navy);
+}
+.placeholderName {
+  color: var(--navy);
+}
+.placeholderText {
+  font-size: 14px;
+}
+.hiring {
+  background: var(--navy);
+  color: var(--white);
+  padding: 32px;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 420px;
+}
+.hiring :global(.eyebrow) {
+  color: var(--lav);
+}
+.hiringTitle {
+  font-size: 34px;
+  line-height: 1.1;
+}
+.hiringLink {
+  letter-spacing: 0.08em;
+  font-size: 14px;
+  text-transform: uppercase;
+  align-self: flex-start;
+}
+@media (max-width: 760px) {
+  .placeholder,
+  .hiring {
+    min-height: 300px;
+  }
+}

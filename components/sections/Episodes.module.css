@@ -1,0 +1,79 @@
+.head {
+  padding-bottom: 24px;
+}
+.ep {
+  background: var(--white);
+  border-radius: 22px;
+  padding: 22px;
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.play {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--navy);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    background 0.2s;
+}
+.play:hover {
+  transform: scale(1.06);
+  background: var(--btn);
+}
+.play svg {
+  width: 20px;
+  height: 20px;
+}
+.info {
+  flex: 1 1 360px;
+  min-width: 0;
+}
+span.epEyebrow {
+  font-size: 11px;
+}
+.title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+}
+.summary {
+  font-size: 15px;
+}
+.wave {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  height: 44px;
+  flex: 0 1 220px;
+  min-width: 0;
+  overflow: hidden;
+}
+.wave i {
+  width: 4px;
+  flex: 0 0 4px;
+  border-radius: 2px;
+  background: var(--lav);
+  display: block;
+}
+.wave i.o {
+  background: var(--orange);
+}
+.wave.on i {
+  animation: eq 0.9s ease-in-out infinite alternate;
+  animation-delay: calc(var(--k) * -70ms);
+}
+@keyframes eq {
+  to {
+    transform: scaleY(0.35);
+  }
+}

@@ -1,0 +1,34 @@
+.bundle:global(.card) {
+  background: var(--lav);
+  padding: 32px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 28px;
+  align-items: center;
+}
+/* beats the global `.fan > span` alignment, as the prototype's inline style did */
+.bundle .fanLast {
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.fanWord {
+  font: 20px var(--fs);
+  color: var(--orange);
+}
+.body {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+.chip {
+  align-self: flex-start;
+}
+.text {
+  margin: 0;
+}
+.buyRow {
+  align-items: center;
+}
+.was {
+  color: var(--navy);
+}

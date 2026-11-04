@@ -1,0 +1,9 @@
+.row {
+  align-items: center;
+}
+.copy {
+  flex-basis: 400px;
+}
+.card {
+  flex-basis: 600px;
+}

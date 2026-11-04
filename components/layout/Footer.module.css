@@ -1,0 +1,123 @@
+.footer {
+  background: #0a121f var(--tex) center/1024px;
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+/* eyebrows on the dark footer use lavender for contrast */
+.eyebrow {
+  color: var(--lav);
+}
+
+/* newsletter band */
+.newsBand {
+  border-bottom: 1px solid #1c2a40;
+  position: relative;
+  z-index: 1;
+}
+.newsIn {
+  padding-block: 56px;
+  justify-content: space-between;
+  align-items: center;
+}
+.newsCopy {
+  max-width: 520px;
+}
+.newsHeadline {
+  margin: 0;
+  font: 400 32px/1.1 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.newsBody {
+  font-size: 15px;
+  color: var(--soft2);
+}
+.newsForm {
+  flex: 0 1 460px;
+  min-width: 0;
+  align-items: flex-end;
+  position: relative;
+}
+.newsField {
+  flex: 1 1 240px;
+  color: var(--soft);
+}
+.footer .newsInput {
+  border-radius: 999px;
+  background: #0b1729;
+  border-color: var(--line-d2);
+  color: var(--white);
+}
+.footer .newsInput::placeholder {
+  color: #7d8aa1;
+}
+.footer .newsError {
+  color: var(--coral);
+}
+.newsBtn {
+  height: 50px;
+  padding-block: 0;
+}
+
+/* main block */
+.main {
+  padding-block: 64px 36px;
+  position: relative;
+  z-index: 1;
+}
+.brand {
+  max-width: 360px;
+}
+.logo {
+  height: 50px;
+  width: auto;
+  align-self: flex-start;
+}
+.tagline {
+  margin: 0;
+  font: 800 20px/1.35 var(--fb);
+}
+.footer .hand {
+  color: var(--lav);
+}
+.social {
+  align-self: flex-start;
+}
+.fcol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fcol .eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+}
+.fl {
+  color: var(--white);
+  text-decoration: none;
+  font-size: 15px;
+  min-height: 24px;
+}
+.fl:hover {
+  color: var(--lav);
+}
+.legalBlock {
+  border-top: 1px solid #1c2a40;
+  padding-top: 24px;
+  font-size: 13px;
+  color: var(--soft2);
+}
+.legalLink {
+  color: var(--white);
+  font-size: 13px;
+  text-decoration: underline;
+  min-height: 24px;
+}
+.legalLink:hover {
+  color: var(--lav);
+}
+.disclaimer {
+  margin: 0;
+  max-width: 900px;
+}

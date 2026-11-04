@@ -38,6 +38,16 @@ Use the current stable versions of Next.js, React, `sanity` and `next-sanity` at
 ## Commands (fill in as the project takes shape)
 
 - `npm run dev`: Next.js plus the Studio at http://localhost:3000/studio
+- `npm run dev:offline`: the site from `content-seed/` with no Sanity connection (`SANITY_OFFLINE=1`, never in production)
 - `npm run typegen`: regenerate Sanity types
-- `npm run seed`: import `content-seed/` into the Sanity dataset
-- `npm run lint`, `npm run build`, `npm run test:visual`
+- `npm run seed`: import `content-seed/` into the Sanity dataset (Editor token in `.env.local`, or `npx sanity login` first)
+- `npm run lint`, `npm run typecheck`, `npm run build`, `npm test` (unit)
+- `npm run test:visual`, `npm run test:a11y`, `npm run test:e2e` (Playwright; build with `SANITY_OFFLINE=1` first)
+- `npx tsx sanity/seed/verify-offline.ts`: checks every query against the seed data
+
+## Architecture notes
+
+- `lib/sanity/types.ts` is the content contract between schemas, seed, queries and components. Change it first.
+- Page-builder pages (about, partner, contact, careers, speaking, podcast, socials, about/jenna-colombo and client-made pages) render through `app/(site)/[...slug]/page.tsx`.
+- Links are stored as references and resolved to `href` in `lib/sanity/fetch.ts`. Inline-object array members are named `${fieldName}Item`.
+- Time-dependent UI decides on the client (`DateSwitch`, `components/ui/Commerce.tsx`, `Countdown`) so cached pages flip at each cutoff.

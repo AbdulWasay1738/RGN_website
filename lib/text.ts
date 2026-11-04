@@ -44,7 +44,7 @@ export function fillNumber(text: string | undefined | null, days: number | undef
 
 /** Clean a value used for logic (enums, ids) in case it carries preview markers. */
 export function clean<T>(value: T): T {
-  return stegaClean(value)
+  return stegaClean(value) as T
 }
 
 export function formatUsd(amount: number | undefined | null) {

@@ -1,0 +1,43 @@
+.headSteps {
+  padding-bottom: 52px;
+}
+.headCards {
+  padding-bottom: 44px;
+}
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--navy);
+  box-shadow: 0 0 0 6px var(--white);
+  margin-top: 22px;
+  display: block;
+}
+.dotHi {
+  background: var(--orange);
+}
+.year {
+  font-size: 54px;
+  line-height: 1;
+}
+.stepOrg {
+  margin: 0;
+  font: 800 19px/1.35 var(--fb);
+}
+.card {
+  padding: 30px;
+  gap: 12px;
+}
+.org {
+  margin: 0;
+  font-size: 26px;
+  line-height: 1.1;
+}
+.desc {
+  color: var(--text);
+}

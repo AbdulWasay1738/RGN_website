@@ -1,0 +1,14 @@
+.inner {
+  padding-block: 104px;
+  align-items: flex-start;
+}
+.headline {
+  margin: 0;
+  font: 400 clamp(46px, 6.4vw, 92px) / 0.96 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  max-width: 1000px;
+}
+.actions {
+  align-items: center;
+}

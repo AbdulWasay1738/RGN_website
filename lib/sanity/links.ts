@@ -65,7 +65,11 @@ export function resolveLinks<T>(data: T, map: Map<string, string | undefined>): 
     }
     if (value && typeof value === 'object') {
       const obj = value as Record<string, unknown>
-      if (obj._type === 'link') {
+      // `link` objects from the schema (not portable-text link annotations, which carry their own href).
+      const isLinkObject =
+        obj._type === 'link' &&
+        (obj.kind !== undefined || obj.internal !== undefined || obj.external !== undefined || obj.anchor !== undefined)
+      if (isLinkObject) {
         obj.href = hrefForLink(obj as unknown as Link, map)
       }
       for (const key of Object.keys(obj)) {

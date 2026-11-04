@@ -1,0 +1,316 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+/* heading sizes */
+h1.large {
+  font-size: clamp(52px, 7vw, 108px);
+  max-width: 1060px;
+}
+h1.xl {
+  font-size: clamp(64px, 8vw, 120px);
+}
+h1.profile {
+  font-size: clamp(46px, 6vw, 86px);
+}
+.sublead {
+  margin: 0;
+  font: 600 clamp(24px, 2.6vw, 34px) / 1.25 var(--fb);
+  color: var(--text);
+  max-width: 760px;
+}
+:global(.navy) .sublead,
+:global(.ink) .sublead {
+  color: var(--soft);
+}
+p.leadWide {
+  font-size: 22px;
+  max-width: 760px;
+}
+.heroCopy .handLarge {
+  font-size: 44px;
+}
+.pill {
+  color: var(--navy);
+}
+
+/* single column (About, Careers) */
+.single {
+  position: relative;
+  padding-block: 96px 112px;
+}
+.singleTall {
+  padding-block: 104px 112px;
+}
+.single h1 {
+  max-width: 1060px;
+}
+.quoteArt {
+  position: absolute;
+  right: -60px;
+  top: 40px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+.cornerReel {
+  position: absolute;
+  right: -180px;
+  top: -100px;
+  width: 640px;
+  height: 640px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* two columns */
+.split {
+  padding-block: 88px 104px;
+  align-items: center;
+}
+.reverse {
+  flex-wrap: wrap-reverse;
+}
+.bottom {
+  padding-block: 88px;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+/* founder layout: copy beside the reel and cutout */
+.heroIn {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 32px;
+}
+.heroCopy {
+  flex: 999 1 540px;
+  min-width: 0;
+  padding-block: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  position: relative;
+  z-index: 1;
+}
+.heroArt {
+  flex: 1 1 420px;
+  min-width: 0;
+  position: relative;
+  min-height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.reel {
+  position: absolute;
+  left: 50%;
+  top: 48px;
+  width: min(560px, 100%);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+}
+.cutout {
+  position: relative;
+  height: 590px;
+  width: auto;
+  z-index: 1;
+  animation: riseIn 1.1s 0.2s var(--ease) both;
+}
+
+/* steps art (Partner) */
+.stepRow {
+  background: var(--navy2);
+  border-radius: 22px;
+  padding: 24px 26px;
+}
+.stepLast {
+  background: var(--orange);
+}
+.stepNum {
+  font-size: 54px;
+}
+.stepLast .stepNum {
+  -webkit-text-stroke-color: #fff;
+}
+.stepTitle {
+  font-size: 24px;
+  line-height: 1.35;
+}
+.stepText {
+  color: var(--soft2);
+  font-size: 15px;
+  line-height: 1.35;
+}
+.stepLast .stepText {
+  color: var(--white);
+}
+
+/* portrait card (Speaking) */
+.portraitWrap {
+  max-width: 440px;
+  position: relative;
+  padding: 0 24px 24px 0;
+}
+.portraitBack {
+  position: absolute;
+  inset: 24px 0 0 24px;
+  background: var(--navy);
+  border-radius: 26px;
+}
+.portraitCard {
+  position: relative;
+  height: 520px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--orange);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.portraitReel {
+  position: absolute;
+  left: 50%;
+  top: 40px;
+  width: 400px;
+  height: 400px;
+  margin-left: -200px;
+  opacity: 0.35;
+}
+.portraitImg {
+  position: relative;
+  height: 500px;
+  width: auto;
+}
+.onStage {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+}
+
+/* LinkedIn card (Socials) */
+.liCard {
+  max-width: 420px;
+  background: var(--navy);
+  color: var(--white);
+  padding: 30px;
+  gap: 22px;
+  text-decoration: none;
+}
+.liTop {
+  color: var(--lav);
+}
+.liArrow {
+  color: var(--orange);
+}
+.liTitle {
+  font-size: 34px;
+  line-height: 1.05;
+}
+.liText {
+  color: var(--soft2);
+  font-size: 15px;
+}
+
+/* podcast cover */
+.podWrap {
+  display: flex;
+  justify-content: center;
+}
+.podCover {
+  width: 400px;
+  max-width: 100%;
+  aspect-ratio: 1;
+  background: var(--orange);
+  border-radius: 28px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45);
+  transform: rotate(-3deg);
+  color: var(--white);
+}
+.podReel {
+  position: absolute;
+  right: -80px;
+  bottom: -80px;
+  width: 270px;
+  height: 270px;
+}
+.podText {
+  position: absolute;
+  left: 32px;
+  top: 32px;
+  right: 32px;
+}
+.podLogo {
+  height: 34px;
+  width: auto;
+  align-self: flex-start;
+}
+.podTitle {
+  font-size: 64px;
+  line-height: 0.9;
+  margin-top: 14px;
+}
+.podHand {
+  font: 34px/1 var(--fs);
+  color: var(--white);
+}
+
+@media (max-width: 760px) {
+  .heroArt {
+    min-height: 440px;
+  }
+  .cutout {
+    height: 420px;
+  }
+  .reel {
+    width: 360px;
+  }
+  .heroCopy {
+    padding-block: 48px 8px;
+  }
+  .split {
+    padding-block: 64px 72px;
+  }
+  .single,
+  .singleTall {
+    padding-block: 72px 80px;
+  }
+  .quoteArt {
+    right: -180px;
+  }
+  .cornerReel {
+    width: 420px;
+    height: 420px;
+    right: -200px;
+  }
+}
+@media (max-width: 520px) {
+  .portraitCard {
+    height: 440px;
+  }
+  .portraitImg {
+    height: 420px;
+  }
+  .portraitReel {
+    width: 320px;
+    height: 320px;
+    margin-left: -160px;
+  }
+  .podTitle {
+    font-size: 52px;
+  }
+  .stepRow {
+    padding: 20px;
+  }
+}
+
+/* keyframes are scoped per module, so this file declares its own */
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+}

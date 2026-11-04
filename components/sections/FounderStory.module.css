@@ -1,0 +1,41 @@
+.row {
+  align-items: center;
+}
+.frame {
+  position: relative;
+  padding: 30px 30px 30px 26px;
+  max-width: 460px;
+}
+.photo {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 540px;
+  object-fit: cover;
+  object-position: center 18%;
+}
+.sig {
+  position: absolute;
+  left: -10px;
+  bottom: 48px;
+  font: 88px/1 var(--fs);
+  color: var(--lav-i);
+  transform: rotate(-8deg);
+  z-index: 3;
+}
+.tl {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.tlLabel:global(.eyebrow) {
+  font-size: 11px;
+}
+.tlText {
+  font-size: 14px;
+  color: var(--text);
+}

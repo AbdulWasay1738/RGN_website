@@ -1,0 +1,38 @@
+.section {
+  position: relative;
+  overflow: hidden;
+}
+.reel {
+  position: absolute;
+  right: -160px;
+  top: 40px;
+  width: 720px;
+  height: 720px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.inner {
+  padding-block: 120px 136px;
+  position: relative;
+}
+.title.title {
+  max-width: 960px;
+  font-size: clamp(56px, 8vw, 124px);
+  --dl: 0.08s;
+}
+.lead {
+  --dl: 0.16s;
+}
+.actions {
+  --dl: 0.24s;
+}
+@media (max-width: 760px) {
+  .reel {
+    width: 480px;
+    height: 480px;
+    right: -220px;
+  }
+  .inner {
+    padding-block: 88px 104px;
+  }
+}

@@ -1,0 +1,244 @@
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import styles from '@/components/features/bundle/bundle.module.css'
+import { AccentText } from '@/components/ui/AccentText'
+import { Accordion } from '@/components/ui/Accordion'
+import { CtaLink } from '@/components/ui/Button'
+import { BuyButton } from '@/components/ui/Commerce'
+import { Icon } from '@/components/ui/Icon'
+import { JsonLd } from '@/components/ui/JsonLd'
+import { sanityFetch } from '@/lib/sanity/fetch'
+import { getLayoutData } from '@/lib/sanity/layout'
+import { BUNDLE_PAGE_QUERY } from '@/lib/sanity/queries'
+import type { Bundle, Course } from '@/lib/sanity/types'
+import { absoluteUrl, breadcrumbLd, buildMetadata, faqPageLd } from '@/lib/seo'
+import { plainText } from '@/lib/text'
+
+type BundlePageData = { bundle: Bundle | null; courses: Course[] | null }
+
+const PATH = '/courses/content-machine'
+
+/** Colours of the three fanned course covers (prototype): background, number outline, word. */
+const FAN_STYLE = [
+  { bg: '#13233F', stroke: '#3A4B6A', word: '#C6A7ED', left: '6%', top: 70, rotate: -14, delay: '.3s' },
+  { bg: '#1C3058', stroke: '#4A5B7A', word: '#C6A7ED', left: '24%', top: 30, rotate: -2, delay: '.45s' },
+  { bg: '#F23300', stroke: '#091527', word: '#091527', left: '42%', top: 60, rotate: 10, delay: '.6s' },
+]
+
+const getData = () => sanityFetch<BundlePageData>({ query: BUNDLE_PAGE_QUERY, tags: ['bundle', 'course', 'faq'] })
+
+export async function generateMetadata(): Promise<Metadata> {
+  const [data, layout] = await Promise.all([getData(), getLayoutData()])
+  const b = data?.bundle
+  return buildMetadata({ seo: b?.seo, title: b?.title, description: b?.subline, path: PATH, settings: layout.settings })
+}
+
+export default async function BundlePage() {
+  const data = await getData()
+  const b = data?.bundle
+  if (!b) notFound()
+
+  const courses = data.courses ?? []
+  const chips = b.chips ?? []
+  const pathItems = (b.path?.items ?? []).filter((it) => it.course)
+  const tableCourses = pathItems.length ? pathItems.map((it) => it.course!) : courses
+  const separateTotal = tableCourses.reduce((sum, c) => sum + (c.regularPrice ?? 0), 0)
+  const compareAt = b.compareAt ?? (separateTotal || undefined)
+  const maths = b.maths ?? {}
+  const pair = b.pairWithWorkshop ?? {}
+
+  const productLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: plainText(b.title),
+    description: plainText(b.subline),
+    url: absoluteUrl(PATH),
+    brand: { '@type': 'Brand', name: 'Reel Good News' },
+    ...(typeof b.price === 'number'
+      ? { offers: { '@type': 'Offer', price: b.price, priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: absoluteUrl(PATH) } }
+      : {}),
+  }
+
+  return (
+    <>
+      <JsonLd
+        data={[
+          productLd,
+          faqPageLd(b.faqs),
+          breadcrumbLd([
+            { name: 'Home', path: '/' },
+            { name: b.title ?? 'The Content Machine', path: PATH },
+          ]),
+        ]}
+      />
+
+      {/* Hero */}
+      <section className="navy">
+        <div className={`wrap row g48 ${styles.heroRow}`}>
+          <div className="grow stack g20">
+            <nav className="crumb fade-up" aria-label="Breadcrumb">
+              <Link href="/">Home</Link> / Courses /{' '}
+              <span className="here" aria-current="page">
+                {b.title}
+              </span>
+            </nav>
+            {chips.length ? (
+              <div className="row g8 fade-up">
+                {chips.map((c, i) => (
+                  <span key={c} className={`chip ${i === 0 ? 'chip-lv' : 'chip-line'}`}>
+                    {c}
+                  </span>
+                ))}
+              </div>
+            ) : null}
+            <AccentText as="h1" className="h1 fade-up" style={{ ['--dl' as string]: '.1s' }} text={b.headline ?? b.title} />
+            {b.subline ? (
+              <p className={`fade-up ${styles.subline}`} style={{ ['--dl' as string]: '.2s' }}>
+                {b.subline}
+              </p>
+            ) : null}
+            <div className="row g24 center fade-up" style={{ ['--dl' as string]: '.3s' }}>
+              <BuyButton offer={{ kind: 'bundle' }} trackId="buy_bundle">
+                {b.ctaLabel}
+              </BuyButton>
+              {typeof b.price === 'number' ? (
+                <span className="price">
+                  <span className={`now ${styles.heroNow}`}>${b.price}</span>
+                  {compareAt ? (
+                    <span className={`was ${styles.heroWas}`}>
+                      <span className="sr-only">Bought separately </span>${compareAt}
+                    </span>
+                  ) : null}
+                  {b.saveLabel ? <span className="chip chip-o">{b.saveLabel}</span> : null}
+                </span>
+              ) : null}
+            </div>
+          </div>
+          <div className={`side fade-up ${styles.fan}`} style={{ ['--dl' as string]: '.25s' }} aria-hidden="true">
+            {courses.slice(0, 3).map((c, i) => {
+              const s = FAN_STYLE[i]
+              return (
+                <div
+                  key={c._id}
+                  className={styles.fanCard}
+                  style={{ left: s.left, top: s.top, background: s.bg, transform: `rotate(${s.rotate}deg)`, animationDelay: s.delay }}
+                >
+                  <span className={styles.fanWord} style={{ color: s.word }}>
+                    {c.word}
+                  </span>
+                  <span className={styles.fanNum} style={{ WebkitTextStrokeColor: s.stroke }}>
+                    {Number(c.stepNumber) || c.courseNumber}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* The path */}
+      {pathItems.length ? (
+        <section className="band paper">
+          <div className="wrap narrow stack g20">
+            {b.path?.eyebrow ? <span className="eyebrow">{b.path.eyebrow}</span> : null}
+            <AccentText as="h2" className={`h2 ${styles.pathHead}`} text={b.path?.headline} />
+            <ol className="stack g20" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+              {pathItems.map((it, i) => {
+                const c = it.course!
+                const last = i === pathItems.length - 1
+                return (
+                  <li key={it._key} className={i === 1 ? styles.offset1 : i >= 2 ? styles.offset2 : undefined}>
+                    <Link href={c.slug ? `/courses/${c.slug}` : PATH} className={`card lift rv ${styles.pathCard}`}>
+                      <span className={`${styles.pathNum} ${last ? styles.pathNumLast : ''}`} aria-hidden="true">
+                        {i + 1}
+                      </span>
+                      <span className={`stack ${styles.pathCopy}`}>
+                        <span className={styles.pathLine}>{it.line}</span>
+                        <span className="muted">
+                          {c.title}
+                          {typeof c.regularPrice === 'number' ? ` · ${b.path?.regularPriceLabel ?? 'regular price'} $${c.regularPrice}` : ''}
+                        </span>
+                      </span>
+                      <span className={styles.pathArrow}>
+                        <Icon name="arrow" />
+                      </span>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ol>
+          </div>
+        </section>
+      ) : null}
+
+      {/* The math */}
+      <section className="band">
+        <div className={`wrap row g48 ${styles.mathsRow}`}>
+          <div className="side stack g16 rv">
+            {maths.eyebrow ? <span className="eyebrow">{maths.eyebrow}</span> : null}
+            <AccentText as="h2" className="h2" text={maths.headline} />
+            {maths.body ? <p className="lead">{maths.body}</p> : null}
+          </div>
+          <div className={`grow panel rv ${styles.tablePanel}`}>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">{maths.courseColumn}</th>
+                  <th scope="col" className={styles.priceHead}>
+                    {maths.priceColumn}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {tableCourses.map((c) => (
+                  <tr key={c._id}>
+                    <td>{c.title}</td>
+                    <td className="r">{typeof c.regularPrice === 'number' ? `$${c.regularPrice}` : ''}</td>
+                  </tr>
+                ))}
+                <tr>
+                  <td className="muted">{maths.separateLabel}</td>
+                  <td className={`r muted ${styles.struck}`}>${separateTotal}</td>
+                </tr>
+              </tbody>
+            </table>
+            {typeof b.price === 'number' ? (
+              <div className={styles.total}>
+                <span className="stack" style={{ lineHeight: 1.2 }}>
+                  <strong className={styles.totalName}>{b.title}</strong>
+                  {b.saveLabel ? <span className={styles.totalSave}>{b.saveLabel}</span> : null}
+                </span>
+                <span className={styles.totalPrice}>${b.price}</span>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </section>
+
+      {/* Pair with the workshop */}
+      {pair.headline ? (
+        <section className="navy">
+          <div className={`wrap row g48 ${styles.pairRow}`}>
+            <div className="grow stack g16">
+              {pair.eyebrow ? <span className="eyebrow">{pair.eyebrow}</span> : null}
+              <AccentText as="h2" className={`h2 ${styles.pairHeadline}`} text={pair.headline} />
+              {pair.body ? <p className="lead">{pair.body}</p> : null}
+            </div>
+            <CtaLink cta={pair.cta} fallbackStyle="primary" arrow />
+          </div>
+        </section>
+      ) : null}
+
+      {/* FAQs */}
+      {b.faqs?.length ? (
+        <section className="band">
+          <div className="wrap narrow stack g20">
+            <AccentText as="h2" className="h2" text={b.faqHeadline} />
+            <Accordion items={b.faqs} openFirst />
+          </div>
+        </section>
+      ) : null}
+    </>
+  )
+}

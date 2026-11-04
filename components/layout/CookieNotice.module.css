@@ -1,0 +1,31 @@
+.cookie {
+  position: fixed;
+  left: max(16px, env(safe-area-inset-left, 0px));
+  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  z-index: 85;
+  width: min(420px, calc(100% - 32px));
+  background: var(--white);
+  color: var(--navy);
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(5, 12, 23, 0.25);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: modalIn 0.5s var(--ease);
+}
+.title {
+  font: 400 20px var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.body {
+  font-size: 14px;
+  color: var(--text);
+}
+@media (max-width: 520px) {
+  .cookie {
+    width: calc(100% - 32px);
+    bottom: calc(max(16px, env(safe-area-inset-bottom, 0px)) + 60px);
+  }
+}

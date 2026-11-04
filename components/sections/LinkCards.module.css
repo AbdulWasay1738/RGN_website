@@ -1,0 +1,17 @@
+.list {
+  list-style: none;
+  margin-block: 0;
+}
+.item {
+  display: flex;
+}
+.card {
+  flex: 1;
+  border: 1.5px solid var(--rule) !important;
+  padding: 24px;
+  gap: 8px;
+}
+.title {
+  font-size: 22px;
+  line-height: 1.1;
+}

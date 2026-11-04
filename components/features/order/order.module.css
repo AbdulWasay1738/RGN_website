@@ -1,0 +1,140 @@
+/* ---------- hero ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+.heroReel {
+  position: absolute;
+  right: -160px;
+  top: -160px;
+  width: 620px;
+  height: 620px;
+  opacity: 0.6;
+}
+.heroRow {
+  padding-block: 88px;
+  align-items: center;
+  position: relative;
+}
+.badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--lav);
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: popIn 0.6s var(--ease) both;
+}
+h1.title {
+  font-size: clamp(56px, 7vw, 104px);
+}
+
+/* ---------- ticket / enrolment card ---------- */
+.card {
+  max-width: 460px;
+  background: var(--white);
+  color: var(--navy);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+}
+.stub {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 24px 28px;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  border-bottom: 3px dashed var(--navy);
+  background: var(--lav);
+  color: var(--navy);
+}
+.stubWorkshop {
+  background: var(--orange);
+  color: var(--white);
+}
+.stubLabel {
+  font: 700 11px var(--fm);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.stubDate {
+  font: 400 52px var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.stubSide {
+  text-align: right;
+  font-weight: 800;
+  line-height: 1.3;
+}
+.rows {
+  padding: 24px 28px;
+  font-size: 15px;
+  margin: 0;
+}
+.orderName {
+  font: 400 22px/1.15 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #eeeae2;
+  padding-bottom: 10px;
+}
+.row dd {
+  margin: 0;
+  font-weight: 800;
+  text-align: right;
+}
+
+/* ---------- what happens next ---------- */
+.nextHead {
+  padding-bottom: 40px;
+}
+li.step {
+  padding: 28px;
+  gap: 14px;
+}
+li.stepLast {
+  background: var(--navy);
+  color: var(--white);
+}
+span.stepNum {
+  font-size: 52px;
+}
+.stepLast .stepNum {
+  -webkit-text-stroke-color: var(--lav);
+}
+.stepTitle {
+  font: 400 24px var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.stepText {
+  margin: 0;
+  color: var(--text);
+}
+.stepLast .stepText {
+  color: var(--soft);
+}
+
+/* ---------- upsells ---------- */
+a.upsell {
+  background: var(--paper);
+  padding: 28px;
+  gap: 10px;
+}
+.upsellTitle {
+  font: 400 26px/1.15 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.upsellText {
+  color: var(--text);
+}

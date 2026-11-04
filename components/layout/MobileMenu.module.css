@@ -1,0 +1,90 @@
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: var(--navy);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  padding: env(safe-area-inset-top, 0px) max(16px, env(safe-area-inset-right, 0px))
+    env(safe-area-inset-bottom, 0px) max(16px, env(safe-area-inset-left, 0px));
+  animation: slideIn 0.35s var(--ease);
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+.menu :global(.eyebrow) {
+  color: var(--lav);
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 14px;
+  border-bottom: 1px solid var(--line-d);
+}
+.logo {
+  height: 32px;
+  width: auto;
+}
+.body {
+  flex: 1;
+  overflow: auto;
+  padding-block: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.big {
+  font: 400 24px/1.25 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  background: none;
+  border: 0;
+  color: var(--white);
+  text-align: left;
+  padding: 4px 0;
+  cursor: pointer;
+  text-decoration: none;
+  align-self: flex-start;
+}
+.big:hover {
+  color: var(--lav);
+}
+.pillnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pillnav a {
+  background: none;
+  border: 1.5px solid var(--line-d2);
+  color: var(--white);
+  border-radius: 999px;
+  padding: 10px 15px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.pillnav a:hover {
+  border-color: var(--lav);
+}
+.bottom {
+  padding-block: 16px;
+  border-top: 1px solid var(--line-d);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.note {
+  text-align: center;
+  font-size: 13px;
+  color: var(--soft2);
+}

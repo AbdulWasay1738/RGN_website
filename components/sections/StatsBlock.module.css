@@ -1,0 +1,30 @@
+.ruleBand:global(.band) {
+  padding-bottom: 64px;
+}
+.head {
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding-bottom: 48px;
+}
+.label {
+  color: var(--text);
+}
+.footnote {
+  font-size: 13px;
+  margin: 20px 0 0;
+}
+.strip {
+  padding-block: 48px;
+}
+.stripNum {
+  font: 400 64px/1 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.stripPlus {
+  color: var(--btn);
+}
+.stripLabel {
+  font-weight: 700;
+}

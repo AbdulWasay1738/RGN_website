@@ -1,0 +1,46 @@
+.bio {
+  font-size: 19px;
+  color: var(--text);
+}
+.intro {
+  margin: 0;
+  font: 800 26px/1.35 var(--fb);
+  color: var(--navy);
+}
+.body > :global(*) {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.body p {
+  margin: 0;
+}
+.quoteCard {
+  margin: 0;
+  background: var(--navy);
+  color: var(--white);
+  border-radius: 26px;
+  padding: 34px;
+}
+.quote {
+  margin: 0;
+  font: 600 32px/1.2 var(--fb);
+}
+figcaption.sig {
+  font-size: 34px;
+  line-height: 1;
+  color: var(--lav);
+}
+.now {
+  background: var(--paper);
+  border-radius: 22px;
+  padding: 24px;
+}
+@media (max-width: 520px) {
+  .quote {
+    font-size: 26px;
+  }
+  .intro {
+    font-size: 22px;
+  }
+}

@@ -1,0 +1,21 @@
+.card {
+  background: var(--white);
+  border-radius: 18px;
+  padding: 16px 18px;
+}
+.text {
+  min-width: 0;
+  flex: 1;
+}
+.label {
+  font-size: 13px;
+}
+.email {
+  font-weight: 800;
+  user-select: all;
+  word-break: break-all;
+  text-decoration: none;
+}
+.email:hover {
+  text-decoration: underline;
+}

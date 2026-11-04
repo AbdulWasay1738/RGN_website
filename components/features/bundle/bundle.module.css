@@ -1,0 +1,154 @@
+/* ---------- hero ---------- */
+.heroRow {
+  padding-block: 72px 96px;
+  align-items: center;
+}
+.subline {
+  margin: 0;
+  font: 600 28px/1.25 var(--fb);
+  color: var(--soft);
+}
+.heroNow {
+  font-size: 52px !important;
+}
+.heroWas {
+  color: var(--soft2) !important;
+}
+.fan {
+  height: 420px;
+  position: relative;
+}
+.fanCard {
+  position: absolute;
+  width: 210px;
+  height: 290px;
+  border-radius: 18px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  animation: riseIn 0.9s var(--ease) both;
+}
+.fanWord {
+  font: 34px var(--fs);
+}
+.fanNum {
+  font: 400 120px/0.8 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: transparent;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-style: solid;
+}
+@media (max-width: 520px) {
+  .fan {
+    height: 300px;
+  }
+  .fanCard {
+    width: 150px;
+    height: 210px;
+  }
+  .fanNum {
+    font-size: 88px;
+  }
+  .fanWord {
+    font-size: 28px;
+  }
+}
+
+/* ---------- path ---------- */
+.pathHead {
+  padding-bottom: 20px;
+}
+a.pathCard {
+  padding: 28px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 28px;
+  align-items: center;
+}
+.pathNum {
+  width: 86px;
+  height: 86px;
+  flex: 0 0 86px;
+  border-radius: 20px;
+  background: var(--navy);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 400 44px var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.pathNumLast {
+  background: var(--orange);
+}
+.pathCopy {
+  flex: 1 1 300px;
+  min-width: 0;
+}
+.pathLine {
+  font: 400 28px/1.15 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.pathArrow {
+  color: var(--orange);
+  display: flex;
+}
+.offset1 {
+  margin-left: clamp(0px, 4vw, 56px);
+}
+.offset2 {
+  margin-left: clamp(0px, 8vw, 112px);
+}
+
+/* ---------- maths ---------- */
+.mathsRow {
+  align-items: center;
+}
+.tablePanel {
+  overflow-x: auto;
+}
+.priceHead {
+  text-align: right !important;
+}
+.struck {
+  text-decoration: line-through;
+}
+.total {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 10px;
+  background: var(--navy);
+  color: var(--white);
+  border-radius: 18px;
+  padding: 20px 22px;
+  justify-content: space-between;
+  align-items: center;
+}
+.totalName {
+  font-size: 18px;
+}
+.totalSave {
+  font-size: 14px;
+  color: var(--lav);
+}
+.totalPrice {
+  font: 400 48px/1 var(--fd);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- pair with the workshop ---------- */
+.pairRow {
+  padding-block: 96px;
+  align-items: center;
+}
+h2.pairHeadline {
+  font-size: clamp(34px, 4vw, 54px);
+}

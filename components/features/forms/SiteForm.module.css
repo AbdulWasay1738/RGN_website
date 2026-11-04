@@ -1,0 +1,40 @@
+.fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.legend {
+  font-size: 13px;
+  font-weight: 700;
+  padding-bottom: 8px;
+}
+.footnote {
+  font-size: 13px;
+}
+.end {
+  display: flex;
+  justify-content: flex-end;
+}
+.formError {
+  margin: 0;
+  color: var(--peach-n);
+  font-weight: 700;
+  font-size: 14px;
+}
+.successBox {
+  display: flex;
+  flex-direction: column;
+}
+.successTitle {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.1;
+}
+.successTitle:focus {
+  outline: none;
+}
+.successBody {
+  margin: 0;
+  color: var(--text);
+}

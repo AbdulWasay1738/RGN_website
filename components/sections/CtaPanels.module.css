@@ -1,0 +1,25 @@
+.panel {
+  padding: 44px;
+  min-height: 280px;
+  justify-content: space-between;
+  gap: 22px;
+}
+.lav {
+  background: var(--lav);
+  color: var(--navy);
+}
+.navy {
+  background: var(--navy);
+  color: var(--white);
+}
+.headline {
+  margin: 0;
+  font-size: clamp(32px, 3.4vw, 46px);
+  line-height: 1.02;
+}
+@media (max-width: 520px) {
+  .panel {
+    padding: 32px 24px;
+    min-height: 220px;
+  }
+}
