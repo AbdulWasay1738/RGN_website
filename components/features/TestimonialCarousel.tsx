@@ -10,8 +10,9 @@ const ADVANCE_MS = 8000
 
 /**
  * Large rotating quote with dots, previous/next and three mini quotes.
- * Auto-advances every 8 seconds; pauses on hover or keyboard focus, stops
- * after the visitor picks a quote, and never auto-advances with reduced motion.
+ * Auto-advances every 8 seconds; pauses on hover or keyboard focus, has a
+ * pause button (WCAG 2.2.2), stops after the visitor picks a quote, and never
+ * auto-advances with reduced motion.
  */
 export function TestimonialCarousel({ items }: { items: Testimonial[] }) {
   const list = items.filter((t) => t?.quote)
@@ -72,6 +73,16 @@ export function TestimonialCarousel({ items }: { items: Testimonial[] }) {
           </span>
           {count > 1 ? (
             <span className={`row g12 ${styles.controls}`}>
+              {!reduced ? (
+                <button
+                  type="button"
+                  className={styles.pause}
+                  aria-label={stopped ? 'Play testimonials' : 'Pause testimonials'}
+                  onClick={() => setStopped((v) => !v)}
+                >
+                  <Icon name={stopped ? 'play' : 'pause'} size={14} />
+                </button>
+              ) : null}
               <span className={styles.dots}>
                 {list.map((_, i) => (
                   <button

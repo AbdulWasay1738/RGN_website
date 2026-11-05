@@ -6,7 +6,7 @@
 .bodyCol.dark {
   color: var(--soft);
 }
-.bodyPlain > :global(*) {
+.bodyPlain {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -14,7 +14,7 @@
 .bodyPlain p {
   margin: 0;
 }
-.bodyLead > :global(*) {
+.bodyLead {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -62,7 +62,7 @@
   font-size: 22px;
 }
 .numLast {
-  background: var(--orange);
+  background: var(--btn);
 }
 .itemText {
   font-size: 19px;

@@ -16,8 +16,19 @@ async function settle(page: Page) {
     const step = window.innerHeight * 0.8
     for (let y = 0; y < document.body.scrollHeight; y += step) {
       window.scrollTo(0, y)
-      await new Promise((r) => setTimeout(r, 60))
+      await new Promise((r) => setTimeout(r, 120))
     }
+    // Wait for lazy images to finish loading before capturing.
+    await Promise.all(
+      Array.from(document.images).map((img) =>
+        img.complete
+          ? null
+          : new Promise((r) => {
+              img.addEventListener('load', r, { once: true })
+              img.addEventListener('error', r, { once: true })
+            }),
+      ),
+    )
     window.scrollTo(0, 0)
   })
   await page.waitForTimeout(1500)

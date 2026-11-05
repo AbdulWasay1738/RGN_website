@@ -175,7 +175,7 @@
   color: var(--white);
 }
 .areas .cur i {
-  background: var(--orange);
+  background: var(--btn);
   box-shadow: none;
 }
 .areas .done {
@@ -357,7 +357,7 @@
   background: var(--paper);
 }
 .mwOrange.mwOrange {
-  background: var(--orange);
+  background: var(--btn);
   color: var(--white);
 }
 .mwOrange :global(.eyebrow) {

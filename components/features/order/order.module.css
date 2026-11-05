@@ -52,7 +52,7 @@ h1.title {
   color: var(--navy);
 }
 .stubWorkshop {
-  background: var(--orange);
+  background: var(--btn);
   color: var(--white);
 }
 .stubLabel {
@@ -86,6 +86,10 @@ h1.title {
   gap: 12px;
   border-bottom: 1px solid #eeeae2;
   padding-bottom: 10px;
+}
+.rows .row dt {
+  /* The card is white inside a navy band: keep labels at the dark muted tone. */
+  color: var(--muted);
 }
 .row dd {
   margin: 0;

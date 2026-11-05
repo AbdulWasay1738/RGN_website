@@ -29,6 +29,7 @@
 .buyRow {
   align-items: center;
 }
-.was {
+:global(.price) .was {
+  /* navy, not the global muted grey, so it passes contrast on lavender */
   color: var(--navy);
 }

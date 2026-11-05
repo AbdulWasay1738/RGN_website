@@ -40,30 +40,52 @@
 }
 .dots {
   display: flex;
-  gap: 6px;
+  gap: 0;
 }
+/* Each dot is a 24px target (WCAG 2.2 target size); the visible dot is drawn inside. */
 .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 4px;
+  width: 24px;
+  height: 24px;
   border: 0;
-  background: #c9b6ea;
+  background: none;
   padding: 0;
   cursor: pointer;
-  transition:
-    width 0.3s,
-    background 0.3s;
-  /* a 24px hit area around the small dot */
-  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s;
 }
 .dot::before {
   content: '';
-  position: absolute;
-  inset: -8px -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: #c9b6ea;
+  transition:
+    width 0.3s,
+    background 0.3s;
 }
 .dotOn {
+  width: 34px;
+}
+.dotOn::before {
   width: 26px;
   background: var(--navy);
+}
+.pause {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  color: var(--navy);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.pause:hover {
+  background: var(--white);
 }
 .side {
   flex-basis: 300px;

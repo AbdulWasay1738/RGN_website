@@ -126,7 +126,7 @@ p.leadWide {
   padding: 24px 26px;
 }
 .stepLast {
-  background: var(--orange);
+  background: var(--btn);
 }
 .stepNum {
   font-size: 54px;
@@ -262,9 +262,7 @@ p.leadWide {
   .heroArt {
     min-height: 440px;
   }
-  .cutout {
-    height: 420px;
-  }
+  /* The approved prototype keeps the founder cutout at 590px on phones too. */
   .reel {
     width: 360px;
   }

@@ -57,7 +57,7 @@
 }
 .ticketFront {
   position: relative;
-  background: var(--orange);
+  background: var(--btn);
   border-radius: 26px;
   overflow: hidden;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);

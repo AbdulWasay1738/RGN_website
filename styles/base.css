@@ -133,7 +133,7 @@ main:focus {
   background: var(--white);
 }
 .orangeb {
-  background: var(--orange);
+  background: var(--btn);
   color: var(--white);
   position: relative;
 }
@@ -461,7 +461,7 @@ main:focus {
   white-space: nowrap;
 }
 .chip-o {
-  background: var(--orange);
+  background: var(--btn);
   color: var(--white);
 }
 .chip-n {
@@ -612,8 +612,7 @@ main:focus {
   display: flex;
   flex-direction: column;
 }
-a.card,
-button.card {
+:where(a.card, button.card) {
   text-decoration: none;
   color: inherit;
   border: 0;
@@ -694,7 +693,7 @@ button.card {
 .stub {
   flex: 1 1 300px;
   min-width: 0;
-  background: var(--orange);
+  background: var(--btn);
   position: relative;
   padding: clamp(28px, 4vw, 48px);
   display: flex;

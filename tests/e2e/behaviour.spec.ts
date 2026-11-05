@@ -91,13 +91,14 @@ test('assessment guard sends visitors without details back', async ({ page }) =>
 
 test('assessment flow: answer required, then thank-you', async ({ page }) => {
   await page.goto('/assessment')
-  await page.getByLabel('First name').fill('Alex')
-  await page.getByLabel('Last name').fill('Morgan')
-  await page.getByLabel('Work email').fill('alex@example.com')
-  await page.getByLabel('Mobile number').fill('(555) 010-2345')
-  await page.getByLabel('Company', { exact: true }).fill('Example Labs')
-  await page.getByLabel('Your role').fill('Founder')
-  await page.getByLabel('Company size').selectOption({ index: 2 })
+  const form = page.locator('main form').first()
+  await form.getByLabel('First name').fill('Alex')
+  await form.getByLabel('Last name').fill('Morgan')
+  await form.getByLabel('Work email').fill('alex@example.com')
+  await form.getByLabel('Mobile number').fill('(555) 010-2345')
+  await form.getByLabel('Company', { exact: true }).fill('Example Labs')
+  await form.getByLabel('Your role').fill('Founder')
+  await form.getByLabel('Company size').selectOption({ index: 2 })
   await page.waitForTimeout(2600) // the spam time trap ignores very fast submits
   await page.getByRole('button', { name: /start the free assessment/i }).click()
   await expect(page).toHaveURL(/\/assessment\/questions/)

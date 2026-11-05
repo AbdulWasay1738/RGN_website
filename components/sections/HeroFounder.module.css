@@ -130,7 +130,7 @@
   --dl: 1.3s;
   top: 300px;
   left: 0;
-  background: var(--orange);
+  background: var(--btn);
   color: var(--white);
   line-height: 1.1;
 }
@@ -162,7 +162,7 @@
   }
 }
 .tag {
-  background: var(--orange);
+  background: var(--btn);
   color: var(--white);
   font: 800 11px var(--fm);
   letter-spacing: 0.14em;

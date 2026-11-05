@@ -96,7 +96,7 @@
 .tag {
   position: relative;
   margin-left: -4px;
-  background: var(--orange);
+  background: var(--btn);
   color: var(--white);
   font: 900 11px/1 var(--fm);
   letter-spacing: 0.12em;

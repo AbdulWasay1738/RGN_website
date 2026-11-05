@@ -10,7 +10,7 @@
   border-radius: 22px;
   object-fit: cover;
 }
-.body > :global(*) {
+.body {
   display: flex;
   flex-direction: column;
   gap: 16px;

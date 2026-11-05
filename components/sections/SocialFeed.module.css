@@ -21,7 +21,7 @@ h2.headline {
   color: var(--navy);
 }
 .rule {
-  background: var(--orange);
+  background: var(--btn);
   color: var(--white);
 }
 .big {

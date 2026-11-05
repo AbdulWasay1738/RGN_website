@@ -7,7 +7,7 @@
   font: 800 26px/1.35 var(--fb);
   color: var(--navy);
 }
-.body > :global(*) {
+.body {
   display: flex;
   flex-direction: column;
   gap: 20px;
