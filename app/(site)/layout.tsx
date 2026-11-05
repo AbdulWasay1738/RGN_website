@@ -1,6 +1,7 @@
 import '@/styles/tokens.css'
 import '@/styles/base.css'
 import '@/styles/brand.css'
+import { preload } from 'react-dom'
 import { BrandFilters } from '@/components/brand'
 import { AnnouncementBanner } from '@/components/layout/AnnouncementBanner'
 import { CookieNotice } from '@/components/layout/CookieNotice'
@@ -25,6 +26,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   const [data, draft] = await Promise.all([getLayoutData(), isDraftMode()])
   // ?now= date simulation works on previews and in draft mode, never in production for visitors.
   const allowSimulation = draft || process.env.VERCEL_ENV !== 'production'
+  // The street texture backs every navy band (often the largest paint): fetch it early.
+  preload('/img/texture-street.webp', { as: 'image', fetchPriority: 'high' })
 
   return (
     <SiteProvider value={data}>

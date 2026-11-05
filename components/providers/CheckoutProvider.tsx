@@ -1,7 +1,12 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from 'react'
-import { CheckoutModal } from '@/components/features/CheckoutModal'
+
+// Loaded on first use so the modal's code stays out of the initial page JavaScript.
+const CheckoutModal = dynamic(() => import('@/components/features/CheckoutModal').then((m) => m.CheckoutModal), {
+  ssr: false,
+})
 
 export type CheckoutOffer =
   | { kind: 'workshop'; attendance?: 'in-person' | 'zoom' }

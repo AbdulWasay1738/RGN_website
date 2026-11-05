@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, type CSSProperties } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import type { MethodCalendarSection } from '@/lib/sanity/types'
 import styles from './YearCalendar.module.css'
 
@@ -10,6 +10,18 @@ const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', '
 /** Ripple distance of each day from Day 1 (Jan 1), as in the prototype. */
 const GRID = MONTH_LENGTHS.map((len, mi) =>
   Array.from({ length: len }, (_, di) => Math.round(Math.sqrt(di * di + mi * 1.12 * (mi * 1.12)))),
+)
+
+/*
+ * The 365 + 365 squares are static markup. They are emitted as an HTML string
+ * so React does not hydrate ~730 elements (a large share of the home page's
+ * main-thread time on phones). The string is identical on server and client.
+ */
+const MINI_HTML = '<i></i>'.repeat(365)
+const MONTH_HTML = GRID.map((days) =>
+  days
+    .map((r, di) => (di === 0 && days === GRID[0] ? `<span class="${styles.d} ${styles.first}"></span>` : `<span class="${styles.d}" style="--r:${r}"></span>`))
+    .join(''),
 )
 
 /**
@@ -65,11 +77,7 @@ export function YearCalendar({ labels }: { labels?: MethodCalendarSection['calen
             <span>{labels?.typicalLabel}</span>
             <em>{labels?.typicalNote}</em>
           </span>
-          <div className={styles.ymini}>
-            {Array.from({ length: 365 }, (_, i) => (
-              <i key={i} />
-            ))}
-          </div>
+          <div className={styles.ymini} dangerouslySetInnerHTML={{ __html: MINI_HTML }} />
         </div>
         <span className={`${styles.ylab} ${styles.approach}`}>
           <span>{labels?.approachLabel}</span>
@@ -80,18 +88,10 @@ export function YearCalendar({ labels }: { labels?: MethodCalendarSection['calen
             <span className={styles.tag}>{labels.calloutTag}</span>
           </div>
         ) : null}
-        {GRID.map((days, mi) => (
+        {MONTH_HTML.map((html, mi) => (
           <div key={mi} className={styles.mrow}>
             <span className={styles.ml}>{MONTHS[mi]}</span>
-            <div className={styles.days}>
-              {days.map((r, di) =>
-                mi === 0 && di === 0 ? (
-                  <span key={di} className={`${styles.d} ${styles.first}`} />
-                ) : (
-                  <span key={di} className={styles.d} style={{ '--r': r } as CSSProperties} />
-                ),
-              )}
-            </div>
+            <div className={styles.days} dangerouslySetInnerHTML={{ __html: html }} />
           </div>
         ))}
         <div className={styles.yfoot}>
