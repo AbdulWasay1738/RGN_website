@@ -49,6 +49,12 @@ export const locations: DocumentLocationResolvers = {
       { title: 'Home page', href: '/' },
     ],
   }),
+  growthCall: defineLocations({
+    locations: [
+      { title: 'Growth strategy call', href: '/growth-strategy' },
+      { title: 'Workshop', href: '/workshop' },
+    ],
+  }),
   bundle: defineLocations({
     locations: [
       { title: 'Content Machine bundle', href: '/courses/content-machine' },
@@ -115,6 +121,7 @@ export const mainDocuments = defineDocuments([
   { route: '/book', type: 'book' },
   { route: ['/assessment', '/assessment/questions', '/assessment/thank-you'], type: 'assessment' },
   { route: '/order/confirmed', type: 'orderConfirmation' },
+  { route: '/growth-strategy', type: 'growthCall' },
   { route: '/blog', type: 'blogSettings' },
   { route: '/blog/:slug', filter: `_type == "post" && slug.current == $slug` },
   { route: '/legal/:slug', filter: `_type == "legalPage" && slug.current == $slug` },

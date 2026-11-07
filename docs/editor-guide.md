@@ -10,6 +10,7 @@ The Studio is the control panel for reelgoodnews.com. It lives at **reelgoodnews
 | **Site** > Announcement banner | The dark strip above the header and its date-driven versions |
 | **Site** > Sales calendar and seats | Price switch dates, course opening date, workshop date, in-person seats |
 | **Pages** | Home, About, Partner, Contact, Careers, Speaking, Podcast, Socials, the founder page, and any new page |
+| **Growth call** | The 2027 growth strategy call page (/growth-strategy): text, form wording, call days and times, the booked message, and the line under the workshop tickets |
 | **Offers** | Workshop, Courses, Course page labels, Content Machine bundle, Book |
 | **Assessment** | The Marketing ROI Assessment pages and questions |
 | **Order confirmation** | The page buyers see after paying |
@@ -23,7 +24,9 @@ Two tools sit along the top: **Content** (editing) and **Live preview** (the rea
 ## Text marks
 
 - **Coloured words in headlines.** Wrap words in asterisks: `Choose a *starting point.*` The words change colour; the font stays the same.
-- **The underlined word in the home headline.** Wrap it in underscores: `Is your expertise doing the _selling_ for you?`
+- **The underlined word in the home headline.** Wrap it in underscores. It can sit inside coloured words: `*Win more _business._*`
+- **A line break in the home headline.** Press Enter where the second line should start.
+- **Prices inside bundle texts.** Write `{price}`, `{introPrice}`, `{compareAt}`, `{compareAtIntro}` or `{save}` instead of a number, for example `All three for {introPrice} through January 15, then {price}.` The site fills in the current bundle prices, so a price change never leaves an old number in the text. In the Education menu, `{bundlePrice}` shows the price of the day, for example "$399 intro".
 - **Placeholders.** Text in [square brackets] marks a detail still to come, for example `[Location to be announced]`. Replace the whole bracket when the detail is final.
 - **"[number]" in the assessment pages.** Set Assessment > Report turnaround. The number replaces "[number]" across the assessment pages.
 
@@ -42,17 +45,30 @@ Two tools sit along the top: **Content** (editing) and **Live preview** (the rea
 3. The site shows the first version whose dates include today, and switches versions on the dates by itself. After the workshop starts, the banner hides.
 4. Untick **Show the banner** to turn it off everywhere.
 
-Dates are stored in UTC. Midnight Eastern Time is 05:00 UTC in winter, so "end of November 27, ET" is `2026-11-28 05:00` UTC.
+Dates are stored in UTC. Midnight Eastern Time is 05:00 UTC in winter, so "end of January 15, ET" is `2027-01-16 05:00` UTC.
 
 ## Change prices and dates
 
 - **Course prices:** Offers > Courses > pick the course > **Prices** tab. The intro price applies until the date in the sales calendar, then the regular price applies by itself.
 - **Workshop prices:** Offers > Workshop > **Ticket and prices** tab.
-- **Bundle price:** Offers > Content Machine bundle.
-- **The switch dates:** Site > **Sales calendar and seats**. "Intro prices end" flips course prices and the banner. "Courses open" flips "Opens Dec 1" to "On demand now". "Workshop early-bird ends" flips the ticket price. "Workshop starts" drives every countdown.
+- **Bundle price:** Offers > Content Machine bundle. **Introductory price** ($399) applies until the intro period ends, shown against the regular bundle price; after that the **Regular price** ($597) shows against the three courses bought separately ($797). Leave the introductory price empty to drop it.
+- **The switch dates:** Site > **Sales calendar and seats**. "Intro prices end" flips course and bundle prices (January 15, 2027). "Courses open" flips "Opens Dec 1" to "On demand now". "Workshop early-bird ends" flips the ticket price. "Workshop starts" drives every countdown.
 - **Seats:** in the same document, set **In-person seats sold**. When it reaches the number of seats, the site shows sold out and sells Zoom tickets only.
 
 The written dates on the pages (for example "Thursday, February 4, 2027") are separate text fields on the Workshop document. Update both when the date moves.
+
+## The growth strategy call
+
+The home page's main button leads to **/growth-strategy**. Visitors fill in the form first; their details reach our team as soon as they select Continue, even if they never pick a time. Then they choose a day and a time.
+
+- Open **Growth call** in the sidebar to edit the page text, the form wording (the field labels are fixed), the locked-calendar message and the booked message.
+- **Days with calls**, **Days ahead to show** and **Call times** set the calendar until GoHighLevel is connected; then the real free times from her calendar replace them.
+- **Links elsewhere** holds the line under the workshop tickets ("Not sure the in-person workshop fits?").
+- To add the same kind of line to any other page, add the **Growth call link** section.
+
+## The R emblem
+
+The client asked for the R to stay subtle: at most two marks on a page, never in neighbouring sections and never behind her photo. On the home page there is one in the method section and one in the footer. Each section's **Layout and visibility** settings hold its **R watermark** choice; leave it on "None" unless a page has no other mark.
 
 ## Add, remove and reorder offer cards
 

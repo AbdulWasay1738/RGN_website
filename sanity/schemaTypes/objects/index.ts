@@ -18,6 +18,7 @@ export const LINK_TARGET_TYPES = [
   'post',
   'legalPage',
   'blogSettings',
+  'growthCall',
 ]
 
 export const link = defineType({

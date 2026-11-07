@@ -1,7 +1,7 @@
 {
   "_note": "Structured values taken from the approved prototype (reference/prototype/index.html). Page copy not listed here must also be copied verbatim from the prototype during seeding.",
   "salesCalendar": {
-    "introEndsAt": "2026-11-28T05:00:00Z",
+    "introEndsAt": "2027-01-16T05:00:00Z",
     "coursesOpenAt": "2026-12-01T05:00:00Z",
     "earlyBirdEndsAt": "2026-12-11T05:00:00Z",
     "workshopAt": "2027-02-04T17:00:00Z",
@@ -11,40 +11,220 @@
   "announcementBanner": {
     "enabled": true,
     "variants": [
-      { "label": "NEW", "message": "Our courses are on sale now at introductory prices through Black Friday.", "ctaLabel": "See the courses", "ctaLink": "/courses/attract-the-right-audience", "showFrom": "2026-10-01T00:00:00Z", "showUntil": "2026-11-28T05:00:00Z", "countdownTo": "introEndsAt" },
-      { "label": "EARLY-BIRD", "message": "Live workshop, Thursday, February 4, 2027, noon ET. Early-bird pricing ends December 10.", "ctaLabel": "Reserve your seat", "ctaLink": "/workshop", "showFrom": "2026-11-28T05:00:00Z", "showUntil": "2026-12-11T05:00:00Z", "countdownTo": "earlyBirdEndsAt" },
-      { "label": "LIVE WORKSHOP", "message": "Thursday, February 4, 2027, noon ET, in person and on Zoom.", "ctaLabel": "Reserve your seat", "ctaLink": "/workshop", "showFrom": "2026-12-11T05:00:00Z", "showUntil": "2027-02-04T17:00:00Z", "countdownTo": "workshopAt" }
+      {
+        "label": "NEW",
+        "message": "Our courses are on sale now at introductory prices through January 15.",
+        "ctaLabel": "See the courses",
+        "ctaLink": "/courses/attract-the-right-audience",
+        "showFrom": "2026-10-01T00:00:00Z",
+        "showUntil": "2026-12-01T05:00:00Z",
+        "countdownTo": "introEndsAt"
+      },
+      {
+        "label": "EARLY-BIRD",
+        "message": "Live workshop, Thursday, February 4, 2027, noon ET. Early-bird pricing ends December 10.",
+        "ctaLabel": "Reserve your seat",
+        "ctaLink": "/workshop",
+        "showFrom": "2026-12-01T05:00:00Z",
+        "showUntil": "2026-12-11T05:00:00Z",
+        "countdownTo": "earlyBirdEndsAt"
+      },
+      {
+        "label": "INTRO PRICING",
+        "message": "Introductory course and bundle prices end January 15.",
+        "ctaLabel": "See the courses",
+        "ctaLink": "/courses/content-machine",
+        "showFrom": "2026-12-11T05:00:00Z",
+        "showUntil": "2027-01-16T05:00:00Z",
+        "countdownTo": "introEndsAt",
+        "note": "New in round two, wording awaiting client approval"
+      },
+      {
+        "label": "LIVE WORKSHOP",
+        "message": "Thursday, February 4, 2027, noon ET, in person and on Zoom.",
+        "ctaLabel": "Reserve your seat",
+        "ctaLink": "/workshop",
+        "showFrom": "2027-01-16T05:00:00Z",
+        "showUntil": "2027-02-04T17:00:00Z",
+        "countdownTo": "workshopAt"
+      }
     ]
   },
   "siteSettings": {
     "headerNav": [
-      { "label": "Workshop", "link": "/workshop" },
-      { "label": "Education", "children": [
-        { "label": "Attract the Right Audience", "link": "/courses/attract-the-right-audience", "badge": "1", "priceLineFrom": "course:attract" },
-        { "label": "Build a Year of Content", "link": "/courses/build-a-year-of-content", "badge": "3", "priceLineFrom": "course:create" },
-        { "label": "Reach the Right Audience", "link": "/courses/reach-the-right-audience", "badge": "4", "priceLineFrom": "course:broadcast" },
-        { "label": "The Content Machine", "link": "/courses/content-machine", "description": "All three courses · $597" },
-        { "label": "Attract More Raving Fans", "link": "/book", "eyebrow": "Books · pre-order" }
-      ] },
-      { "label": "Media", "children": [
-        { "label": "Podcast", "link": "/podcast", "description": "Founders and experts in conversation" },
-        { "label": "Blog", "link": "/blog", "description": "Practical ideas for B2B teams" },
-        { "label": "Socials", "link": "/socials", "description": "Follow us on LinkedIn" },
-        { "label": "Book a speaking engagement", "link": "/speaking", "description": "Book our founder for an event" }
-      ] },
-      { "label": "Partner With Us", "link": "/partner" },
-      { "label": "About the Team", "link": "/about" },
-      { "label": "Careers", "link": "/careers" }
+      {
+        "label": "Workshop",
+        "link": "/workshop"
+      },
+      {
+        "label": "Education",
+        "children": [
+          {
+            "label": "Attract the Right Audience",
+            "link": "/courses/attract-the-right-audience",
+            "badge": "1",
+            "priceLineFrom": "course:attract"
+          },
+          {
+            "label": "Build a Year of Content",
+            "link": "/courses/build-a-year-of-content",
+            "badge": "3",
+            "priceLineFrom": "course:create"
+          },
+          {
+            "label": "Reach the Right Audience",
+            "link": "/courses/reach-the-right-audience",
+            "badge": "4",
+            "priceLineFrom": "course:broadcast"
+          },
+          {
+            "label": "The Content Machine",
+            "link": "/courses/content-machine",
+            "description": "All three courses · {bundlePrice}",
+            "priceLineFrom": "bundle"
+          },
+          {
+            "label": "Attract More Raving Fans",
+            "link": "/book",
+            "eyebrow": "Books · pre-order"
+          }
+        ]
+      },
+      {
+        "label": "Media",
+        "children": [
+          {
+            "label": "Podcast",
+            "link": "/podcast",
+            "description": "Founders and experts in conversation"
+          },
+          {
+            "label": "Blog",
+            "link": "/blog",
+            "description": "Practical ideas for B2B teams"
+          },
+          {
+            "label": "Socials",
+            "link": "/socials",
+            "description": "Follow us on LinkedIn"
+          },
+          {
+            "label": "Book a speaking engagement",
+            "link": "/speaking",
+            "description": "Book our founder for an event"
+          }
+        ]
+      },
+      {
+        "label": "Partner With Us",
+        "link": "/partner"
+      },
+      {
+        "label": "About the Team",
+        "link": "/about"
+      },
+      {
+        "label": "Careers",
+        "link": "/careers"
+      }
     ],
-    "headerCta": { "label": "Ready to scale", "link": "/workshop" },
-    "megaMenuFeature": { "eyebrow": "Live workshop", "headline": "See the whole method in one room.", "dateBadge": "Feb 4", "dateLine": "2027 · Noon ET", "subLine": "In person and on Zoom", "ctaLabel": "Reserve my seat", "ctaLink": "/workshop" },
+    "headerCta": {
+      "label": "Ready to scale",
+      "link": "/workshop"
+    },
+    "megaMenuFeature": {
+      "eyebrow": "Live workshop",
+      "headline": "See the whole method in one room.",
+      "dateBadge": "Feb 4",
+      "dateLine": "2027 · Noon ET",
+      "subLine": "In person and on Zoom",
+      "ctaLabel": "Reserve my seat",
+      "ctaLink": "/workshop"
+    },
     "mobileMenuGroups": [
-      { "title": "Courses", "style": "big", "links": [["Attract the Right Audience","/courses/attract-the-right-audience"],["Build a Year of Content","/courses/build-a-year-of-content"],["Reach the Right Audience","/courses/reach-the-right-audience"],["The Content Machine bundle","/courses/content-machine"]] },
-      { "title": "Media", "links": [["Podcast","/podcast"],["Socials","/socials"],["Book a speaker","/speaking"],["Blog","/blog"]] },
-      { "title": "About", "links": [["About the Team","/about"],["Careers","/careers"],["Partner With Us","/partner"]] },
-      { "title": "Explore", "links": [["Workshop","/workshop"],["Books","/book"],["Free Assessment","/assessment"]] }
+      {
+        "title": "Courses",
+        "style": "big",
+        "links": [
+          [
+            "Attract the Right Audience",
+            "/courses/attract-the-right-audience"
+          ],
+          [
+            "Build a Year of Content",
+            "/courses/build-a-year-of-content"
+          ],
+          [
+            "Reach the Right Audience",
+            "/courses/reach-the-right-audience"
+          ],
+          [
+            "The Content Machine bundle",
+            "/courses/content-machine"
+          ]
+        ]
+      },
+      {
+        "title": "Media",
+        "links": [
+          [
+            "Podcast",
+            "/podcast"
+          ],
+          [
+            "Socials",
+            "/socials"
+          ],
+          [
+            "Book a speaker",
+            "/speaking"
+          ],
+          [
+            "Blog",
+            "/blog"
+          ]
+        ]
+      },
+      {
+        "title": "About",
+        "links": [
+          [
+            "About the Team",
+            "/about"
+          ],
+          [
+            "Careers",
+            "/careers"
+          ],
+          [
+            "Partner With Us",
+            "/partner"
+          ]
+        ]
+      },
+      {
+        "title": "Explore",
+        "links": [
+          [
+            "Workshop",
+            "/workshop"
+          ],
+          [
+            "Books",
+            "/book"
+          ],
+          [
+            "Free Assessment",
+            "/assessment"
+          ]
+        ]
+      }
     ],
-    "mobileMenuBottom": { "ctaLabel": "Ready to scale", "ctaLink": "/workshop", "note": "Live workshop · Feb 4, 2027 · Noon ET" },
+    "mobileMenuBottom": {
+      "ctaLabel": "Ready to scale",
+      "ctaLink": "/workshop",
+      "note": "Live workshop · Feb 4, 2027 · Noon ET"
+    },
     "footer": {
       "newsletterEyebrow": "The newsletter",
       "newsletterHeadline": "Get the *good news* in your inbox.",
@@ -52,33 +232,185 @@
       "tagline": "We help experts communicate their value and earn customer confidence.",
       "handwrittenLine": "Hook. Line. Heart.",
       "columns": [
-        { "title": "Learn", "links": [["Workshop","/workshop"],["Courses","/courses/attract-the-right-audience"],["Content Machine bundle","/courses/content-machine"],["Book","/book"],["Free assessment","/assessment"]] },
-        { "title": "Media", "links": [["Podcast","/podcast"],["Blog","/blog"],["Socials","/socials"],["Book a speaker","/speaking"]] },
-        { "title": "Company", "links": [["About the Team","/about"],["Partner With Us","/partner"],["Careers","/careers"],["Contact","/contact"]] }
+        {
+          "title": "Learn",
+          "links": [
+            [
+              "Workshop",
+              "/workshop"
+            ],
+            [
+              "Courses",
+              "/courses/attract-the-right-audience"
+            ],
+            [
+              "Content Machine bundle",
+              "/courses/content-machine"
+            ],
+            [
+              "Book",
+              "/book"
+            ],
+            [
+              "Free assessment",
+              "/assessment"
+            ],
+            [
+              "2027 growth strategy call",
+              "/growth-strategy"
+            ]
+          ]
+        },
+        {
+          "title": "Media",
+          "links": [
+            [
+              "Podcast",
+              "/podcast"
+            ],
+            [
+              "Blog",
+              "/blog"
+            ],
+            [
+              "Socials",
+              "/socials"
+            ],
+            [
+              "Book a speaker",
+              "/speaking"
+            ]
+          ]
+        },
+        {
+          "title": "Company",
+          "links": [
+            [
+              "About the Team",
+              "/about"
+            ],
+            [
+              "Partner With Us",
+              "/partner"
+            ],
+            [
+              "Careers",
+              "/careers"
+            ],
+            [
+              "Contact",
+              "/contact"
+            ]
+          ]
+        }
       ],
-      "socialLinks": [["LinkedIn","[LinkedIn URL]"]],
-      "legalLinks": [["Privacy Policy","/legal/privacy"],["Terms of Service","/legal/terms"],["DMCA","/legal/dmca"],["Do Not Sell or Share My Information","/legal/do-not-sell"]],
+      "socialLinks": [
+        [
+          "LinkedIn",
+          "[LinkedIn URL]"
+        ]
+      ],
+      "legalLinks": [
+        [
+          "Privacy Policy",
+          "/legal/privacy"
+        ],
+        [
+          "Terms of Service",
+          "/legal/terms"
+        ],
+        [
+          "DMCA",
+          "/legal/dmca"
+        ],
+        [
+          "Do Not Sell or Share My Information",
+          "/legal/do-not-sell"
+        ]
+      ],
       "disclaimer": "Examples, testimonials and figures on this site reflect individual experiences and are not guarantees of future results. Outcomes depend on many factors, including your business, effort and market. Reel Good News does not guarantee any specific result.",
       "copyright": "© {year} Reel Good News. All rights reserved."
     },
-    "cookieNotice": { "title": "A quick note on cookies", "body": "We use analytics cookies to see which pages help people. They only run if you say yes.", "acceptLabel": "Accept analytics", "declineLabel": "Decline" },
+    "cookieNotice": {
+      "title": "A quick note on cookies",
+      "body": "We use analytics cookies to see which pages help people. They only run if you say yes.",
+      "acceptLabel": "Accept analytics",
+      "declineLabel": "Decline"
+    },
     "contactEmail": "jenna@reelgoodnews.com"
   },
   "stats": [
-    { "value": 250, "label": "high-tech founders coached", "group": "home" },
-    { "value": 50, "suffix": "+", "label": "founders supported in securing early-stage funding", "group": "home" },
-    { "value": 165, "prefix": "$", "suffix": "M+", "label": "in exits from Groundswell member companies", "group": "home" },
-    { "value": 50, "suffix": "+", "label": "accomplished entrepreneurs in our network", "group": "home" },
-    { "value": 65, "prefix": "$", "suffix": "M+", "label": "raised by member companies", "group": "jenna" },
-    { "value": 165, "prefix": "$", "suffix": "M+", "label": "in combined exits", "group": "jenna" },
-    { "value": 250, "label": "founders coached", "group": "jenna" },
-    { "value": 20, "suffix": "K+", "label": "stakeholders engaged", "group": "jenna" }
+    {
+      "value": 250,
+      "label": "high-tech founders coached",
+      "group": "home"
+    },
+    {
+      "value": 50,
+      "suffix": "+",
+      "label": "founders supported in securing early-stage funding",
+      "group": "home"
+    },
+    {
+      "value": 165,
+      "prefix": "$",
+      "suffix": "M+",
+      "label": "in exits from Groundswell member companies",
+      "group": "home"
+    },
+    {
+      "value": 50,
+      "suffix": "+",
+      "label": "accomplished entrepreneurs in our network",
+      "group": "home"
+    },
+    {
+      "value": 65,
+      "prefix": "$",
+      "suffix": "M+",
+      "label": "raised by member companies",
+      "group": "jenna"
+    },
+    {
+      "value": 165,
+      "prefix": "$",
+      "suffix": "M+",
+      "label": "in combined exits",
+      "group": "jenna"
+    },
+    {
+      "value": 250,
+      "label": "founders coached",
+      "group": "jenna"
+    },
+    {
+      "value": 20,
+      "suffix": "K+",
+      "label": "stakeholders engaged",
+      "group": "jenna"
+    }
   ],
   "statsFootnote": "These figures reflect our founder’s work and network before Reel Good News. Past results do not guarantee future outcomes.",
   "timeline": [
-    { "years": "2013 to present", "short": "2013 →", "org": "MarCom Florida", "text": "Strategic growth advisory for founders, CEOs and investors." },
-    { "years": "2015 to present", "short": "2015 →", "org": "Groundswell Startups", "text": "Co-founded and led the Southeast’s largest privately funded technology incubator. Former CEO, still a co-founder." },
-    { "years": "2019 to 2023", "short": "2019 to 2023", "org": "Helicon Technologies", "text": "Communications executive and co-owner. Raised $2.5M, generated 150+ investor meetings.", "highlight": true }
+    {
+      "years": "2013 to present",
+      "short": "2013 →",
+      "org": "MarCom Florida",
+      "text": "Strategic growth advisory for founders, CEOs and investors."
+    },
+    {
+      "years": "2015 to present",
+      "short": "2015 →",
+      "org": "Groundswell Startups",
+      "text": "Co-founded and led the Southeast’s largest privately funded technology incubator. Former CEO, still a co-founder."
+    },
+    {
+      "years": "2019 to 2023",
+      "short": "2019 to 2023",
+      "org": "Helicon Technologies",
+      "text": "Communications executive and co-owner. Raised $2.5M, generated 150+ investor meetings.",
+      "highlight": true
+    }
   ],
   "workshop": {
     "title": "Reel Good News: Attract More Raving Fans",
@@ -88,16 +420,123 @@
     "venue": "[Location to be announced]",
     "earlyBirdPrice": 149,
     "standardPrice": 199,
-    "includes": ["Workshop instruction", "Production planning workbook"],
-    "outcomes": ["Identify the customers and experts whose stories build credibility.", "Invite participants and prepare interview questions.", "Structure a production schedule, introduction and outro.", "Evaluate videographers and prepare for shoot day.", "Organize the footage around marketing priorities."],
-    "agenda": [
-      { "time": "[TIME]", "title": "Find the right voices", "text": "The customers, partners and experts best placed to speak about the business." },
-      { "time": "[TIME]", "title": "Invite, prepare and write the questions", "text": "Interview questions that draw out real stories." },
-      { "time": "[TIME]", "title": "Plan the day", "text": "Schedule, introduction and outro, with no wasted time." },
-      { "time": "[TIME]", "title": "Hire the right videographer", "text": "What to ask before any booking." },
-      { "time": "[TIME]", "title": "From footage to a year of content", "text": "Organize the footage around marketing priorities." }
+    "includes": [
+      "Workshop instruction",
+      "Production planning workbook"
     ],
-    "noNeedFor": ["Video experience", "A marketing team", "Equipment"]
+    "outcomes": [
+      "Identify the customers and experts whose stories build credibility.",
+      "Invite participants and prepare interview questions.",
+      "Structure a production schedule, introduction and outro.",
+      "Evaluate videographers and prepare for shoot day.",
+      "Organize the footage around marketing priorities."
+    ],
+    "agenda": [
+      {
+        "time": "[TIME]",
+        "title": "Find the right voices",
+        "text": "The customers, partners and experts best placed to speak about the business."
+      },
+      {
+        "time": "[TIME]",
+        "title": "Invite, prepare and write the questions",
+        "text": "Interview questions that draw out real stories."
+      },
+      {
+        "time": "[TIME]",
+        "title": "Plan the day",
+        "text": "Schedule, introduction and outro, with no wasted time."
+      },
+      {
+        "time": "[TIME]",
+        "title": "Hire the right videographer",
+        "text": "What to ask before any booking."
+      },
+      {
+        "time": "[TIME]",
+        "title": "From footage to a year of content",
+        "text": "Organize the footage around marketing priorities."
+      }
+    ],
+    "noNeedFor": [
+      "Video experience",
+      "A marketing team",
+      "Equipment"
+    ]
   },
-  "bundle": { "title": "The Reel Good News Content Machine", "price": 597, "compareAt": 797, "saving": 200 }
+  "bundle": {
+    "title": "The Reel Good News Content Machine",
+    "price": 597,
+    "introPrice": 399,
+    "compareAt": 797,
+    "compareAtIntro": 447,
+    "saving": 200
+  },
+  "homeHero": {
+    "eyebrow": "Strategic content. Built for business growth.",
+    "headline": "Attract more best fit customers.\n*Win more _business._*",
+    "lead": "Reel Good News turns your expertise, customer stories, and industry knowledge into a year of strategic content. One focused production day gives your business the case studies, insights, and social proof it needs to educate buyers, build trust, and drive sales.",
+    "primaryCta": {
+      "label": "Claim your 2027 growth strategy",
+      "link": "/growth-strategy"
+    },
+    "secondaryCta": {
+      "label": "Take the free assessment",
+      "link": "/assessment"
+    },
+    "supportLine": "One strategic production day. Twelve months of sales enablement. A stronger case for choosing your business.",
+    "lowerThird": {
+      "tag": "Founder",
+      "name": "Jenna Colombo",
+      "line": "Reel Good News · Groundswell Startups"
+    },
+    "_note": "Client's advisor copy, verbatim except 'the' added before 'case studies'."
+  },
+  "growthCall": {
+    "eyebrow": "Claim your 2027 growth strategy",
+    "headline": "RGN Growth *Opportunity* Workshop",
+    "intro": "A call with our team to map your 2027 growth opportunities and see if the in-person scaling workshop fits your business.",
+    "steps": [
+      [
+        "phone",
+        "Share your details",
+        "Our team gets them right away."
+      ],
+      [
+        "calendar",
+        "Pick a time",
+        "Choose a day and time that suits you."
+      ],
+      [
+        "people",
+        "Talk with our team",
+        "A focused conversation about growth in 2027."
+      ]
+    ],
+    "callLengthNote": "[Call length and format to confirm.]",
+    "consentText": "Optional. Text me about my call and related offers from Reel Good News. Message and data rates may apply. Reply STOP to opt out. [Counsel to review.]",
+    "termsLine": "By continuing, you agree to our Terms and Privacy Policy.",
+    "continueLabel": "Continue",
+    "lockedMessage": "Please fill out the form before choosing your time slot.",
+    "timezoneLabel": "Eastern Time",
+    "confirmLabel": "Confirm my call",
+    "successTitle": "Your call is booked.",
+    "successBody": "{date} at {time} ET. A confirmation text and email are on the way, with a reminder before the call.",
+    "availableWeekdays": [
+      "Tue",
+      "Wed",
+      "Thu"
+    ],
+    "bookingWindowDays": 30,
+    "slotLabels": [
+      "10:00 AM",
+      "11:30 AM",
+      "1:00 PM",
+      "2:30 PM",
+      "4:00 PM"
+    ],
+    "workshopLine": "Not sure the in-person workshop fits?",
+    "workshopLinkLabel": "Book a growth strategy call",
+    "_note": "Intro, steps and slots are drafts for client approval. Real availability comes from the GoHighLevel calendar in phase 6."
+  }
 }

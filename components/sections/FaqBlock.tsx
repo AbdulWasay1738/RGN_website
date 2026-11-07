@@ -11,7 +11,7 @@ export function FaqBlock({ section }: SectionProps<FaqBlockSection>) {
   return (
     <Band
       background={section.background ?? 'white'}
-      watermark={section.watermark ?? 'bottom-right'}
+      watermark={section.watermark}
       anchorId={section.anchorId}
     >
       <div className="wrap row g64">

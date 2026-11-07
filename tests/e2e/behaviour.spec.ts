@@ -12,10 +12,12 @@ async function noCookieNotice(page: Page) {
 
 test.beforeEach(async ({ page }) => noCookieNotice(page))
 
+// Round two: four banner windows, intro prices through January 15.
 const STATES = [
-  { now: '2026-11-04T15:00:00Z', banner: 'NEW', course: '$99', workshop: '$149' },
-  { now: '2026-11-29T15:00:00Z', banner: 'EARLY-BIRD', course: '$199', workshop: '$149' },
-  { now: '2026-12-11T15:00:00Z', banner: 'LIVE WORKSHOP', course: '$199', workshop: '$199' },
+  { now: '2026-11-20T15:00:00Z', banner: 'NEW', course: '$99', workshop: '$149' },
+  { now: '2026-12-05T15:00:00Z', banner: 'EARLY-BIRD', course: '$99', workshop: '$149' },
+  { now: '2026-12-20T15:00:00Z', banner: 'INTRO PRICING', course: '$99', workshop: '$199' },
+  { now: '2027-01-20T15:00:00Z', banner: 'LIVE WORKSHOP', course: '$199', workshop: '$199' },
 ]
 
 for (const s of STATES) {
@@ -29,6 +31,114 @@ for (const s of STATES) {
     await expect(page.locator('main')).toContainText(s.workshop)
   })
 }
+
+test('bundle: $399 against $597 through Jan 15, then $597 against $797', async ({ page }) => {
+  await page.goto('/courses/content-machine?now=2027-01-15T20:00:00Z')
+  const hero = page.locator('main section').first()
+  await expect(hero).toContainText('$399')
+  await expect(hero).toContainText('$597')
+  await expect(hero).toContainText('Intro price through Jan 15')
+  await expect(page.locator('main table')).toContainText('$447')
+  await page.goto('/courses/content-machine?now=2027-01-16T15:00:00Z')
+  await expect(hero).toContainText('$597')
+  await expect(hero).toContainText('$797')
+  await expect(hero).toContainText('Save $200')
+  await expect(page.locator('main table')).not.toContainText('$447')
+  await page.goto('/?now=2027-01-15T20:00:00Z')
+  await expect(page.locator('#offers')).toContainText('$399')
+  await page.goto('/courses/attract-the-right-audience?now=2027-01-15T20:00:00Z')
+  await expect(page.locator('main')).toContainText('Or get all three courses for $399 (intro price)')
+  await expect(page.locator('main')).toContainText('Intro price ends January 15')
+})
+
+test('mega menu bundle line follows the date', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 })
+  // Opened with the keyboard: a mouse click would hover it open, then toggle it shut.
+  const open = async () => {
+    const trigger = page.getByRole('button', { name: 'Education' })
+    await trigger.focus()
+    await page.keyboard.press('Enter')
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  }
+  await page.goto('/?now=2027-01-15T20:00:00Z')
+  await open()
+  await expect(page.getByText('All three courses · $399 intro')).toBeVisible()
+  await page.goto('/?now=2027-01-16T15:00:00Z')
+  await open()
+  await expect(page.getByText('All three courses · $597', { exact: true })).toBeVisible()
+})
+
+test('home, round two: calm hero, two R marks, handwritten accents in Benedict', async ({ page }) => {
+  await page.goto('/')
+  const hero = page.locator('main section').first()
+  await expect(hero.locator('h1')).toContainText('Attract more best fit customers.')
+  await expect(hero.locator('h1')).toContainText('Win more business.')
+  await expect(hero).toContainText('One strategic production day.')
+  await expect(hero.locator('.wm, .brush, .hand, .rbadge')).toHaveCount(0)
+  await expect(hero.getByRole('link', { name: /claim your 2027 growth strategy/i })).toHaveAttribute('href', '/growth-strategy')
+  // Exactly two R watermarks: the method section and the footer. No R badge.
+  await expect(page.locator('main .wm')).toHaveCount(1)
+  await expect(page.locator('footer .wm')).toHaveCount(1)
+  await expect(page.locator('.rbadge')).toHaveCount(0)
+  const font = await page.evaluate(async () => {
+    // The handwritten accents ("founder to founder", the signature, card cover words) on this page.
+    const el = [...document.querySelectorAll<HTMLElement>('main *')].find((e) => /Benedict/.test(getComputedStyle(e).fontFamily))
+    await document.fonts.load('400 40px Benedict', 'founder to founder')
+    await document.fonts.ready
+    return {
+      stack: el ? getComputedStyle(el).fontFamily : '',
+      loaded: [...document.fonts].some((f) => f.family.replace(/["']/g, '') === 'Benedict' && f.status === 'loaded'),
+    }
+  })
+  expect(font.stack.startsWith('Benedict')).toBe(true)
+  expect(font.loaded, 'Benedict loads from the font host').toBe(true)
+})
+
+test('growth call: locked until the form is sent, then day, time and confirm', async ({ page }) => {
+  await page.goto('/growth-strategy')
+  const main = page.locator('main')
+  const note = main.getByRole('note')
+  await expect(note).toHaveText('Please fill out the form before choosing your time slot.')
+  await note.click()
+  await expect(main.getByLabel(/mobile number/i)).toBeFocused()
+
+  await main.getByRole('button', { name: 'Continue' }).click()
+  await expect(main.locator('.field.err').first()).toBeVisible()
+  await main.getByLabel(/mobile number/i).fill('(555) 010-2345')
+  await main.getByLabel('First name').fill('Alex')
+  await main.getByLabel('Last name').fill('Morgan')
+  await main.getByLabel('Work email').fill('alex@example.com')
+  await page.waitForTimeout(2600) // the spam time trap ignores very fast submits
+  await main.getByRole('button', { name: 'Continue' }).click()
+  await expect(main.getByText('Alex Morgan')).toBeVisible()
+  await expect(note).toHaveCount(0)
+
+  await main.getByRole('button', { name: 'Edit' }).click()
+  await expect(main.getByLabel('First name')).toHaveValue('Alex')
+  await page.waitForTimeout(2600)
+  await main.getByRole('button', { name: 'Continue' }).click()
+
+  let day = main.getByRole('button', { name: /, available$/ }).first()
+  if (!(await day.count())) {
+    await main.getByRole('button', { name: 'Next month' }).click()
+    day = main.getByRole('button', { name: /, available$/ }).first()
+  }
+  await day.click()
+  await main.getByRole('group', { name: 'Available times' }).getByRole('button').first().click()
+  await main.getByRole('button', { name: 'Confirm my call' }).click()
+  await expect(main.getByRole('heading', { name: 'Your call is booked.' })).toBeVisible()
+  await expect(main.getByRole('button', { name: 'Add to calendar' })).toBeVisible()
+})
+
+test('the hero button and the workshop page both lead to the growth call', async ({ page }) => {
+  await page.goto('/')
+  await page.locator('main').getByRole('link', { name: /claim your 2027 growth strategy/i }).click()
+  await expect(page).toHaveURL(/\/growth-strategy$/)
+  await page.goto('/workshop')
+  const link = page.locator('main').getByRole('link', { name: 'Book a growth strategy call' })
+  await expect(link).toHaveAttribute('href', '/growth-strategy')
+  await expect(page.locator('main')).toContainText('Not sure the in-person workshop fits?')
+})
 
 test('after the workshop: banner hidden, workshop has happened', async ({ page }) => {
   await page.goto('/workshop?now=2027-02-05T15:00:00Z')

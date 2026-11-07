@@ -39,7 +39,6 @@ import {
   items,
   link,
   list,
-  num,
   obj,
   PLACEHOLDER_HELP,
   ref,
@@ -55,25 +54,25 @@ export const heroFounder = defineSection({
   name: 'heroFounder',
   title: 'Founder hero',
   icon: RocketIcon,
-  description: 'The home page opening: handwritten line, big headline, founder portrait with the brush stroke and floating cards.',
+  description:
+    'The home page opening: eyebrow, two-line headline, buttons and support line beside the founder portrait. Calm on purpose (client feedback): no emblem, brush stroke or floating cards.',
   defaultBackground: 'navy',
+  watermark: false,
   fields: [
-    str('handLine', { title: 'Handwritten line', description: 'Shown above the headline, for example "Hook. Line. Heart."' }),
+    str('eyebrow', { title: 'Eyebrow', description: 'Small capitals above the headline, for example "Strategic content. Built for business growth."' }),
     accent('headline', {
       title: 'Headline',
       required: true,
       max: 90,
-      description: 'Wrap the underlined word in _underscores_, for example "Is your expertise doing the _selling_ for you?"',
+      rows: 2,
+      description:
+        'Start a new line where the headline should break. Wrap the underlined word in _underscores_; it can sit inside the coloured words, for example "Attract more best fit customers." on the first line and "*Win more _business._*" on the second.',
     }),
-    txt('lead', { title: 'Lead paragraph', rows: 3, max: 240 }),
+    txt('lead', { title: 'Lead paragraph', rows: 4, max: 320 }),
     cta('primaryCta', { title: 'Main button' }),
     cta('secondaryCta', { title: 'Second button' }),
+    txt('supportLine', { title: 'Support line', rows: 2, max: 160, description: 'The short line under the buttons, with the coral rule on its left.' }),
     image('portrait', { title: 'Portrait cut-out', description: 'A photo with a transparent background (WebP or PNG). Leave empty to use the founder cut-out.' }),
-    obj('workshopCard', [str('title', { title: 'Title' }), str('line', { title: 'Date line' }), link('link', { title: 'Link' })], {
-      title: 'Floating workshop card',
-      collapsed: true,
-    }),
-    obj('statCard', [num('value', { title: 'Number' }), str('label', { title: 'Label' })], { title: 'Floating number card', collapsed: true }),
     obj('lowerThird', [str('tag', { title: 'Tag' }), str('name', { title: 'Name' }), str('title', { title: 'Title line' })], {
       title: 'Name banner',
       description: 'The TV-style name strip at the bottom of the portrait.',
@@ -185,7 +184,7 @@ export const statsBlock = defineSection({
   fields: [
     str('eyebrow', { title: 'Eyebrow' }),
     accent('headline', { title: 'Headline' }),
-    bool('showBadge', { title: 'Show the orange R badge', initialValue: true }),
+    bool('showBadge', { title: 'Show the orange R badge', initialValue: false, description: 'Keep it off on the home page (client feedback round two).' }),
     list(
       'variant',
       [
@@ -275,7 +274,7 @@ export const finalCta = defineSection({
   name: 'finalCta',
   title: 'Closing call to action',
   icon: LaunchIcon,
-  description: 'The big orange band with the R watermark and the workshop countdown.',
+  description: 'The big orange band with the workshop call to action and countdown.',
   defaultBackground: 'orange',
   fields: [
     str('eyebrow', { title: 'Eyebrow' }),
@@ -750,6 +749,19 @@ export const mediaBand = defineSection({
   ],
 })
 
+export const growthCallCta = defineSection({
+  name: 'growthCallCta',
+  title: 'Growth call link',
+  icon: CalendarIcon,
+  description: 'A short line with a link to the growth strategy call page (/growth-strategy).',
+  titleField: 'line',
+  fallbackTitle: 'Growth call link',
+  fields: [
+    str('line', { title: 'Line', description: 'For example "Not sure the in-person workshop fits?"' }),
+    str('linkLabel', { title: 'Link text', required: true, description: 'For example "Book a growth strategy call".' }),
+  ],
+})
+
 export const sectionTypes = [
   heroFounder,
   ticker,
@@ -777,6 +789,7 @@ export const sectionTypes = [
   linkCards,
   profileBio,
   mediaBand,
+  growthCallCta,
 ]
 
 export const SECTION_TYPES = sectionTypes.map((s) => s.name)
@@ -784,7 +797,7 @@ export const SECTION_TYPES = sectionTypes.map((s) => s.name)
 export const SECTION_INSERT_GROUPS = [
   { name: 'openings', title: 'Page openings', of: ['pageHero', 'heroFounder'] },
   { name: 'text', title: 'Text and story', of: ['statement', 'richText', 'imageText', 'profileBio', 'valuesGrid', 'timeline', 'teamGrid'] },
-  { name: 'offers', title: 'Offers and calls to action', of: ['offerGrid', 'assessmentCta', 'finalCta', 'ctaPanels', 'linkCards', 'mediaBand'] },
+  { name: 'offers', title: 'Offers and calls to action', of: ['offerGrid', 'assessmentCta', 'finalCta', 'ctaPanels', 'linkCards', 'mediaBand', 'growthCallCta'] },
   { name: 'proof', title: 'Proof', of: ['statsBlock', 'testimonials', 'founderStory', 'gallery'] },
   { name: 'method', title: 'The method', of: ['methodCalendar', 'howItWorks', 'ticker'] },
   { name: 'forms', title: 'Questions and forms', of: ['faqBlock', 'formSection'] },

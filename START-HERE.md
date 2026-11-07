@@ -48,4 +48,4 @@ Claude Code reads `CLAUDE.md` automatically.
 - Let it finish a phase before redirecting it. Review the summary, then try things yourself at `localhost:3000` and `localhost:3000/studio`.
 - When something looks off, give a screenshot and the route ("on /workshop at 390px the ticket stub wraps"). It's much faster than describing it.
 - Commit after each phase, and push to get a Vercel preview link you can share with the client.
-- When the client sends the Benedict font, ask: "Replace the RGN Hand stand-in with the Benedict files in assets/fonts and update docs/10-open-items.md."
+- For each new round of client feedback, add a `CHANGES-ROUND-N.md` with the updated docs and prototype, then paste a prompt like `PROMPT-ROUND-2.md`.

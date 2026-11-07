@@ -3,10 +3,11 @@
 import Link from 'next/link'
 import { useRef, type KeyboardEvent } from 'react'
 import { useSalesCalendar } from '@/components/providers/SalesCalendarProvider'
+import { useSite } from '@/components/providers/SiteProvider'
 import { Icon } from '@/components/ui/Icon'
-import { coursePriceParts } from '@/lib/sales-calendar'
+import { bundlePriceParts, coursePriceParts } from '@/lib/sales-calendar'
 import type { NavChild, NavItem, SiteSettings } from '@/lib/sanity/types'
-import { clean } from '@/lib/text'
+import { clean, formatUsd, interpolate } from '@/lib/text'
 import { visibleHref } from './navLinks'
 import styles from './Header.module.css'
 
@@ -144,6 +145,7 @@ function MenuItem({ child, href, onNavigate }: { child: NavChild; href: string; 
 
 function MenuDescription({ child }: { child: NavChild }) {
   const { now, dates } = useSalesCalendar()
+  const { bundle } = useSite()
   const course = child.priceFromCourse
   if (course && (typeof course.regularPrice === 'number' || typeof course.introPrice === 'number')) {
     const p = coursePriceParts(course, now, dates)
@@ -151,5 +153,11 @@ function MenuDescription({ child }: { child: NavChild }) {
     return <span className={styles.s}>{parts.join(' · ')}</span>
   }
   if (!child.description) return null
+  // "All three courses · {bundlePrice}" reads "All three courses · $399 intro" until the intro period ends.
+  if (child.description.includes('{bundlePrice}')) {
+    if (typeof bundle?.price !== 'number') return <span className={styles.s}>{child.description.replace(/\s*·?\s*\{bundlePrice\}/, '')}</span>
+    const p = bundlePriceParts(bundle, now, dates)
+    return <span className={styles.s}>{interpolate(child.description, { bundlePrice: `${formatUsd(p.now)}${p.intro ? ' intro' : ''}` })}</span>
+  }
   return <span className={styles.s}>{child.description}</span>
 }

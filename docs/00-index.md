@@ -14,5 +14,6 @@ Read these in order before writing code.
 | `08-voice-and-copy.md` | The client's writing rules |
 | `09-qa-checklist.md` | How to verify each phase |
 | `10-open-items.md` | Placeholders and decisions still waiting on the client |
+| `11-ai-assistant-later.md` | The client's AI chat request: approach and guardrails. Not part of the current build |
 
 Scope of the first build (phases 0 to 5): the codebase, every page, the Sanity dashboard, seeded content, preview and publishing, SEO and QA. Forms show a success state but do not send anywhere yet. Checkout opens a placeholder step. Phase 6 adds Stripe and GoHighLevel.

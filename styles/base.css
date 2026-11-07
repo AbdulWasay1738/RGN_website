@@ -115,11 +115,11 @@ main:focus {
   background: var(--paper);
 }
 .navy {
-  background: var(--navy) var(--tex) center/1024px repeat;
+  background: var(--navy) var(--tex) center/cover;
   color: var(--white);
 }
 .ink {
-  background: #0a121f var(--tex) center/1024px repeat;
+  background: #0a121f var(--tex) center/cover;
   color: var(--white);
 }
 .lavb {
@@ -192,7 +192,7 @@ main:focus {
   letter-spacing: 0.01em;
 }
 .script {
-  font-family: var(--fs);
+  font-family: var(--font-hand);
   font-weight: 400;
   color: var(--lav-i);
   letter-spacing: 0;
@@ -217,7 +217,7 @@ main:focus {
 }
 .hand {
   display: block;
-  font: 400 clamp(30px, 3vw, 44px) / 1 var(--fs);
+  font: 400 clamp(30px, 3vw, 44px) / 1 var(--font-hand);
   color: var(--lav-i);
   text-transform: none;
   letter-spacing: 0;
@@ -630,7 +630,7 @@ main:focus {
   box-shadow: 0 24px 48px rgba(9, 21, 39, 0.16);
 }
 .cover {
-  background: var(--navy) var(--tex) center/700px;
+  background: var(--navy) var(--tex) center/cover;
   color: var(--white);
   height: 170px;
   padding: 24px 26px;
@@ -653,7 +653,7 @@ main:focus {
   transform: translateY(-10px) rotate(-4deg);
 }
 .cover .word {
-  font-family: var(--fs);
+  font-family: var(--font-hand);
   font-size: 40px;
   color: var(--lav);
   position: relative;
@@ -683,7 +683,7 @@ main:focus {
   text-transform: uppercase;
 }
 .ticket {
-  background: var(--navy) var(--tex) center/1024px;
+  background: var(--navy) var(--tex) center/cover;
   color: var(--white);
   border-radius: 24px;
   overflow: hidden;
@@ -1034,6 +1034,39 @@ main:focus {
   margin: 1px 0 0;
   flex: 0 0 18px;
   accent-color: var(--btn);
+}
+/* Phone input with a fixed country prefix ("US +1"), growth call form */
+.tel {
+  display: flex;
+  border: 1.5px solid #c3c8d2;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--white);
+}
+.tel:focus-within {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(198, 167, 237, 0.45);
+}
+.field.err .tel {
+  border-color: var(--btn);
+}
+.tel .cc {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  background: var(--paper);
+  border-right: 1.5px solid #c3c8d2;
+  font-weight: 800;
+  font-size: 15px;
+  white-space: nowrap;
+}
+.field .tel input {
+  border: 0;
+  box-shadow: none;
+  flex: 1;
+  min-width: 0;
+  border-radius: 0;
 }
 .panel {
   background: var(--paper);

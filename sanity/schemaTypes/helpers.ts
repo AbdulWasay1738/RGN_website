@@ -343,7 +343,7 @@ export const layoutFieldset = {
 }
 
 /** Fields every page-builder section carries (see SectionBase in lib/sanity/types.ts). */
-export function sectionBaseFields(defaultBackground = 'white') {
+export function sectionBaseFields(defaultBackground = 'white', { watermark = true }: { watermark?: boolean } = {}) {
   return [
     defineField({
       name: 'background',
@@ -358,7 +358,9 @@ export function sectionBaseFields(defaultBackground = 'white') {
       title: 'R watermark',
       type: 'string',
       fieldset: 'layout',
-      description: 'The large script R in a corner. Its tone matches the background.',
+      hidden: !watermark,
+      description:
+        'The large script R in a corner. Its tone matches the background. Use it sparingly: at most two subtle marks on a page (the home page has one in the method section and one in the footer), never in neighbouring sections and never behind the founder photo.',
       initialValue: 'none',
       options: { list: WATERMARKS, layout: 'dropdown' },
     }),
@@ -398,6 +400,8 @@ export function defineSection(def: {
   titleField?: string
   fallbackTitle?: string
   fieldsets?: Array<{ name: string; title: string; options?: { collapsible?: boolean; collapsed?: boolean } }>
+  /** false hides the R watermark setting (sections with the founder photo) */
+  watermark?: boolean
 }) {
   const titleField = def.titleField ?? 'headline'
   return defineType({
@@ -407,7 +411,7 @@ export function defineSection(def: {
     icon: def.icon,
     description: def.description,
     fieldsets: [layoutFieldset, ...(def.fieldsets ?? [])],
-    fields: [...def.fields, ...sectionBaseFields(def.defaultBackground)],
+    fields: [...def.fields, ...sectionBaseFields(def.defaultBackground, { watermark: def.watermark })],
     preview: {
       select: { heading: titleField, hidden: 'hidden', background: 'background' },
       prepare({ heading, hidden, background }: { heading?: unknown; hidden?: boolean; background?: string }) {

@@ -3,10 +3,10 @@
  * Studio ("Sales calendar & seats"), so the same rules run on the server,
  * in the browser and (phase 6) when the checkout picks a Stripe price.
  */
-import type { AnnouncementBanner, BannerVariant, Course, SalesCalendar, Workshop } from './sanity/types'
+import type { AnnouncementBanner, BannerVariant, Bundle, Course, SalesCalendar, Workshop } from './sanity/types'
 
 export const DEFAULT_CALENDAR: Required<SalesCalendar> = {
-  introEndsAt: '2026-11-28T05:00:00Z',
+  introEndsAt: '2027-01-16T05:00:00Z',
   coursesOpenAt: '2026-12-01T05:00:00Z',
   earlyBirdEndsAt: '2026-12-11T05:00:00Z',
   workshopAt: '2027-02-04T17:00:00Z',
@@ -35,7 +35,7 @@ export function calendarDates(cal: SalesCalendar | null | undefined): CalendarDa
   }
 }
 
-/** Course intro prices apply until introEndsAt (end of Black Friday, ET). */
+/** Course and bundle intro prices apply until introEndsAt (end of January 15, 2027, ET). */
 export const isIntro = (now: Date, d: CalendarDates) => now < d.introEndsAt
 /** Workshop early-bird applies until earlyBirdEndsAt (end of Dec 10, ET). */
 export const isEarlyBird = (now: Date, d: CalendarDates) => now < d.earlyBirdEndsAt
@@ -58,6 +58,25 @@ export function coursePriceParts(course: Pick<Course, 'introPrice' | 'regularPri
     return { now: intro, was: regular, save: regular - intro, intro: true as const }
   }
   return { now: regular, was: undefined, save: 0, intro: false as const }
+}
+
+/**
+ * Bundle price by date. Intro period: the intro price against the regular
+ * bundle price ($399, struck $597). Afterwards: the regular price against the
+ * three courses bought separately ($597, struck $797, save $200).
+ */
+export function bundlePriceParts(
+  bundle: Pick<Bundle, 'price' | 'introPrice' | 'compareAt'> | null | undefined,
+  now: Date,
+  d: CalendarDates,
+) {
+  const regular = bundle?.price ?? 0
+  const intro = bundle?.introPrice
+  if (isIntro(now, d) && typeof intro === 'number' && intro < regular) {
+    return { now: intro, was: regular, save: regular - intro, intro: true as const }
+  }
+  const was = typeof bundle?.compareAt === 'number' && bundle.compareAt > regular ? bundle.compareAt : undefined
+  return { now: regular, was, save: was ? was - regular : 0, intro: false as const }
 }
 
 export function workshopPrice(

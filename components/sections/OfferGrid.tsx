@@ -81,7 +81,7 @@ export async function OfferGrid({ section }: SectionProps<OfferGridSection>) {
   return (
     <Band
       background={section.background ?? 'paper'}
-      watermark={section.watermark ?? 'bottom-right'}
+      watermark={section.watermark}
       anchorId={section.anchorId || 'offers'}
     >
       <div className="wrap stack g24">

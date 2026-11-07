@@ -6,7 +6,7 @@ Reel Good News helps businesses turn their expertise, customer results and reput
 
 The site has three jobs:
 1. **Sell** three online courses, a bundle, a live workshop and a book pre-order.
-2. **Capture leads** through the free Marketing ROI Assessment, the Partner With Us application, contact, speaking and podcast-guest forms, and the newsletter.
+2. **Capture leads** through the 2027 growth strategy call (the homepage's primary call to action: form first, then a booked time; the client wants an instant alert so she can call the lead directly), the free Marketing ROI Assessment, the Partner With Us application, contact, speaking and podcast-guest forms, and the newsletter.
 3. **Build credibility** through proof numbers, testimonials, the founder's story, the blog and media pages.
 
 ## Offers, prices and the sales calendar
@@ -18,7 +18,7 @@ These values must live in Sanity, not in code, because the client changes them.
 | Attract the Right Audience: Nail Your Go-to-Market Strategy First | Online course, lessons open Dec 1, 2026 | $199 | $99 until the intro period ends |
 | Build a Year of Content From One Production Day | Online course | $399 | $249 |
 | Reach the Right Audience at the Right Time | Online course | $199 | $99 |
-| The Reel Good News Content Machine (all three courses) | Bundle | $597 (shown against $797, save $200) | none (open question, see 10-open-items) |
+| The Reel Good News Content Machine (all three courses) | Bundle | $597 (shown against $797, save $200) | $399 until the intro period ends (client decision, round two) |
 | Reel Good News: Attract More Raving Fans | Live workshop, in person (10 seats, venue TBA) and on Zoom, Thu Feb 4, 2027, noon ET | $199 | $149 early-bird |
 | Attract More Raving Fans (book) | Pre-order | [price] | none |
 
@@ -26,10 +26,12 @@ Key dates (store as ISO datetimes in Sanity; the values below are the defaults):
 
 | Key | Value | Effect |
 |---|---|---|
-| `introEndsAt` | 2026-11-28T05:00:00Z (end of Black Friday, Nov 27, ET) | Course prices switch from intro to regular. Banner switches from variant 1 to 2. |
-| `coursesOpenAt` | 2026-12-01T05:00:00Z | "Opens Dec 1" labels become "On demand now". |
+| `introEndsAt` | 2027-01-16T05:00:00Z (end of Jan 15, 2027, ET; client changed this in round two, it was Black Friday) | Course and bundle prices switch from intro to regular. |
+| `coursesOpenAt` | 2026-12-01T05:00:00Z | "Opens Dec 1" labels become "On demand now". Banner switches from "courses on sale" to "early-bird". |
 | `earlyBirdEndsAt` | 2026-12-11T05:00:00Z (end of Dec 10, ET) | Workshop price $149 becomes $199. Banner switches from variant 2 to 3. |
 | `workshopAt` | 2027-02-04T17:00:00Z (noon ET) | Countdown target. After this, show "This workshop has happened" and hide the banner. |
+
+Banner windows (all editable in Sanity): until Dec 1 "Our courses are on sale now at introductory prices through January 15."; Dec 1 to Dec 10 the workshop early-bird message; Dec 11 to Jan 15 "Introductory course and bundle prices end January 15."; Jan 16 to Feb 4 the live workshop message. The client has not yet approved the wording of the two new windows.
 
 Seat cap: 10 in-person seats. When they are gone, only Zoom tickets sell. Until Stripe is connected (phase 6), `seatsSold` is a number the client sets in Sanity.
 

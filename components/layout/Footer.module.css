@@ -1,5 +1,5 @@
 .footer {
-  background: #0a121f var(--tex) center/1024px;
+  background: #0a121f var(--tex) center/cover;
   color: var(--white);
   position: relative;
   overflow: hidden;

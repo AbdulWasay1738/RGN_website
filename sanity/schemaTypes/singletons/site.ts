@@ -52,7 +52,11 @@ export const siteSettings = defineType({
               [
                 str('label', { title: 'Label', required: true }),
                 link('link', { title: 'Link' }),
-                str('description', { title: 'Second line', description: 'Leave empty when the line comes from a course price.' }),
+                str('description', {
+                  title: 'Second line',
+                  description:
+                    'Leave empty when the line comes from a course price. {bundlePrice} shows the current bundle price, for example "All three courses · {bundlePrice}" reads "All three courses · $399 intro" until the intro period ends.',
+                }),
                 str('eyebrow', { title: 'Eyebrow', description: 'Optional small heading above the label, for example "Books · pre-order".' }),
                 str('badge', { title: 'Badge', description: 'The square on the left: a course number, or a word for the handwritten style.' }),
                 list(
@@ -161,8 +165,9 @@ export const siteSettings = defineType({
         str('placeholderButton', { title: 'Payment step button' }),
         str('cancelLabel', { title: 'Cancel link' }),
         str('workshopSubline', { title: 'Workshop line', description: '{ticket} becomes Early-bird or Standard.' }),
-        str('courseSubline', { title: 'Course line', description: '{price} becomes "introductory price" or "regular price".' }),
-        str('bundleSubline', { title: 'Bundle line' }),
+        str('courseSubline', { title: 'Course line', description: '{priceType} becomes the introductory or regular price label below.' }),
+        str('bundleSubline', { title: 'Bundle line', description: '{priceType} becomes the bundle intro price label below, or the regular price label after the intro period.' }),
+        str('bundleIntroPriceLabel', { title: 'Bundle intro price label', description: 'For example "introductory price through January 15".' }),
         str('earlyBirdTicket', { title: 'Early-bird ticket name' }),
         str('standardTicket', { title: 'Standard ticket name' }),
         str('introPriceLabel', { title: 'Introductory price label' }),
@@ -273,7 +278,7 @@ export const salesCalendar = defineType({
       name: 'introEndsAt',
       title: 'Intro prices end',
       type: 'datetime',
-      description: etHelp('Course prices switch from intro to regular at this moment.', 'end of Black Friday, Nov 27, ET = 2026-11-28 05:00 UTC'),
+      description: etHelp('Course and bundle prices switch from intro to regular at this moment.', 'end of January 15, 2027, ET = 2027-01-16 05:00 UTC'),
       validation: (Rule) => Rule.required(),
     }),
     defineField({

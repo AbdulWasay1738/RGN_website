@@ -21,7 +21,7 @@ const OFFER_CARD = `
     stub, seatsLine, soldOutLine, zoomChip
   },
   _type == "course" => { ${COURSE_CARD} },
-  _type == "bundle" => { title, price, compareAt, card },
+  _type == "bundle" => { title, price, introPrice, compareAt, compareAtIntro, card },
   _type == "book" => { title, hidden, card, coverAccentWord, coverRest, author }
 `
 
@@ -53,7 +53,7 @@ export const LAYOUT_QUERY = defineQuery(`{
   "calendar": *[_id == "salesCalendar"][0],
   "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, _type, ${COURSE_CARD} },
   "workshop": *[_id == "workshop"][0]{ title, earlyBirdPrice, standardPrice, dateLabel, timeLabel, venue },
-  "bundle": *[_id == "bundle"][0]{ title, price },
+  "bundle": *[_id == "bundle"][0]{ title, price, introPrice, compareAt, compareAtIntro },
   "book": *[_id == "book"][0]{ hidden, title, preorderUrl, noLinkMessage },
   "hiddenHrefs": [
     ...*[_type == "page" && hidden == true && defined(slug.current)]{ "href": "/" + slug.current }.href,
@@ -75,14 +75,15 @@ export const PAGE_SLUGS_QUERY = defineQuery(
 /* ---------------- offers ---------------- */
 
 export const WORKSHOP_QUERY = defineQuery(`*[_id == "workshop"][0]{
-  ..., "slug": slug.current, faqs[]->{ ${FAQ} }
+  ..., "slug": slug.current, faqs[]->{ ${FAQ} },
+  "growthCallLink": *[_id == "growthCall"][0]{ workshopLine, workshopLinkLabel }
 }`)
 
 export const COURSE_PAGE_QUERY = defineQuery(`{
   "course": *[_type == "course" && slug.current == $slug][0]{ ..., "slug": slug.current, faqs[]->{ ${FAQ} } },
   "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, ${COURSE_CARD} },
   "template": *[_id == "courseTemplate"][0],
-  "bundle": *[_id == "bundle"][0]{ price, compareAt }
+  "bundle": *[_id == "bundle"][0]{ price, introPrice, compareAt, compareAtIntro }
 }`)
 
 export const COURSE_SLUGS_QUERY = defineQuery(`*[_type == "course" && defined(slug.current)].slug.current`)
@@ -90,11 +91,13 @@ export const COURSE_SLUGS_QUERY = defineQuery(`*[_type == "course" && defined(sl
 export const BUNDLE_PAGE_QUERY = defineQuery(`{
   "bundle": *[_id == "bundle"][0]{
     ..., "slug": slug.current,
-    path{ ..., items[]{ ..., course->{ _id, title, fullTitle, "slug": slug.current, regularPrice, word, stepNumber } } },
+    path{ ..., items[]{ ..., course->{ _id, title, fullTitle, "slug": slug.current, regularPrice, introPrice, word, stepNumber } } },
     faqs[]->{ ${FAQ} }
   },
   "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, ${COURSE_CARD} }
 }`)
+
+export const GROWTH_CALL_QUERY = defineQuery(`*[_id == "growthCall"][0]`)
 
 export const BOOK_QUERY = defineQuery(`*[_id == "book"][0]`)
 
@@ -148,5 +151,6 @@ export const SITEMAP_QUERY = defineQuery(`{
   "bundle": *[_id == "bundle" && seo.noIndex != true][0]{ _updatedAt },
   "book": *[_id == "book" && hidden != true && seo.noIndex != true][0]{ _updatedAt },
   "assessment": *[_id == "assessment" && seo.noIndex != true][0]{ _updatedAt },
+  "growthCall": *[_id == "growthCall" && seo.noIndex != true][0]{ _updatedAt },
   "blog": *[_id == "blogSettings"][0]{ _updatedAt }
 }`)

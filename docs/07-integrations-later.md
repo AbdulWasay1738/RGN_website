@@ -24,9 +24,15 @@ Use the GHL API v2 with a location-level private integration token. Scope access
 - **SMS compliance:** texts go out only after the A2P 10DLC brand and campaign are approved. Marketing texts only go to contacts with `sms-consent`. Transactional texts follow the approved campaign. The consent wording on the site must match what was registered.
 - **Assessment answers:** store them as a note or custom fields on the contact, so the team can review them before writing the report.
 
+## Growth call (round two)
+
+- Step 1 (Continue) calls `submitForm('growth', ...)`: create or update the GHL contact (tags `growth-call-lead`, plus `sms-consent` only when ticked) and trigger a workflow that **texts and emails the client immediately** with the lead's name, phone and email, so she can call them even if they never pick a time.
+- Step 2 uses a GoHighLevel calendar (`growthCall.ghlCalendarId`). Preferred: fetch free slots from the GHL Calendars API on the server, render them in our own calendar UI, and create the appointment on Confirm. Fallback: embed GHL's booking widget, styled as close to the brand as it allows.
+- Booking confirmation and reminder texts come from the GHL calendar's own notifications or a workflow.
+
 ## Analytics
 
-The cookie notice controls consent. On accept, load GTM (`NEXT_PUBLIC_GTM_ID`) and push events. `track(name, props)` maps to `dataLayer.push`. Events: every CTA click (the prototype names them in `data-track` attributes, for example `hero_reserve` and `banner_click`), form submits, checkout start, and purchase (from the order page, once per session).
+The cookie notice controls consent. On accept, load GTM (`NEXT_PUBLIC_GTM_ID`) and push events. `track(name, props)` maps to `dataLayer.push`. Events: every CTA click (the prototype names them in `data-track` attributes, for example `hero_reserve` and `banner_click`), form submits, `growth_lead` and `growth_booked`, checkout start, and purchase (from the order page, once per session).
 
 ## Seat count
 

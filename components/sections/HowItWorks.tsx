@@ -14,7 +14,7 @@ export function HowItWorks({ section }: SectionProps<HowItWorksSection>) {
   return (
     <Band
       background={section.background ?? 'white'}
-      watermark={section.watermark ?? 'bottom-left'}
+      watermark={section.watermark}
       anchorId={section.anchorId}
     >
       <div className="wrap">

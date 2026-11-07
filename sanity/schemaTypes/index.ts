@@ -3,6 +3,7 @@ import { objectTypes } from './objects'
 import { sectionTypes } from './sections'
 import { announcementBanner, salesCalendar, siteSettings } from './singletons/site'
 import { book, bundle, courseTemplate, workshop } from './singletons/offers'
+import { growthCall } from './singletons/growthCall'
 import { assessment, blogSettings, orderConfirmation } from './singletons/other'
 
 /**
@@ -20,6 +21,7 @@ export const SINGLETON_TYPES = new Set([
   'assessment',
   'orderConfirmation',
   'blogSettings',
+  'growthCall',
 ])
 
 export const schemaTypes = [
@@ -36,4 +38,5 @@ export const schemaTypes = [
   assessment,
   orderConfirmation,
   blogSettings,
+  growthCall,
 ]

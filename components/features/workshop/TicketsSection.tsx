@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useDateRule } from '@/components/providers/SalesCalendarProvider'
 import { useSite } from '@/components/providers/SiteProvider'
 import { useToast } from '@/components/providers/ToastProvider'
@@ -14,10 +15,12 @@ import styles from './workshop.module.css'
 
 /**
  * Tickets: attendance toggle, the early-bird and standard cards (which one is
- * on sale flips at the early-bird cutoff), reassurance list and the seat row.
+ * on sale flips at the early-bird cutoff), reassurance list, the seat row and
+ * the link to the growth strategy call.
  */
 export function TicketsSection({ workshop }: { workshop: Workshop }) {
   const t = workshop.tickets ?? {}
+  const growth = workshop.growthCallLink
   const { calendar, settings } = useSite()
   const toast = useToast()
   const { attendance, setAttendance } = useAttendance()
@@ -94,6 +97,14 @@ export function TicketsSection({ workshop }: { workshop: Workshop }) {
           <span className={styles.seatLine}>{line}</span>
           <Seats sold={sold} cap={cap} />
         </div>
+        {growth?.workshopLinkLabel ? (
+          <p className={`rv ${styles.growthLine}`}>
+            {growth.workshopLine ? `${growth.workshopLine} ` : null}
+            <Link href="/growth-strategy" className="tlink" data-track="workshop_growth">
+              {growth.workshopLinkLabel}
+            </Link>
+          </p>
+        ) : null}
       </div>
     </section>
   )

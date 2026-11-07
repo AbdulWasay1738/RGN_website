@@ -64,6 +64,7 @@ export type LinkTargetType =
   | 'post'
   | 'legalPage'
   | 'blogSettings'
+  | 'growthCall'
 
 /**
  * Stored `link` object: `{_type:'link', kind, internal: {_ref}, external, anchor, newTab}`.
@@ -352,7 +353,9 @@ export type CheckoutLabels = {
   /** Sub-lines in the modal header */
   workshopSubline?: string
   courseSubline?: string
+  /** "{priceType}" becomes bundleIntroPriceLabel or regularPriceLabel */
   bundleSubline?: string
+  bundleIntroPriceLabel?: string
   earlyBirdTicket?: string
   standardTicket?: string
   introPriceLabel?: string
@@ -366,6 +369,8 @@ export type CheckoutLabels = {
 export type Workshop = {
   _id: string
   _type: 'workshop'
+  /** From the growth call singleton: the line under the tickets (WORKSHOP_QUERY) */
+  growthCallLink?: Pick<GrowthCall, 'workshopLine' | 'workshopLinkLabel'> | null
   title?: string
   slug?: string
   handLine?: string
@@ -509,6 +514,8 @@ export type CourseTemplate = {
   /** "Save $" prefix on the pill. The amount is computed. */
   saveLabel?: string
   introEndsLabel?: string
+  /** Bundle link texts; they can use the bundle price tokens */
+  bundleLinkIntroLabel?: string
   bundleLinkLabel?: string
   features?: Array<{ _key: string; icon?: IconName; text?: string }>
   pathWorkshop?: { step?: string; word?: string; label?: string }
@@ -520,7 +527,7 @@ export type CourseTemplate = {
   coversCountLabel?: string
   outcomeEyebrow?: string
   detailLabels?: { format?: string; opens?: string; hostedOn?: string; bestFor?: string }
-  bundleUpsell?: { chip?: string; headline?: string; body?: string; ctaLabel?: string }
+  bundleUpsell?: { chip?: string; headline?: string; bodyIntro?: string; body?: string; ctaLabel?: string }
   faqHeadline?: AccentText
   teacherCard?: { image?: SanityImageData; title?: string; text?: string }
 }
@@ -533,8 +540,17 @@ export type Bundle = {
   headline?: AccentText
   subline?: string
   chips?: string[]
+  /** Regular price, after the intro period */
   price?: number
+  /** Charged until introEndsAt */
+  introPrice?: number
+  /** The three regular course prices added up */
   compareAt?: number
+  /** The three intro course prices added up */
+  compareAtIntro?: number
+  /** Chip during the intro period. Texts can use the bundle price tokens (bundlePriceTokens) */
+  introLabel?: string
+  /** Chip after the intro period, "Save {save}" */
   saveLabel?: string
   ctaLabel?: string
   path?: {
@@ -545,17 +561,24 @@ export type Bundle = {
     items?: Array<{
       _key: string
       /** ref -> course (expanded) */
-      course?: Pick<Course, '_id' | 'title' | 'fullTitle' | 'slug' | 'regularPrice' | 'word' | 'stepNumber'>
+      course?: Pick<Course, '_id' | 'title' | 'fullTitle' | 'slug' | 'regularPrice' | 'introPrice' | 'word' | 'stepNumber'>
       line?: string
     }>
   }
   maths?: {
     eyebrow?: string
     headline?: AccentText
+    /** During the intro period */
+    bodyIntro?: string
+    /** After the intro period */
     body?: string
     courseColumn?: string
+    /** Shown only during the intro period */
+    introColumn?: string
     priceColumn?: string
     separateLabel?: string
+    /** Under the bundle name during the intro period; afterwards saveLabel shows */
+    totalNoteIntro?: string
   }
   pairWithWorkshop?: { eyebrow?: string; headline?: AccentText; body?: string; cta?: Cta }
   faqHeadline?: AccentText
@@ -746,6 +769,45 @@ export type Post = PostSummary & {
   seo?: Seo
 }
 
+/** The growth strategy call page at /growth-strategy (client feedback round two). */
+export type GrowthCall = {
+  _id: string
+  _type: 'growthCall'
+  eyebrow?: string
+  headline?: AccentText
+  intro?: string
+  steps?: Array<{ _key: string; icon?: IconName; title?: string; text?: string }>
+  callLengthNote?: string
+  formStepLabel?: string
+  bookStepLabel?: string
+  consentText?: string
+  /** "Terms" and "Privacy Policy" link to the legal pages */
+  termsLine?: string
+  continueLabel?: string
+  leadSavedMessage?: string
+  editLabel?: string
+  lockedMessage?: string
+  timezoneLabel?: string
+  confirmLabel?: string
+  /** "Mon" to "Sun" */
+  availableWeekdays?: string[]
+  bookingWindowDays?: number
+  /** Eastern times written like "10:00 AM" */
+  slotLabels?: string[]
+  callMinutes?: number
+  /** Phase 6 */
+  ghlCalendarId?: string
+  successTitle?: string
+  /** "{date} at {time} ET. ..." */
+  successBody?: string
+  bookedMessage?: string
+  addToCalendarLabel?: string
+  successCta?: Cta
+  workshopLine?: string
+  workshopLinkLabel?: string
+  seo?: Seo
+}
+
 export type BlogSettings = {
   eyebrow?: string
   headline?: AccentText
@@ -784,15 +846,15 @@ export type Redirect = { from?: string; to?: string; permanent?: boolean }
 
 export type HeroFounderSection = SectionBase & {
   _type: 'heroFounder'
-  handLine?: string
-  /** `_selling_` marks the swoosh word */
+  eyebrow?: string
+  /** `_business._` marks the swoosh word; a new line is a line break */
   headline?: AccentText
   lead?: string
   primaryCta?: Cta
   secondaryCta?: Cta
+  /** The line under the buttons with the coral rule */
+  supportLine?: string
   portrait?: SanityImageData
-  workshopCard?: { title?: string; line?: string; link?: Link }
-  statCard?: { value?: number; label?: string }
   lowerThird?: { tag?: string; name?: string; title?: string }
 }
 
@@ -1096,6 +1158,13 @@ export type ProfileBioSection = SectionBase & {
   asideText?: string
 }
 
+/** A line with a link to /growth-strategy */
+export type GrowthCallCtaSection = SectionBase & {
+  _type: 'growthCallCta'
+  line?: string
+  linkLabel?: string
+}
+
 export type MediaBandSection = SectionBase & {
   _type: 'mediaBand'
   eyebrow?: string
@@ -1131,6 +1200,7 @@ export type Section =
   | LinkCardsSection
   | ProfileBioSection
   | MediaBandSection
+  | GrowthCallCtaSection
 
 export type Page = {
   _id: string
@@ -1151,7 +1221,7 @@ export type LayoutData = {
   /** For "Education" price lines and the checkout modal */
   courses: Course[]
   workshop: Pick<Workshop, 'title' | 'earlyBirdPrice' | 'standardPrice' | 'dateLabel' | 'timeLabel' | 'venue'> | null
-  bundle: Pick<Bundle, 'title' | 'price'> | null
+  bundle: Pick<Bundle, 'title' | 'price' | 'introPrice' | 'compareAt' | 'compareAtIntro'> | null
   book: Pick<Book, 'hidden' | 'title' | 'preorderUrl' | 'noLinkMessage'> | null
   /** Slugs of hidden pages (and "book" when the book is hidden), so nav links to them drop out */
   hiddenHrefs: string[]

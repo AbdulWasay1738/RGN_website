@@ -33,10 +33,10 @@ export function Watermark({ style, className }: { style?: CSSProperties; classNa
   return <span className={['wm', className].filter(Boolean).join(' ')} aria-hidden="true" style={style} />
 }
 
-/** Low-contrast watermark tone for each band background. */
+/** Low-contrast watermark tone for each band background (round two: subtler on paper). */
 export const WATERMARK_TONE: Record<Background, { color: string; opacity?: number }> = {
   white: { color: '#F2EFEA' },
-  paper: { color: '#EFE8DC' },
+  paper: { color: '#F2ECE2' },
   navy: { color: '#16233A' },
   ink: { color: '#152238' },
   lavender: { color: '#B898E3' },
@@ -45,7 +45,7 @@ export const WATERMARK_TONE: Record<Background, { color: string; opacity?: numbe
 }
 
 const WATERMARK_POSITION: Record<Exclude<WatermarkPosition, 'none'>, CSSProperties> = {
-  'top-right': { right: -120, top: -60, width: 520 },
+  'top-right': { right: -140, top: 40, width: 460 },
   'top-left': { left: -120, top: 20, width: 620 },
   'bottom-left': { left: -160, bottom: -140, width: 480 },
   'bottom-right': { right: -140, bottom: -120, width: 460 },
@@ -59,12 +59,12 @@ export function SectionWatermark({ position, background = 'white' }: { position?
   return <Watermark style={{ ...WATERMARK_POSITION[position], color: tone.color, opacity: tone.opacity }} />
 }
 
-/** Orange circle with a white R. */
+/** Orange circle with a white R. Not on the home page (client feedback round two). */
 export function RBadge({ size, style }: { size?: number | string; style?: CSSProperties }) {
   return <span className="rbadge" aria-hidden="true" style={{ ...(size ? { width: size, height: size } : {}), ...style }} />
 }
 
-/** Coral dry-brush stroke (behind the hero portrait). */
+/** Coral dry-brush stroke. Use sparingly, and never behind a photo of the client (round two). */
 export function Brush({ style, color = '#FF4739' }: { style?: CSSProperties; color?: string }) {
   return (
     <svg className="brush" style={style} viewBox="0 0 1000 260" preserveAspectRatio="none" aria-hidden="true">

@@ -17,7 +17,7 @@
   position: relative;
 }
 .handLine {
-  font: 34px/1 var(--fs);
+  font: 34px/1 var(--font-hand);
   color: var(--lav);
 }
 .infoPill {
@@ -375,4 +375,13 @@ article.ticketCardActive {
   text-transform: uppercase;
   letter-spacing: 0.01em;
   max-width: 760px;
+}
+
+/* "Not sure the in-person workshop fits? Book a growth strategy call" */
+.growthLine {
+  margin: 0;
+  font-weight: 700;
+}
+.growthLine :global(.tlink) {
+  text-decoration: underline;
 }

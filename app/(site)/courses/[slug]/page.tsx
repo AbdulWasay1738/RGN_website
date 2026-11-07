@@ -17,13 +17,13 @@ import { getLayoutData } from '@/lib/sanity/layout'
 import { COURSE_PAGE_QUERY, COURSE_SLUGS_QUERY } from '@/lib/sanity/queries'
 import type { Bundle, Course, CourseTemplate } from '@/lib/sanity/types'
 import { breadcrumbLd, buildMetadata, courseLd, faqPageLd } from '@/lib/seo'
-import { clean, interpolate } from '@/lib/text'
+import { bundlePriceTokens, clean, interpolate } from '@/lib/text'
 
 type CoursePageData = {
   course: Course | null
   courses: Course[] | null
   template: CourseTemplate | null
-  bundle: Pick<Bundle, 'price' | 'compareAt'> | null
+  bundle: Pick<Bundle, 'price' | 'introPrice' | 'compareAt' | 'compareAtIntro'> | null
 }
 
 type Props = { params: Promise<{ slug: string }> }
@@ -75,6 +75,7 @@ export default async function CoursePage({ params }: Props) {
   if (!c) notFound()
 
   const t = data.template ?? {}
+  const bundleTokens = bundlePriceTokens(data.bundle)
   const courses = data.courses ?? []
   const step = c.stepNumber ?? ''
   const stepNum = Number(step) || c.courseNumber || ''
@@ -178,9 +179,13 @@ export default async function CoursePage({ params }: Props) {
               <BuyButton offer={{ kind: 'course', slug }} block trackId={`buy_${slug}`}>
                 {t.enrollLabel}
               </BuyButton>
-              {t.bundleLinkLabel ? (
+              {t.bundleLinkLabel || t.bundleLinkIntroLabel ? (
                 <Link href="/courses/content-machine" className={`tlink ${styles.bundleLink}`}>
-                  {t.bundleLinkLabel}
+                  <DateSwitch
+                    rule="intro"
+                    whenTrue={interpolate(t.bundleLinkIntroLabel || t.bundleLinkLabel, bundleTokens)}
+                    whenFalse={interpolate(t.bundleLinkLabel, bundleTokens)}
+                  />
                 </Link>
               ) : null}
               {t.features?.length ? (
@@ -308,7 +313,15 @@ export default async function CoursePage({ params }: Props) {
                   </span>
                 ) : null}
                 <h2 className={`h3 ${styles.upsellHeadline}`}>{t.bundleUpsell.headline}</h2>
-                {t.bundleUpsell.body ? <p className={styles.upsellBody}>{t.bundleUpsell.body}</p> : null}
+                {t.bundleUpsell.body || t.bundleUpsell.bodyIntro ? (
+                  <p className={styles.upsellBody}>
+                    <DateSwitch
+                      rule="intro"
+                      whenTrue={interpolate(t.bundleUpsell.bodyIntro || t.bundleUpsell.body, bundleTokens)}
+                      whenFalse={interpolate(t.bundleUpsell.body, bundleTokens)}
+                    />
+                  </p>
+                ) : null}
               </div>
               <ButtonLink href="/courses/content-machine" style="dark" arrow>
                 {t.bundleUpsell.ctaLabel}

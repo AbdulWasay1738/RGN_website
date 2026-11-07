@@ -1,15 +1,19 @@
 <title>Reel Good News Website</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
-/* Brand fonts (self-hosted). Headings: Anton. Body: Nunito Sans. Handwritten accents: Benedict (loads from the device when installed; "RGN Hand" stands in until the licensed web file is supplied). */
+/* Brand fonts. Headings: Anton. Body: Nunito Sans (both self-hosted).
+   Handwritten accents: "Benedict" by Joanne Marie (2016), the same script the current reelgoodnews.com uses.
+   TEMPORARY until the client buys the web licence: loaded from the same font host the current site uses. Do not commit a copy of the file.
+   When the licensed file arrives, save it as fonts/benedict.woff2, point the Benedict face at it and delete the remote URLs.
+   Fallback while Benedict loads or if it fails: "RGN Hand" = Licorice (SIL Open Font License). */
 @font-face{font-family:'Anton';src:url(fonts/anton.woff2) format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
 @font-face{font-family:'Nunito Sans';src:url(fonts/nunito-sans-400.woff2) format('woff2');font-weight:300 500;font-display:swap}
 @font-face{font-family:'Nunito Sans';src:url(fonts/nunito-sans-600.woff2) format('woff2');font-weight:600;font-display:swap}
 @font-face{font-family:'Nunito Sans';src:url(fonts/nunito-sans-700.woff2) format('woff2');font-weight:700;font-display:swap}
 @font-face{font-family:'Nunito Sans';src:url(fonts/nunito-sans-800.woff2) format('woff2');font-weight:800;font-display:swap}
 @font-face{font-family:'Nunito Sans';src:url(fonts/nunito-sans-900.woff2) format('woff2');font-weight:900;font-display:swap}
-@font-face{font-family:'Benedict';src:local('Benedict'),local('Benedict Regular');font-display:swap}
-@font-face{font-family:'RGN Hand';src:url(fonts/comforter.woff2) format('woff2');font-display:swap;size-adjust:118%}
+@font-face{font-family:'Benedict';src:url(https://db.onlinewebfonts.com/t/d85bfa7b5e2eb872c592f58f015ecdb4.woff2) format('woff2'),url(https://db.onlinewebfonts.com/t/d85bfa7b5e2eb872c592f58f015ecdb4.woff) format('woff');font-weight:400;font-style:normal;font-display:swap;size-adjust:100%}
+@font-face{font-family:'RGN Hand';src:url(fonts/licorice.woff2) format('woff2');font-display:swap;size-adjust:112%}
 /* Layout: a branded marketing site in the Reel Good News visual identity. Full-width colour bands, one centred 1280px column, Anton uppercase headlines, Nunito Sans body, handwritten accents, street-texture dark bands, R-emblem watermarks and torn-paper shapes taken from the brand templates. */
 :root{
   --navy:#091527; --ink:#050C17; --navy2:#13233F; --navy3:#1C3058; --line-d:#22324F; --line-d2:#2A3A57;
@@ -41,7 +45,7 @@ h1,h2,h3{text-wrap:balance;font-weight:400}
 .band{padding-block:112px}
 .band.tight{padding-block:80px}
 @media (max-width:760px){.band{padding-block:64px}.band.tight{padding-block:48px}}
-.paper{background:var(--paper)} .navy{background:var(--navy) var(--tex) center/1024px repeat;color:var(--white)} .ink{background:#0A121F var(--tex) center/1024px repeat;color:var(--white)} .lavb{background:var(--lav);color:var(--navy)} .lavt{background:var(--lav-t)} .orangeb{background:var(--orange);color:var(--white)}
+.paper{background:var(--paper)} .navy{background:var(--navy) var(--tex) center/cover;color:var(--white)} .ink{background:#0A121F var(--tex) center/cover;color:var(--white)} .lavb{background:var(--lav);color:var(--navy)} .lavt{background:var(--lav-t)} .orangeb{background:var(--orange);color:var(--white)}
 .eyebrow{font:800 12px/1.4 var(--fm);letter-spacing:.2em;text-transform:uppercase;color:var(--lav-i)}
 .navy .eyebrow,.ink .eyebrow{color:var(--lav)}
 .orangeb .eyebrow,.lavb .eyebrow{color:inherit}
@@ -228,7 +232,7 @@ h1,h2,h3{text-wrap:balance;font-weight:400}
 .card{background:var(--white);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
 .lift{transition:transform .3s var(--ease),box-shadow .3s}
 .lift:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(9,21,39,.16)}
-.cover{background:var(--navy) var(--tex) center/700px;color:var(--white);height:170px;padding:24px 26px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}
+.cover{background:var(--navy) var(--tex) center/cover;color:var(--white);height:170px;padding:24px 26px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}
 .cover .big{position:absolute;right:-6px;bottom:-40px;font:400 210px/1 var(--fd);color:transparent;-webkit-text-stroke:2px #2E4166;transition:transform .5s var(--ease)}
 .lift:hover .cover .big{transform:translateY(-10px) rotate(-4deg)}
 .cover .word{font-family:var(--fs);font-size:40px;color:var(--lav);position:relative;line-height:1}
@@ -236,7 +240,7 @@ h1,h2,h3{text-wrap:balance;font-weight:400}
 .price .now{font:400 40px/1 var(--fd)}
 .price .was{text-decoration:line-through;color:var(--muted)}
 .save{margin-left:auto;font:900 12px var(--fb);letter-spacing:.06em;background:var(--lav-t);color:var(--lav-d);padding:6px 10px;border-radius:999px}
-.ticket{background:var(--navy) var(--tex) center/1024px;color:var(--white);border-radius:24px;overflow:hidden;display:flex;flex-wrap:wrap}
+.ticket{background:var(--navy) var(--tex) center/cover;color:var(--white);border-radius:24px;overflow:hidden;display:flex;flex-wrap:wrap}
 .stub{flex:1 1 300px;min-width:0;background:var(--orange);position:relative;padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;justify-content:space-between;gap:24px}
 .stub .perf{position:absolute;left:-12px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around}
 .stub .perf span{width:24px;height:24px;border-radius:50%;background:var(--navy);display:block}
@@ -395,7 +399,7 @@ h1,h2,h3{text-wrap:balance;font-weight:400}
 .pbar i{display:block;height:100%;background:var(--orange);transition:width .5s var(--ease)}
 
 /* footer */
-footer{background:#0A121F var(--tex) center/1024px;color:var(--white);position:relative;overflow:hidden}
+footer{background:#0A121F var(--tex) center/cover;color:var(--white);position:relative;overflow:hidden}
 footer a,footer button.fl{color:var(--white);text-decoration:none;background:none;border:0;padding:0;cursor:pointer;text-align:left;font-size:15px}
 footer button.fl:hover{color:var(--lav)}
 .fcol{display:flex;flex-direction:column;gap:10px}
@@ -444,13 +448,49 @@ footer button.fl:hover{color:var(--lav)}
 .frame-x{position:relative;padding:30px 30px 30px 26px}
 .frame-x img{position:relative;z-index:1;display:block;width:100%;object-fit:cover}
 .hero .wm{opacity:1}
+.hero-note{margin:0;padding-left:14px;border-left:3px solid var(--coral);font-weight:800;font-size:16px;line-height:1.45;color:var(--lav);max-width:560px}
+.hero-glow{position:absolute;left:50%;bottom:0;width:min(520px,100%);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(198,167,237,.16),rgba(198,167,237,0));z-index:0;pointer-events:none}
 .hbrush{position:absolute;left:-6%;top:120px;width:112%;height:380px;z-index:0;transform:rotate(-24deg);opacity:.95}
 @media (max-width:760px){.hbrush{top:90px;height:260px}}
+
+/* ---------- growth call booking (form first, then calendar) ---------- */
+.booking{gap:18px}
+.bsteps{display:flex;gap:18px;flex-wrap:wrap;font-weight:800;font-size:14px;color:var(--soft2);padding-bottom:4px;border-bottom:1px solid var(--rule)}
+.bsteps span{display:inline-flex;align-items:center;gap:8px;padding-bottom:12px}
+.bsteps i{width:10px;height:10px;border-radius:50%;background:#C9CFDA;display:block}
+.bsteps .on{color:var(--navy)} .bsteps .on i{background:var(--orange)}
+.bsteps .done{color:var(--navy)} .bsteps .done i{background:var(--lav-i)}
+.tel{display:flex;border:1.5px solid #C3C8D2;border-radius:12px;overflow:hidden;background:var(--white)}
+.tel:focus-within{border-color:var(--navy);box-shadow:0 0 0 3px rgba(198,167,237,.45)}
+.tel .cc{display:flex;align-items:center;gap:6px;padding:0 12px;background:var(--paper);border-right:1.5px solid #C3C8D2;font-weight:800;font-size:15px;white-space:nowrap}
+.tel input{border:0!important;box-shadow:none!important;flex:1;min-width:0}
+.lead-sum{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--lav-t);border-radius:14px;padding:12px 16px;font-size:15px}
+.cal{position:relative;display:flex;flex-direction:column;gap:10px}
+.cal .ch{display:flex;justify-content:space-between;align-items:center}
+.cal .ch strong{font:400 22px var(--fd);text-transform:uppercase;letter-spacing:.02em}
+.cal .nav{display:flex;gap:6px}
+.cal .nav button{width:40px;height:40px;border-radius:10px;border:1.5px solid var(--rule2);background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--navy)}
+.cal .nav button:disabled{opacity:.35;cursor:default}
+.cal .grid7{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal .wd{font:800 11px var(--fm);letter-spacing:.1em;color:var(--muted);text-align:center;padding:4px 0}
+.cal .dy{aspect-ratio:1;min-height:38px;border-radius:10px;border:0;background:none;font:700 15px var(--fb);color:#B3BAC7;display:flex;align-items:center;justify-content:center;position:relative}
+.cal .dy.av{background:var(--lav-t);color:var(--navy);cursor:pointer}
+.cal .dy.av::after{content:"";position:absolute;bottom:6px;width:4px;height:4px;border-radius:50%;background:var(--lav-i)}
+.cal .dy.av:hover{background:var(--lav)}
+.cal .dy.sel{background:var(--orange)!important;color:var(--white)}
+.cal .dy.sel::after{background:var(--white)}
+.cal.locked .grid7,.cal.locked .ch{opacity:.45}
+.cal .lockmsg{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);background:var(--white);border-radius:12px;box-shadow:0 14px 34px rgba(9,21,39,.18);padding:14px 18px;text-align:center;font-weight:700;font-size:15px;width:min(320px,90%);z-index:2}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.slot{border:1.5px solid var(--rule2);background:var(--white);border-radius:10px;padding:12px 8px;font:800 14px var(--fb);color:var(--navy);cursor:pointer}
+.slot:hover{border-color:var(--navy)}
+.slot[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--white)}
+@media (max-width:520px){.cal .grid7{gap:4px}.cal .dy{min-height:34px;font-size:14px}}
 
 /* ---------- scene-change transition (film strip + clapperboard) ---------- */
 #cut{position:fixed;inset:0;z-index:300;visibility:hidden;pointer-events:none;overflow:hidden}
 #cut.on{visibility:visible;pointer-events:auto}
-#cut .strip{position:absolute;inset:0;background:#0A121F var(--tex) center/1024px;transform:translateX(101%);display:grid;place-items:center;will-change:transform}
+#cut .strip{position:absolute;inset:0;background:#0A121F var(--tex) center/cover;transform:translateX(101%);display:grid;place-items:center;will-change:transform}
 #cut .strip::before,#cut .strip::after{content:"";position:absolute;left:0;right:0;height:14px;background:repeating-linear-gradient(90deg,rgba(250,247,242,.88) 0 18px,transparent 18px 38px);border-radius:3px}
 #cut .strip::before{top:14px}
 #cut .strip::after{bottom:14px}
@@ -513,7 +553,7 @@ footer button.fl:hover{color:var(--lav)}
               <button class="mi" data-go="attract"><span class="n">1</span><span><strong>Attract the Right Audience</strong><span class="s" data-price-line="attract"></span></span></button>
               <button class="mi" data-go="create"><span class="n">3</span><span><strong>Build a Year of Content</strong><span class="s" data-price-line="create"></span></span></button>
               <button class="mi" data-go="broadcast"><span class="n">4</span><span><strong>Reach the Right Audience</strong><span class="s" data-price-line="broadcast"></span></span></button>
-              <button class="mi" data-go="bundle"><span class="n" style="background:var(--lav);color:var(--navy)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="6" width="12" height="15" rx="2"/><path d="M7 3h11a2 2 0 0 1 2 2v13"/></svg></span><span><strong>The Content Machine</strong><span class="s">All three courses · $597</span></span></button>
+              <button class="mi" data-go="bundle"><span class="n" style="background:var(--lav);color:var(--navy)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="6" width="12" height="15" rx="2"/><path d="M7 3h11a2 2 0 0 1 2 2v13"/></svg></span><span><strong>The Content Machine</strong><span class="s" data-bundle-line>All three courses · $597</span></span></button>
             </div>
             <div style="border-top:1px solid var(--rule);margin-top:8px;padding-top:8px">
               <button class="mi" data-go="book"><span class="n" style="background:var(--ink);font:400 13px var(--fs);color:var(--orange)">Attract</span><span><span class="eyebrow" style="font-size:10px">Books · pre-order</span><strong>Attract More Raving Fans</strong></span></button>
@@ -574,7 +614,7 @@ footer button.fl:hover{color:var(--lav)}
 <main id="app" tabindex="-1"></main>
 
 <footer>
-  <span class="wm" aria-hidden="true" style="right:-120px;bottom:-140px;width:520px;color:#16233A"></span>
+  <span class="wm" aria-hidden="true" style="right:-140px;bottom:-160px;width:480px;color:#1A2B45;opacity:.55"></span>
   <div style="border-bottom:1px solid #1C2A40;position:relative;z-index:1">
     <div class="wrap row g24" style="padding-block:56px;justify-content:space-between;align-items:center">
       <div class="stack g8" style="max-width:520px">
@@ -596,7 +636,7 @@ footer button.fl:hover{color:var(--lav)}
         <button class="btn btn-ol btn-sm" style="align-self:flex-start" data-go="socials">LinkedIn</button>
       </div>
       <div class="row g48">
-        <div class="fcol"><span class="eyebrow">Learn</span><button class="fl" data-go="workshop">Workshop</button><button class="fl" data-go="attract">Courses</button><button class="fl" data-go="bundle">Content Machine bundle</button><button class="fl" data-go="book">Book</button><button class="fl" data-go="assessment">Free assessment</button></div>
+        <div class="fcol"><span class="eyebrow">Learn</span><button class="fl" data-go="workshop">Workshop</button><button class="fl" data-go="attract">Courses</button><button class="fl" data-go="bundle">Content Machine bundle</button><button class="fl" data-go="book">Book</button><button class="fl" data-go="assessment">Free assessment</button><button class="fl" data-go="growth">2027 growth strategy call</button></div>
         <div class="fcol"><span class="eyebrow">Media</span><button class="fl" data-go="podcast">Podcast</button><button class="fl" data-go="blog">Blog</button><button class="fl" data-go="socials">Socials</button><button class="fl" data-go="speaking">Book a speaker</button></div>
         <div class="fcol"><span class="eyebrow">Company</span><button class="fl" data-go="about">About the Team</button><button class="fl" data-go="partner">Partner With Us</button><button class="fl" data-go="careers">Careers</button><button class="fl" data-go="contact">Contact</button></div>
       </div>
@@ -660,9 +700,9 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 const md = s => esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
 
 /* ---------- state + dates ---------- */
-const S = { route:'home', param:null, simOffset:0, simKey:'today', seatsSold:0, track:false, lastOrder:null, assess:{step:-1, answers:[]}, bannerHidden:false, filter:'ALL', tIndex:0 };
-const D = { bf:new Date('2026-11-28T05:00:00Z'), open:new Date('2026-12-01T05:00:00Z'), eb:new Date('2026-12-11T05:00:00Z'), ws:new Date('2027-02-04T17:00:00Z') };
-const SIMS = { today:null, bf:'2026-11-28T15:00:00Z', dec:'2026-12-11T15:00:00Z', ws:'2027-02-05T15:00:00Z' };
+const S = { book:{m:0, day:null, slot:null, lead:null, done:false}, route:'home', param:null, simOffset:0, simKey:'today', seatsSold:0, track:false, lastOrder:null, assess:{step:-1, answers:[]}, bannerHidden:false, filter:'ALL', tIndex:0 };
+const D = { bf:new Date('2027-01-16T05:00:00Z'), open:new Date('2026-12-01T05:00:00Z'), eb:new Date('2026-12-11T05:00:00Z'), ws:new Date('2027-02-04T17:00:00Z') };
+const SIMS = { today:null, dec1:'2026-12-02T15:00:00Z', dec:'2026-12-11T15:00:00Z', jan:'2027-01-16T15:00:00Z', ws:'2027-02-05T15:00:00Z' };
 const now = () => new Date(Date.now() + S.simOffset);
 const isIntro = () => now() < D.bf;
 const isEarly = () => now() < D.eb;
@@ -680,6 +720,8 @@ const COURSES = {
   broadcast:{ id:'broadcast', n:3, step:'04', word:'Broadcast', title:'Reach the Right Audience at the Right Time', full:'Reach the Right Audience at the Right Time', headline:'Great content only works when the right people see it.', regular:199, intro:99, summary:'Match content to buyer questions, channels and timing. Publish with purpose, not at random.', short:'Distribution with purpose', blockLabel:'The problem', block:'Businesses create useful content but publish without a deliberate distribution strategy <span class="hl">connected to customer questions and buying decisions.</span>', learn:['Build a distribution plan','Match material to audience needs','Select channels and set the timing for each piece','Connect topics to the questions buyers ask on the path to a decision'], leave:'A consistent approach that keeps the business visible, builds credibility and moves interested people to the next step.', leave2:'Put the content library to work with purpose, not at random.', bestfor:'Teams with content already made' }
 };
 const coursePrice = c => isIntro() ? c.intro : c.regular;
+const BUNDLE = { intro:399, regular:597, separate:797, separateIntro:447 };
+const bundlePrice = () => isIntro() ? BUNDLE.intro : BUNDLE.regular;
 const TESTI = [
   ['She made surgical incisions to our messaging. We finally landed second meetings, and critical early-stage funding.','Roger Mann','Smart Response Technologies'],
   ['We didn’t just get on Shark Tank. We won Lori’s Golden Ticket.','Meghan Wolfgram','SwiftPaws'],
@@ -849,7 +891,7 @@ const NOTES = {
   attract:['Live countdown to the intro price ending','Step tracker shows where this course sits','Enroll opens the demo checkout'],
   create:['Same template as every course, driven by content in the CMS'],
   broadcast:['Same template as every course, driven by content in the CMS'],
-  bundle:['Hover the card fan','The maths table shows the $200 saving'],
+  bundle:['Intro price $399 through January 15, then $597: switch the date below to see it change','The math table shows intro and regular prices'],
   book:['Hover the book cover','Pre-order goes to her retailer or checkout (link to come)'],
   assessment:['Fill the form, then click through the five draft questions','The page never mentions the bonus video'],
   'assessment-step':['Answers are required before Next','Progress bar and area tracker update as you go'],
@@ -866,9 +908,10 @@ const NOTES = {
   blog:['Filter by topic. All 10 of her posts are in'],
   post:['Reading progress bar along the top','The decision rule box closes every post'],
   legal:['One template for all four legal pages'],
+  growth:['Step 1 captures the lead. In the live site this creates the contact in GoHighLevel and texts and emails Jenna right away, even if no time is booked','Until the form is filled, the calendar shows "Please fill out the form before choosing your time slot"','Times come from the GoHighLevel calendar in the live site'],
   notfound:['Any broken link lands here']
 };
-const ROUTES = {home:'Home',workshop:'Workshop',attract:'Attract the Right Audience',create:'Build a Year of Content',broadcast:'Reach the Right Audience',bundle:'The Content Machine',book:'Attract More Raving Fans',assessment:'Marketing ROI Assessment','assessment-step':'Assessment','assessment-thanks':'Assessment received',order:'Order confirmed',partner:'Partner With Us',contact:'Contact',about:'About the Team',jenna:'Jenna Colombo',speaking:'Speaking',podcast:'Podcast',socials:'Socials',careers:'Careers',blog:'Blog',post:'Blog post',legal:'Legal',notfound:'Page not found'};
+const ROUTES = {home:'Home',workshop:'Workshop',attract:'Attract the Right Audience',create:'Build a Year of Content',broadcast:'Reach the Right Audience',bundle:'The Content Machine',book:'Attract More Raving Fans',assessment:'Marketing ROI Assessment','assessment-step':'Assessment','assessment-thanks':'Assessment received',order:'Order confirmed',partner:'Partner With Us',contact:'Contact',about:'About the Team',jenna:'Jenna Colombo',speaking:'Speaking',podcast:'Podcast',socials:'Socials',careers:'Careers',blog:'Blog',post:'Blog post',legal:'Legal',growth:'Growth Opportunity Workshop',notfound:'Page not found'};
 
 /* ---------- small builders ---------- */
 const go = (r,p,label,cls,extra) => `<button class="btn ${cls||'btn-p'}" data-go="${r}"${p?` data-p="${p}"`:''}${extra||''}>${label} ${IC.arr}</button>`;
@@ -900,30 +943,29 @@ const P = {};
 const postIdx = () => (S.param!=null && S.param!=='' && !isNaN(+S.param)) ? Math.max(0,Math.min(9,+S.param)) : 7;
 
 P.home = () => {
-  const words = 'Is your expertise doing the'.split(' ').map((w,i)=>`<span class="w" style="--d:${i}">${w}</span>`).join(' ');
+  const w = (t,i) => `<span class="w" style="--d:${i}">${t}</span>`;
+  const line1 = 'Attract more best fit customers.'.split(' ').map((t,i)=>w(t,i)).join(' ');
   const c = COURSES;
   return `
-<section class="hero navy" style="padding-bottom:6px">
+<section class="hero navy">
   <div class="wrap hero-in">
     <div class="hero-copy">
-      <span class="hand fade-up" style="font-size:clamp(40px,4vw,58px)">Hook. Line. Heart.</span>
-      <h1 class="h1">${words} <span class="w" style="--d:6"><span class="swoosh">selling<svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16 C 70 4, 160 2, 296 12" fill="none" stroke="#C6A7ED" stroke-width="5" stroke-linecap="round"/></svg></span></span> <span class="w" style="--d:7">for</span> <span class="w" style="--d:8">you?</span></h1>
-      <p class="lead fade-up" style="--dl:.7s">Our team at Reel Good News turns expertise, customer results and reputation into a year of strategic content, all from one planned production day.</p>
-      <div class="row g12 fade-up" style="--dl:.85s">${go('workshop','','Reserve my seat','btn-p',' data-track="hero_reserve"')}<button class="btn btn-ol" data-go="assessment" data-track="hero_assessment">Take the free assessment</button></div>
+      <span class="eyebrow fade-up" style="color:var(--lav)">Strategic content. Built for business growth.</span>
+      <h1 class="h1" style="font-size:clamp(46px,6.2vw,96px)">${line1}<br><span class="acc">${w('Win',5)} ${w('more',6)}</span> <span class="w" style="--d:7"><span class="swoosh acc">business.<svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16 C 70 4, 160 2, 296 12" fill="none" stroke="#C6A7ED" stroke-width="5" stroke-linecap="round"/></svg></span></span></h1>
+      <p class="lead fade-up" style="--dl:.7s">Reel Good News turns your expertise, customer stories, and industry knowledge into a year of strategic content. One focused production day gives your business the case studies, insights, and social proof it needs to educate buyers, build trust, and drive sales.</p>
+      <div class="row g12 fade-up" style="--dl:.85s">${go('growth','','Claim your 2027 growth strategy','btn-p',' data-track="hero_growth"')}<button class="btn btn-ol" data-go="assessment" data-track="hero_assessment">Take the free assessment</button></div>
+      <p class="hero-note fade-up" style="--dl:1s">One strategic production day. Twelve months of sales enablement. A stronger case for choosing your business.</p>
     </div>
     <div class="hero-art">
-      ${wm('left:50%;top:20px;width:min(640px,112%);transform:translateX(-52%);color:#223A66;opacity:.85')}
-      ${brush('left:-8%;top:150px;width:118%;height:330px;transform:rotate(-26deg);z-index:0;opacity:.92')}
+      <span class="hero-glow" aria-hidden="true"></span>
       <img class="cutout" src="img/jenna-cutout.webp" alt="Jenna Colombo, founder of Reel Good News.">
-      <button class="float f1" data-go="workshop" style="--dl:1.1s;top:96px;right:0;background:var(--white);color:var(--navy);border:0;cursor:pointer;display:flex;gap:12px;align-items:center;text-align:left"><span style="width:40px;height:40px;border-radius:10px;background:var(--lav-t);color:var(--lav-i);display:flex;align-items:center;justify-content:center">${IC.cal}</span><span style="line-height:1.25"><strong style="font-size:15px;display:block">Live workshop</strong><span style="font-size:13px;color:var(--muted)">Feb 4, 2027 · Noon ET</span></span></button>
-      <div class="float f2" style="--dl:1.3s;top:300px;left:0;background:var(--orange);color:var(--white);line-height:1.1"><span class="count" data-to="250" style="font:400 34px var(--fd);text-transform:uppercase;letter-spacing:.01em;display:block">250</span><span style="font-size:13px;font-weight:700">founders coached</span></div>
       <div class="lower3"><span class="tag">FOUNDER</span><span class="nm"><strong style="font:400 20px var(--fd);text-transform:uppercase;letter-spacing:.01em;display:block">Jenna Colombo</strong><span style="font-size:13px;color:var(--muted)">Reel Good News · Groundswell Startups</span></span></div>
     </div>
   </div>
 </section>
 <div class="ticker" aria-label="Highlights"><div class="ticker-track">${[0,1].map(()=>['Hook. Line. Heart.','One production day','365 days of authority','Live workshop · Feb 4, 2027','Courses open Dec 1','Build credibility'].map(t=>`<span>${t}${IC.star}</span>`).join('')).join('')}</div></div>
 
-<section class="band paper wm-host">${wm('right:-120px;top:-60px;width:520px;color:#EFE8DC')}<div class="wrap row g64" style="align-items:center">
+<section class="band paper wm-host">${wm('right:-140px;top:40px;width:460px;color:#F2ECE2')}<div class="wrap row g64" style="align-items:center">
   <div class="side stack g24 rv" style="flex-basis:400px">
     <span class="eyebrow">The method</span>
     <h2 class="h2">One day of your time. <span class="acc">365 days</span> of authority.</h2>
@@ -932,7 +974,7 @@ P.home = () => {
   <div class="grow" style="flex-basis:600px">${yearCard()}</div>
 </div></section>
 
-<section class="band wm-host">${wm('left:-160px;bottom:-140px;width:480px;color:#F2EFEA')}<div class="wrap">
+<section class="band wm-host"><div class="wrap">
   <div class="sec-head"><div class="stack rv"><span class="eyebrow">How it works</span><h2 class="h2">Four steps from hidden expertise to visible proof.</h2></div><p class="muted rv" style="max-width:340px;margin:0">Each step has its own course or event. Take one, or follow the whole path.</p></div>
   <div class="steps"><div class="grid" style="--min:230px;--gap:32px">
     ${[['01','Attract','target','Define the audience, the value and the messages that earn attention.','attract','Attract the Right Audience'],['02','Capture','cam','Plan one focused production day. Bring in customers, partners and experts, and record the stories that prove the value.','workshop','The live workshop'],['03','Create','film','Turn one day into a year of short videos, customer stories and answers to common buyer questions.','create','Build a Year of Content'],['04','Broadcast','cast','Match each piece to a buyer question, a channel and a publish date.','broadcast','Reach the Right Audience']].map((s,i)=>`
@@ -940,14 +982,14 @@ P.home = () => {
   </div></div>
 </div></section>
 
-<section class="band paper wm-host" id="offers">${wm('right:-140px;bottom:-120px;width:460px;color:#EFE8DC')}<div class="wrap stack g24">
+<section class="band paper wm-host" id="offers"><div class="wrap stack g24">
   <div class="sec-head" style="padding-bottom:20px"><div class="stack rv"><span class="eyebrow">Courses, workshop and book</span><h2 class="h2">Choose a <span class="acc">starting point.</span></h2></div><p class="muted rv" style="max-width:400px;margin:0">Take one course, follow all three in order, or see the full method in one room at the live workshop.</p></div>
   ${workshopFeature()}
   <div class="grid" style="--min:320px;--gap:24px">${['attract','create','broadcast'].map(k=>courseCard(c[k])).join('')}</div>
   <div class="grid" style="--min:380px;--gap:24px">
     <article class="card lift rv" style="background:var(--lav);padding:32px;flex-direction:row;flex-wrap:wrap;gap:28px;align-items:center">
       <div class="fan" aria-hidden="true"><span>1</span><span>3</span><span style="flex-direction:column;justify-content:space-between;align-items:flex-start"><span style="font:20px var(--fs);color:var(--orange);position:static;box-shadow:none;padding:0;width:auto;height:auto">Machine</span>4</span></div>
-      <div class="stack g12" style="flex:1 1 220px;min-width:0"><span class="chip chip-n" style="align-self:flex-start">Best value · all three courses</span><h3 class="h3">The Reel Good News Content Machine</h3><p style="margin:0">One path from strategy to distribution: define the strategy, plan the production day, distribute the content.</p><div class="row g16" style="align-items:center"><span class="price"><span class="now">$597</span><span class="was" style="color:var(--navy)">$797</span></span><button class="btn btn-d btn-sm" data-go="bundle">See the bundle</button></div></div>
+      <div class="stack g12" style="flex:1 1 220px;min-width:0"><span class="chip chip-n" style="align-self:flex-start">Best value · all three courses</span><h3 class="h3">The Reel Good News Content Machine</h3><p style="margin:0">One path from strategy to distribution: define the strategy, plan the production day, distribute the content.</p><div class="row g16" style="align-items:center"><span class="price"><span class="now">$${bundlePrice()}</span><span class="was" style="color:var(--navy)">$${isIntro()?BUNDLE.regular:BUNDLE.separate}</span></span><button class="btn btn-d btn-sm" data-go="bundle">See the bundle</button></div></div>
     </article>
     <article class="card lift rv" style="padding:32px;flex-direction:row;flex-wrap:wrap;gap:28px;align-items:center">
       <div style="flex:0 0 150px;display:flex;justify-content:center" aria-hidden="true"><div class="book3d"><span class="sp" style="height:196px"></span><span class="cv" style="width:132px;height:196px"><span style="font:400 21px/1 var(--fd);text-transform:uppercase;color:var(--orange)">Attract</span><span style="font:400 21px/1 var(--fd);text-transform:uppercase;letter-spacing:.01em">More Raving Fans</span><span style="font:800 9px var(--fb);letter-spacing:.14em;color:var(--lav)">JENNA COLOMBO</span></span></div></div>
@@ -958,8 +1000,8 @@ P.home = () => {
 
 ${assessmentBand()}
 
-<section class="band wm-host" style="padding-bottom:64px">${wm('left:-120px;top:20px;width:620px;color:#F3F1EC')}<div class="wrap">
-  <div class="row rv" style="justify-content:space-between;align-items:flex-start;gap:24px;padding-bottom:48px"><div class="stack g16"><span class="eyebrow">Track record</span><h2 class="h2">Recent wins &amp; <span class="acc">milestones</span></h2></div><span class="rbadge" style="width:clamp(64px,7vw,96px);height:clamp(64px,7vw,96px)" aria-hidden="true"></span></div>
+<section class="band wm-host" style="padding-bottom:64px"><div class="wrap">
+  <div class="row rv" style="justify-content:space-between;align-items:flex-start;gap:24px;padding-bottom:48px"><div class="stack g16"><span class="eyebrow">Track record</span><h2 class="h2">Recent wins &amp; <span class="acc">milestones</span></h2></div></div>
   <div class="stats">
     <div class="rv"><span class="stat-n"><span class="count" data-to="250">250</span></span><span style="color:var(--text)">high-tech founders coached</span></div>
     <div class="rv"><span class="stat-n"><span class="count" data-to="50">50</span><em>+</em></span><span style="color:var(--text)">founders supported in securing early-stage funding</span></div>
@@ -991,7 +1033,7 @@ ${assessmentBand()}
   </div>
 </div></section>
 
-<section class="band wm-host">${wm('right:-150px;bottom:-150px;width:520px;color:#F2EFEA')}<div class="wrap row g64">
+<section class="band wm-host"><div class="wrap row g64">
   <div class="side stack g16"><span class="eyebrow">Questions</span><h2 class="h2">Good questions. <span class="acc">Straight answers.</span></h2><p class="muted" style="margin:0">Another question? Send a note. Our team replies within [number] business days.</p><button class="tlink" data-go="contact">Contact us ${IC.arr}</button></div>
   <div class="grow">${faq(HOME_FAQ,true)}</div>
 </div></section>
@@ -1026,7 +1068,7 @@ function courseCard(c){
   </article>`;
 }
 function assessmentBand(){
-  return `<section class="band ink wm-host">${tear('#FAF7F2','t')}${wm('right:-100px;top:-80px;width:440px;color:#152238')}<div class="wrap row g64" style="align-items:center">
+  return `<section class="band ink wm-host">${tear('#FAF7F2','t')}<div class="wrap row g64" style="align-items:center">
     <div class="grow stack g24 rv">
       <span class="eyebrow">Free · five minutes · reviewed by our team</span>
       <h2 class="h2">Your company has the expertise. Does the marketing <span class="acc">put it to work?</span></h2>
@@ -1046,7 +1088,7 @@ function reportMock(){
   </div></div>`;
 }
 function finalCTA(){
-  return `<section class="orangeb" style="position:relative;overflow:hidden">${wm('right:-60px;top:50%;width:520px;transform:translateY(-50%);color:#FFFFFF;opacity:.14')}
+  return `<section class="orangeb" style="position:relative;overflow:hidden">
   <div class="wrap stack g24" style="padding-block:104px;position:relative;align-items:flex-start">
     <span class="eyebrow">Live workshop · Thursday, February 4, 2027 · Noon ET</span>
     <h2 style="margin:0;font:400 clamp(46px,6.4vw,92px)/.96 var(--fd);text-transform:uppercase;letter-spacing:.01em;max-width:1000px" class="rv">Turn one production day into a year of credibility.</h2>
@@ -1106,6 +1148,7 @@ P.workshop = () => `
     <div class="stack g16 rv" style="justify-content:center;padding:8px">${[['lock','Secure checkout with Stripe.','Card details never touch this site.'],['phone','Instant confirmation text.','Plus reminders before the day.'],['people',"Can't make it?",'Transfer the ticket to a colleague or a future workshop.']].map(x=>`<span class="row g16" style="flex-wrap:nowrap;align-items:flex-start"><span style="width:44px;height:44px;flex:0 0 44px;border-radius:12px;background:var(--lav-t);color:var(--lav-i);display:flex;align-items:center;justify-content:center">${IC[x[0]]}</span><span><strong>${x[1]}</strong><br><span style="color:var(--text);font-size:15px">${x[2]}</span></span></span>`).join('')}</div>
   </div>
   <div class="stack g8 rv"><span style="font-size:13px;font-weight:800;letter-spacing:.06em;color:var(--muted)" data-seatline>${seatLine().toUpperCase()}</span><div class="seats" data-seats>${seatsHTML()}</div></div>
+  <p class="rv" style="margin:0;font-weight:700">Not sure the in-person workshop fits? <button class="tlink" data-go="growth" style="text-decoration:underline">Book a growth strategy call</button></p>
 </div></section>
 
 <section class="band"><div class="wrap row g64" style="align-items:center">
@@ -1156,9 +1199,9 @@ function coursePage(c){
     <div class="cover" style="height:200px"><span class="big" style="font-size:280px;bottom:-64px" aria-hidden="true">${+c.step}</span><span style="font:700 11px var(--fm);letter-spacing:.14em;color:var(--lav);position:relative">REEL GOOD NEWS · COURSE ${c.n} · STEP ${c.step}</span><span class="word" style="font-size:44px">${c.word}</span></div>
     <div class="stack g16" style="padding:28px">
       <div class="price">${priceBlock(c).replace('class="now"','class="now" style="font-size:64px;font-weight:900"')}</div>
-      ${isIntro()?`<div style="background:var(--peach);border-radius:12px;padding:12px 14px;color:var(--peach-i);font-size:14px" class="stack g8"><strong>Intro price ends Black Friday, November 27</strong>${cd('bf')}</div>`:''}
+      ${isIntro()?`<div style="background:var(--peach);border-radius:12px;padding:12px 14px;color:var(--peach-i);font-size:14px" class="stack g8"><strong>Intro price ends January 15</strong>${cd('bf')}</div>`:''}
       ${buy(c.id,'Enroll now','btn-p btn-block')}
-      <button class="tlink" style="align-self:center;text-decoration:underline" data-go="bundle">Or get all three courses for $597</button>
+      <button class="tlink" style="align-self:center;text-decoration:underline" data-go="bundle">Or get all three courses for $${bundlePrice()}${isIntro()?' (intro price)':''}</button>
       <div class="stack g8" style="border-top:1px solid #EEEAE2;padding-top:14px;font-size:14px;color:var(--text)">${[['clock','On-demand lessons, opening December 1'],['lock','Secure checkout with Stripe'],['phone','Confirmation text right after purchase']].map(x=>`<span class="row g8" style="align-items:center;flex-wrap:nowrap"><span style="color:var(--lav-i);display:flex">${IC[x[0]]}</span>${x[1]}</span>`).join('')}</div>
     </div>
   </aside>
@@ -1175,7 +1218,7 @@ function coursePage(c){
 </div></section>
 <section class="band" style="padding-bottom:0"><div class="wrap"><div class="card lift rv" style="background:var(--lav);border-radius:28px;padding:clamp(28px,4vw,56px);flex-direction:row;flex-wrap:wrap;gap:40px;align-items:center">
   <div class="fan" aria-hidden="true"><span>1</span><span>3</span><span>4</span></div>
-  <div class="grow stack g12" style="flex-basis:380px"><span class="chip chip-n" style="align-self:flex-start">Best value</span><h2 class="h3" style="font-size:clamp(30px,3.4vw,46px)">Take all three courses as the Content Machine.</h2><p style="margin:0;font-size:18px">One path from strategy to distribution. All three for $597, a $200 saving.</p></div>
+  <div class="grow stack g12" style="flex-basis:380px"><span class="chip chip-n" style="align-self:flex-start">Best value</span><h2 class="h3" style="font-size:clamp(30px,3.4vw,46px)">Take all three courses as the Content Machine.</h2><p style="margin:0;font-size:18px">${isIntro()?'One path from strategy to distribution. All three for $399 through January 15, then $597.':'One path from strategy to distribution. All three for $597, a $200 saving.'}</p></div>
   ${go('bundle','','See the bundle','btn-d')}
 </div></div></section>
 <section class="band"><div class="wrap row g64">
@@ -1194,7 +1237,7 @@ P.bundle = () => `
     <div class="row g8 fade-up"><span class="chip chip-lv">Best value</span><span class="chip chip-line">All three courses · opens Dec 1</span></div>
     <h1 class="h1 fade-up" style="--dl:.1s">The Reel Good News <span class="acc">Content Machine</span></h1>
     <p class="fade-up" style="--dl:.2s;margin:0;font:600 28px/1.25 var(--fb);color:var(--soft)">One path from strategy to distribution.</p>
-    <div class="row g24 fade-up" style="--dl:.3s;align-items:center">${buy('bundle','Get the bundle','btn-p')}<span class="price"><span class="now" style="font-size:52px">$597</span><span class="was" style="color:var(--soft2)">$797</span><span class="chip chip-o">Save $200</span></span></div>
+    <div class="row g24 fade-up" style="--dl:.3s;align-items:center">${buy('bundle','Get the bundle','btn-p')}<span class="price"><span class="now" style="font-size:52px">$${bundlePrice()}</span><span class="was" style="color:var(--soft2)">$${isIntro()?BUNDLE.regular:BUNDLE.separate}</span><span class="chip chip-o">${isIntro()?'Intro price through Jan 15':'Save $200'}</span></span></div>
   </div>
   <div class="side fade-up bfan" style="--dl:.25s;height:420px;position:relative" aria-hidden="true">
     ${[['Attract','1','#13233F','#3A4B6A','#C6A7ED','6%','70px','-14deg','.3s'],['Create','3','#1C3058','#4A5B7A','#C6A7ED','24%','30px','-2deg','.45s'],['Broadcast','4','#F23300','#091527','#091527','42%','60px','10deg','.6s']].map(x=>`<div style="position:absolute;left:${x[5]};top:${x[6]};width:210px;height:290px;border-radius:18px;background:${x[2]};transform:rotate(${x[7]});box-shadow:0 24px 48px rgba(0,0,0,.4);padding:20px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;animation:riseIn .9s ${x[8]} var(--ease) both"><span style="font:34px var(--fs);color:${x[4]}">${x[0]}</span><span style="font:400 120px/.8 var(--fd);text-transform:uppercase;letter-spacing:.01em;color:transparent;-webkit-text-stroke:2px ${x[3]}">${x[1]}</span></div>`).join('')}
@@ -1205,12 +1248,60 @@ P.bundle = () => `
   ${[['attract','1','Define the audience and go-to-market strategy.','Attract the Right Audience · regular price $199','var(--navy)','0'],['create','2','Plan a production day that captures credible customer stories.','Build a Year of Content From One Production Day · regular price $399','var(--navy)','clamp(0px,4vw,56px)'],['broadcast','3','Turn the content library into a structured distribution plan.','Reach the Right Audience at the Right Time · regular price $199','var(--orange)','clamp(0px,8vw,112px)']].map(r=>`<button class="card lift rv" data-go="${r[0]}" style="border:0;cursor:pointer;text-align:left;padding:28px;flex-direction:row;flex-wrap:wrap;gap:28px;align-items:center;margin-left:${r[5]}"><span style="width:86px;height:86px;flex:0 0 86px;border-radius:20px;background:${r[4]};color:var(--white);display:flex;align-items:center;justify-content:center;font:400 44px var(--fd);text-transform:uppercase;letter-spacing:.01em">${r[1]}</span><span class="stack" style="flex:1 1 300px;min-width:0"><span style="font:400 28px/1.15 var(--fd);text-transform:uppercase;letter-spacing:.01em">${r[2]}</span><span class="muted">${r[3]}</span></span><span style="color:var(--orange)">${IC.arr}</span></button>`).join('')}
 </div></section>
 <section class="band"><div class="wrap row g48" style="align-items:center">
-  <div class="side stack g16 rv"><span class="eyebrow">The math</span><h2 class="h2">Three courses. One price.</h2><p class="lead">Bought separately, the three courses total $797. The bundle saves $200.</p></div>
-  <div class="grow panel rv" style="overflow-x:auto"><table class="table"><thead><tr><th scope="col">Course</th><th scope="col" style="text-align:right">Regular price</th></tr></thead><tbody><tr><td>Attract the Right Audience</td><td class="r">$199</td></tr><tr><td>Build a Year of Content From One Production Day</td><td class="r">$399</td></tr><tr><td>Reach the Right Audience at the Right Time</td><td class="r">$199</td></tr><tr><td class="muted">Bought separately</td><td class="r muted" style="text-decoration:line-through">$797</td></tr></tbody></table>
-    <div class="row g16" style="margin-top:10px;background:var(--navy);color:var(--white);border-radius:18px;padding:20px 22px;justify-content:space-between;align-items:center"><span class="stack" style="line-height:1.2"><strong style="font-size:18px">The Content Machine</strong><span style="font-size:14px;color:var(--lav)">Save $200</span></span><span style="font:400 48px/1 var(--fd);text-transform:uppercase;letter-spacing:.01em">$597</span></div></div>
+  <div class="side stack g16 rv"><span class="eyebrow">The math</span><h2 class="h2">Three courses. One price.</h2><p class="lead">${isIntro()?'Through January 15, the three courses total $447 at introductory prices. The bundle costs $399.':'Bought separately, the three courses total $797. The bundle saves $200.'}</p></div>
+  <div class="grow panel rv" style="overflow-x:auto"><table class="table"><thead><tr><th scope="col">Course</th><th scope="col" style="text-align:right">Intro, through Jan 15</th><th scope="col" style="text-align:right">Regular</th></tr></thead><tbody><tr><td>Attract the Right Audience</td><td class="r">$99</td><td class="r">$199</td></tr><tr><td>Build a Year of Content From One Production Day</td><td class="r">$249</td><td class="r">$399</td></tr><tr><td>Reach the Right Audience at the Right Time</td><td class="r">$99</td><td class="r">$199</td></tr><tr><td class="muted">Bought separately</td><td class="r muted" style="text-decoration:line-through">$447</td><td class="r muted" style="text-decoration:line-through">$797</td></tr></tbody></table>
+    <div class="row g16" style="margin-top:10px;background:var(--navy);color:var(--white);border-radius:18px;padding:20px 22px;justify-content:space-between;align-items:center"><span class="stack" style="line-height:1.2"><strong style="font-size:18px">The Content Machine</strong><span style="font-size:14px;color:var(--lav)">${isIntro()?'Intro price through January 15, then $597':'Save $200'}</span></span><span style="font:400 48px/1 var(--fd);text-transform:uppercase;letter-spacing:.01em">$${bundlePrice()}</span></div></div>
 </div></section>
 <section class="navy"><div class="wrap row g48" style="padding-block:96px;align-items:center"><div class="grow stack g16"><span class="eyebrow">Step 02 happens in the room</span><h2 class="h2" style="font-size:clamp(34px,4vw,54px)">Pair the bundle with the live workshop on February 4.</h2><p class="lead">See the full method in one room. In person (10 seats) or on Zoom.</p></div>${go('workshop','','See the workshop','btn-p')}</div></section>
 <section class="band"><div class="wrap narrow stack g20"><h2 class="h2">Bundle questions.</h2>${faq([HOME_FAQ[2],HOME_FAQ[3],HOME_FAQ[4]],true)}</div></section>`;
+
+
+/* ---------- growth call: form first (lead captured and team alerted right away), then a time ---------- */
+const SLOTS=['10:00 AM','11:30 AM','1:00 PM','2:30 PM','4:00 PM'];
+const ymd = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+function availDay(d){ const t=now(); const start=new Date(t.getFullYear(),t.getMonth(),t.getDate()+1); const end=new Date(t.getFullYear(),t.getMonth(),t.getDate()+31); return d>=start && d<=end && [2,3,4].includes(d.getDay()); }
+function calHTML(){
+  const B=S.book, t=now(); const base=new Date(t.getFullYear(), t.getMonth()+B.m, 1);
+  const first=base.getDay(), days=new Date(base.getFullYear(), base.getMonth()+1, 0).getDate();
+  const cells=[]; for(let i=0;i<first;i++) cells.push('<span></span>');
+  for(let d=1; d<=days; d++){ const dt=new Date(base.getFullYear(),base.getMonth(),d); const av=availDay(dt); const k=ymd(dt);
+    cells.push(av?`<button class="dy av${B.day===k?' sel':''}" data-day="${k}" aria-label="${dt.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}, available"${B.day===k?' aria-pressed="true"':''}>${d}</button>`:`<span class="dy" aria-hidden="true">${d}</span>`); }
+  const locked = !B.lead;
+  return `<div class="cal${locked?' locked':''}" id="cal">
+    <div class="ch"><strong>${base.toLocaleDateString('en-US',{month:'long',year:'numeric'})}</strong><div class="nav"><button data-calm="-1" aria-label="Previous month"${B.m<=0?' disabled':''}>‹</button><button data-calm="1" aria-label="Next month"${B.m>=1?' disabled':''}>›</button></div></div>
+    <div class="grid7">${['SUN','MON','TUE','WED','THU','FRI','SAT'].map(x=>`<span class="wd">${x}</span>`).join('')}${cells.join('')}</div>
+    ${locked?'<div class="lockmsg" role="note">Please fill out the form before choosing your time slot.</div>':''}
+    ${!locked && B.day?`<div class="stack g8" style="padding-top:6px"><strong style="font-size:15px">${new Date(B.day+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})} · Eastern Time</strong><div class="slots" role="group" aria-label="Available times">${SLOTS.map(x=>`<button class="slot" data-slot="${x}" aria-pressed="${B.slot===x}">${x}</button>`).join('')}</div></div>`:''}
+    ${!locked && B.day && B.slot?`<button class="btn btn-p btn-block" data-book-confirm data-track="growth_booked">Confirm my call</button>`:''}
+  </div>`;
+}
+function bookingHTML(){
+  const B=S.book;
+  if(B.done) return `<div class="success" style="padding:24px 8px"><span class="ok">${IC.check}</span><strong style="font:400 30px/1.1 var(--fd);text-transform:uppercase;letter-spacing:.01em">Your call is booked.</strong><p style="margin:0;color:var(--text)">${new Date(B.day+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})} at ${B.slot} ET. A confirmation text and email are on the way, with a reminder before the call.</p><div class="row g12" style="justify-content:center"><button type="button" class="btn btn-o btn-sm" data-toast="Calendar file downloads in the live site">Add to calendar</button><button type="button" class="btn btn-d btn-sm" data-go="workshop">See the workshop</button></div></div>`;
+  return `<div class="bsteps"><span class="${B.lead?'done':'on'}"><i></i>Fill out the form</span><span class="${B.lead?'on':''}"><i></i>Book your call</span></div>
+  ${B.lead?`<div class="lead-sum"><span><strong>${esc(B.lead.first)} ${esc(B.lead.last)}</strong> · ${esc(B.lead.phone)}</span><button class="tlink" data-book-edit style="font-size:14px">Edit</button></div>`:`<form class="form stack g16" data-form="growth" novalidate style="gap:14px">
+    <label class="field" for="gr-ph">Mobile number<span class="tel"><span class="cc" aria-hidden="true">US +1</span><input id="gr-ph" name="phone" type="tel" required autocomplete="tel-national" placeholder="(555) 010-2345"></span></label>
+    <div class="fgrid"><label class="field" for="gr-fn">First name<input id="gr-fn" name="first" required autocomplete="given-name"></label><label class="field" for="gr-ln">Last name<input id="gr-ln" name="last" required autocomplete="family-name"></label></div>
+    <label class="field" for="gr-em">Work email<input id="gr-em" name="email" type="email" required autocomplete="email"></label>
+    <label class="consent" for="gr-ok"><input id="gr-ok" type="checkbox" name="sms"><span>Optional. Text me about my call and related offers from Reel Good News. Message and data rates may apply. Reply STOP to opt out. <em>[Counsel to review.]</em></span></label>
+    <p style="margin:0;font-size:13px;color:var(--muted)">By continuing, you agree to our <button type="button" class="tlink" data-go="legal" data-p="terms" style="font-size:13px;text-decoration:underline">Terms</button> and <button type="button" class="tlink" data-go="legal" data-p="privacy" style="font-size:13px;text-decoration:underline">Privacy Policy</button>.</p>
+    <button class="btn btn-p btn-block" type="submit">Continue</button>
+    <button type="button" class="tlink" style="align-self:center;font-size:13px;color:var(--muted)" data-fill="growth">Fill with sample details (demo)</button>
+  </form>`}
+  ${calHTML()}`;
+}
+function renderBooking(){ const el=document.getElementById('booking'); if(el) el.innerHTML=bookingHTML(); }
+P.growth = () => `
+<section class="ink"><div class="wrap row g64" style="padding-block:72px 96px;align-items:flex-start">
+  <div class="grow stack g24" style="padding-top:16px;flex-basis:420px">
+    <span class="eyebrow fade-up" style="color:var(--lav)">Claim your 2027 growth strategy</span>
+    <h1 class="h1 fade-up" style="--dl:.08s;font-size:clamp(42px,5.2vw,74px)">RGN Growth <span class="acc">Opportunity</span> Workshop</h1>
+    <p class="fade-up" style="--dl:.16s;margin:0;font:600 22px/1.35 var(--fb);color:var(--soft)">A call with our team to map your 2027 growth opportunities and see if the in-person scaling workshop fits your business.</p>
+    <div class="stack g12 fade-up" style="--dl:.24s">${[['phone','Share your details','Our team gets them right away.'],['cal','Pick a time','Choose a day and time that suits you.'],['people','Talk with our team','A focused conversation about growth in 2027.']].map((x,i)=>`<span class="row g16" style="flex-wrap:nowrap;align-items:flex-start"><span style="width:44px;height:44px;flex:0 0 44px;border-radius:12px;background:var(--navy2);color:var(--lav);display:flex;align-items:center;justify-content:center">${IC[x[0]]}</span><span><strong>${x[1]}</strong><br><span style="color:var(--soft);font-size:15px">${x[2]}</span></span></span>`).join('')}</div>
+    <p class="fade-up muted" style="--dl:.3s;margin:0;font-size:14px">[Call length and format to confirm.]</p>
+  </div>
+  <div class="panel-w booking stack fade-up" id="booking" style="--dl:.2s;flex:1 1 400px;min-width:0;max-width:540px;color:var(--navy)">${bookingHTML()}</div>
+</div></section>`;
 
 P.book = () => `
 <section class="lavt"><div class="wrap row g64" style="padding-block:72px 96px;align-items:center;flex-wrap:wrap-reverse">
@@ -1264,7 +1355,7 @@ P.order = () => {
     <div class="card lift rv" style="padding:28px;gap:14px;background:var(--navy);color:var(--white)"><span class="outline" style="font-size:52px;-webkit-text-stroke-color:var(--lav)">03</span><strong style="font:400 24px var(--fd);text-transform:uppercase;letter-spacing:.01em">Show up with one question</strong><p style="margin:0;color:var(--soft)">Bring the most common buyer question. It becomes the first story to plan.</p></div>
   </div></div></section>
 <section class="band"><div class="wrap grid" style="--min:340px;--gap:20px">
-  <button class="card lift" data-go="attract" style="border:0;cursor:pointer;text-align:left;background:var(--paper);padding:28px;gap:10px"><span class="eyebrow">Before the workshop</span><strong style="font:400 26px/1.15 var(--fd);text-transform:uppercase;letter-spacing:.01em">Start with Course 1: Attract the Right Audience</strong><span style="color:var(--text)">$${coursePrice(COURSES.attract)} ${isIntro()?'introductory price through Black Friday':'regular price'}.</span></button>
+  <button class="card lift" data-go="attract" style="border:0;cursor:pointer;text-align:left;background:var(--paper);padding:28px;gap:10px"><span class="eyebrow">Before the workshop</span><strong style="font:400 26px/1.15 var(--fd);text-transform:uppercase;letter-spacing:.01em">Start with Course 1: Attract the Right Audience</strong><span style="color:var(--text)">$${coursePrice(COURSES.attract)} ${isIntro()?'introductory price through January 15':'regular price'}.</span></button>
   <button class="card lift" data-go="assessment" style="border:0;cursor:pointer;text-align:left;background:var(--paper);padding:28px;gap:10px"><span class="eyebrow">Free</span><strong style="font:400 26px/1.15 var(--fd);text-transform:uppercase;letter-spacing:.01em">Take the Marketing ROI Assessment</strong><span style="color:var(--text)">Five minutes. Our team reviews every answer.</span></button>
 </div></section>`;
 };
@@ -1588,15 +1679,17 @@ function renderBanner(){
   if(S.bannerHidden || wsDone()){ b.hidden=true; return; }
   b.hidden=false;
   let tag, msg, cta, route;
-  if(isIntro()){ tag='NEW'; msg='Our courses are on sale now at introductory prices through Black Friday.'; cta='See the courses'; route='attract'; }
-  else if(isEarly()){ tag='EARLY-BIRD'; msg='Live workshop, Thursday, February 4, 2027, noon ET. Early-bird pricing ends December 10.'; cta='Reserve your seat'; route='workshop'; }
-  else { tag='LIVE WORKSHOP'; msg='Thursday, February 4, 2027, noon ET, in person and on Zoom.'; cta='Reserve your seat'; route='workshop'; }
-  const key = isIntro()?'bf':(isEarly()?'eb':'ws');
+  let key;
+  if(!isOpen()){ tag='NEW'; msg='Our courses are on sale now at introductory prices through January 15.'; cta='See the courses'; route='attract'; key='bf'; }
+  else if(isEarly()){ tag='EARLY-BIRD'; msg='Live workshop, Thursday, February 4, 2027, noon ET. Early-bird pricing ends December 10.'; cta='Reserve your seat'; route='workshop'; key='eb'; }
+  else if(isIntro()){ tag='INTRO PRICING'; msg='Introductory course and bundle prices end January 15.'; cta='See the courses'; route='bundle'; key='bf'; }
+  else { tag='LIVE WORKSHOP'; msg='Thursday, February 4, 2027, noon ET, in person and on Zoom.'; cta='Reserve your seat'; route='workshop'; key='ws'; }
   bi.innerHTML=`<b><span class="dot pulse"></span>${tag}</b><span>${msg}</span><span class="count" data-cdtext="${key}"></span><button class="tlink" style="color:var(--white);text-decoration:underline;padding:0;font-weight:800" data-go="${route}" data-track="banner_click">${cta}</button><button class="x" data-dismiss aria-label="Dismiss announcement">${IC.close.replace('width="16" height="16"','width="12" height="12"')}</button>`;
   tickCountdowns();
 }
 function updatePriceLines(){
   document.querySelectorAll('[data-price-line]').forEach(el=>{ const c=COURSES[el.dataset.priceLine]; el.textContent = `${c.short} · $${coursePrice(c)}${isIntro()?' intro':''}`; });
+  document.querySelectorAll('[data-bundle-line]').forEach(el=>{ el.textContent = `All three courses · $${bundlePrice()}${isIntro()?' intro':''}`; });
 }
 function tickCountdowns(){
   const n=now();
@@ -1636,7 +1729,7 @@ const mroot=document.getElementById('modalRoot'); let lastFocus=null;
 function closeModal(){ if(!mroot.innerHTML) return; mroot.innerHTML=''; document.body.style.overflow=''; if(lastFocus) lastFocus.focus(); }
 function product(id){
   if(id==='workshop') return {id, kind:'workshop', name:'Reel Good News: Attract More Raving Fans', price:wsPrice(), sub:`${isEarly()?'Early-bird':'Standard'} ticket · Thursday, Feb 4, 2027 · Noon ET`};
-  if(id==='bundle') return {id, kind:'course', name:'The Reel Good News Content Machine', price:597, sub:'All three online courses · lessons open Dec 1, 2026'};
+  if(id==='bundle') return {id, kind:'course', name:'The Reel Good News Content Machine', price:bundlePrice(), sub:`All three online courses · ${isIntro()?'introductory price through January 15':'regular price'} · lessons open Dec 1, 2026`};
   if(COURSES[id]) { const c=COURSES[id]; return {id, kind:'course', name:c.title, price:coursePrice(c), sub:`Online course · ${isIntro()?'introductory price':'regular price'} · lessons open Dec 1, 2026`}; }
   return null;
 }
@@ -1694,6 +1787,7 @@ document.addEventListener('submit',e=>{
   const kind=form.dataset.form; track('form_'+kind);
   if(kind==='checkout') return stripeStep(form);
   if(kind==='assessment'){ S.assess={step:0,answers:[]}; navigate('assessment-step'); return; }
+  if(kind==='growth'){ const fd=new FormData(form); S.book.lead={first:fd.get('first'),last:fd.get('last'),phone:fd.get('phone'),email:fd.get('email')}; renderBooking(); toast('Details saved. Our team has them now.'); track('growth_lead'); const c=document.getElementById('cal'); if(c) c.scrollIntoView({block:'nearest'}); return; }
   if(kind==='newsletter'){ form.reset(); toast('Subscribed. Welcome to the good news.'); return; }
   const s=SUCCESS[kind];
   form.innerHTML=`<div class="success"><span class="ok">${IC.check}</span><strong style="font:400 30px/1.1 var(--fd);text-transform:uppercase;letter-spacing:.01em">${s[0]}</strong><p style="margin:0;color:var(--text)">${s[1]}</p><button type="button" class="btn btn-o btn-sm" data-go="home">Back to home</button></div>`;
@@ -1703,6 +1797,7 @@ function fillSample(kind){
   const f=document.querySelector(`[data-form="${kind}"]`); if(!f) return;
   const set=(sel,v)=>{const el=f.querySelector(sel); if(el) el.value=v;};
   if(kind==='assessment'){ set('#as-fn',SAMPLE.first); set('#as-ln',SAMPLE.last); set('#as-em',SAMPLE.email); set('#as-ph',SAMPLE.phone); set('#as-co',SAMPLE.company); set('#as-ro',SAMPLE.role); set('#as-sz','10 to 50'); const c=f.querySelector('#as-ok'); if(c) c.checked=true; }
+  else if(kind==='growth'){ set('#gr-fn',SAMPLE.first); set('#gr-ln',SAMPLE.last); set('#gr-em',SAMPLE.email); set('#gr-ph',SAMPLE.phone); }
   else { set('#co-n',SAMPLE.name); set('#co-e',SAMPLE.email); set('#co-p',SAMPLE.phone); }
 }
 
@@ -1729,6 +1824,12 @@ document.addEventListener('click',e=>{
     if(S.assess.step===4){ app.querySelector('.panel-w').innerHTML='<div class="stack g16" style="align-items:center;padding:60px 0;text-align:center"><span class="spin"></span><strong style="font:400 24px var(--fd);text-transform:uppercase;letter-spacing:.01em">Sending your answers to our team…</strong></div>'; track('assessment_submit'); setTimeout(()=>navigate('assessment-thanks'),1200); return; }
     S.assess.step++; navigate('assessment-step',null,{keepScroll:true,silent:true}); return; }
   const fl=t.closest('[data-fill]'); if(fl){ fillSample(fl.dataset.fill); return; }
+  const cm=t.closest('[data-calm]'); if(cm){ S.book.m=Math.max(0,Math.min(1,S.book.m+(+cm.dataset.calm))); renderBooking(); return; }
+  if(t.closest('.cal.locked')){ toast('Please fill out the form before choosing your time slot.'); const f=document.getElementById('gr-ph'); if(f) f.focus(); return; }
+  const dy=t.closest('[data-day]'); if(dy){ S.book.day=dy.dataset.day; S.book.slot=null; renderBooking(); return; }
+  const sl=t.closest('[data-slot]'); if(sl){ S.book.slot=sl.dataset.slot; renderBooking(); return; }
+  if(t.closest('[data-book-edit]')){ S.book.lead=null; renderBooking(); return; }
+  if(t.closest('[data-book-confirm]')){ S.book.done=true; renderBooking(); toast('Booked. Confirmation text on the way.'); return; }
   const sc=t.closest('[data-scroll]'); if(sc){ const el=document.getElementById(sc.dataset.scroll); if(el) el.scrollIntoView({behavior:'smooth'}); return; }
   const tst=t.closest('[data-toast]'); if(tst){ toast(tst.dataset.toast); return; }
   const cp=t.closest('[data-copy]'); if(cp){ const v=cp.dataset.copy; try{ navigator.clipboard.writeText(v).then(()=>toast('Copied '+v),()=>toast('Select the text to copy it')); }catch(err){ toast('Select the text to copy it'); } return; }
@@ -1744,10 +1845,10 @@ pbtn.addEventListener('click',()=>{ panel.hidden=!panel.hidden; pbtn.setAttribut
 function renderPanel(){
   if(panel.hidden) return;
   const notes=NOTES[S.route]||[];
-  const pages=[['home','Home'],['workshop','Workshop'],['attract','Course 1'],['create','Course 2'],['broadcast','Course 3'],['bundle','Bundle'],['book','Book'],['assessment','Assessment'],['order','Order confirmed'],['partner','Partner'],['contact','Contact'],['about','About'],['jenna','Jenna'],['speaking','Speaking'],['podcast','Podcast'],['socials','Socials'],['careers','Careers'],['blog','Blog'],['post','Blog post'],['legal','Legal'],['notfound','404']];
+  const pages=[['home','Home'],['workshop','Workshop'],['attract','Course 1'],['create','Course 2'],['broadcast','Course 3'],['bundle','Bundle'],['book','Book'],['assessment','Assessment'],['order','Order confirmed'],['partner','Partner'],['contact','Contact'],['about','About'],['jenna','Jenna'],['speaking','Speaking'],['podcast','Podcast'],['socials','Socials'],['careers','Careers'],['blog','Blog'],['post','Blog post'],['legal','Legal'],['growth','Growth call'],['notfound','404']];
   panel.innerHTML=`<div class="row" style="justify-content:space-between;align-items:center"><strong style="font:400 20px var(--fd);text-transform:uppercase;letter-spacing:.01em">Presenter</strong><button class="round-x" style="width:36px;height:36px" id="pclose" aria-label="Close presenter">${IC.close}</button></div>
   ${notes.length?`<div class="stack g8"><h4>On this page</h4><ul class="notes" style="margin:0;padding-left:30px">${notes.map(n=>`<li>${n}</li>`).join('')}</ul></div>`:''}
-  <div class="stack g8"><h4>Pretend today is</h4><select id="psim" aria-label="Simulated date"><option value="today"${S.simKey==='today'?' selected':''}>Today (real date)</option><option value="bf"${S.simKey==='bf'?' selected':''}>Nov 28 · after Black Friday</option><option value="dec"${S.simKey==='dec'?' selected':''}>Dec 11 · early-bird ended</option><option value="ws"${S.simKey==='ws'?' selected':''}>Feb 5 · after the workshop</option></select><span style="font-size:12px;color:var(--soft2)">Banner, prices, tickets and countdowns switch on their own.</span></div>
+  <div class="stack g8"><h4>Pretend today is</h4><select id="psim" aria-label="Simulated date"><option value="today"${S.simKey==='today'?' selected':''}>Today (real date)</option><option value="dec1"${S.simKey==='dec1'?' selected':''}>Dec 2 · lessons open, early-bird on</option><option value="dec"${S.simKey==='dec'?' selected':''}>Dec 11 · early-bird ended</option><option value="jan"${S.simKey==='jan'?' selected':''}>Jan 16 · intro prices ended</option><option value="ws"${S.simKey==='ws'?' selected':''}>Feb 5 · after the workshop</option></select><span style="font-size:12px;color:var(--soft2)">Banner, prices, tickets and countdowns switch on their own.</span></div>
   <div class="stack g8"><h4>In-person seats sold · <span id="psold">${S.seatsSold}</span> of 10</h4><input type="range" id="pseats" min="0" max="10" value="${S.seatsSold}" aria-label="Seats sold" style="accent-color:var(--orange)"></div>
   <label class="sw" for="ptrack">Show analytics events<input type="checkbox" id="ptrack"${S.track?' checked':''}></label>
   <div class="stack g8"><h4>Jump to</h4><div class="pnav">${pages.map(p=>`<button data-go="${p[0]}"${p[0]==='post'?' data-p="7"':''} class="${S.route===p[0]?'on':''}">${p[1]}</button>`).join('')}</div></div>
@@ -1756,7 +1857,7 @@ function renderPanel(){
   panel.querySelector('#psim').onchange=e=>{ S.simKey=e.target.value; S.simOffset=SIMS[S.simKey]?(new Date(SIMS[S.simKey])-Date.now()):0; S.bannerHidden=false; renderBanner(); navigate(S.route,S.param,{keepScroll:true,silent:true}); toast('Date set: '+e.target.selectedOptions[0].textContent); };
   panel.querySelector('#pseats').oninput=e=>{ S.seatsSold=+e.target.value; document.getElementById('psold').textContent=S.seatsSold; document.querySelectorAll('[data-seats]').forEach(s=>{ const z=s.querySelector('span[style]'); s.innerHTML=seatsHTML()+(z?z.outerHTML:''); }); document.querySelectorAll('[data-seatline]').forEach(s=>s.textContent=seatLine().toUpperCase()); document.querySelectorAll('[data-left]').forEach(s=>s.textContent=seatsLeft()); };
   panel.querySelector('#ptrack').onchange=e=>{ S.track=e.target.checked; toast(S.track?'Analytics events will show as you click':'Analytics events hidden'); };
-  panel.querySelector('#preset').onclick=()=>{ S.simKey='today'; S.simOffset=0; S.seatsSold=0; S.lastOrder=null; S.bannerHidden=false; S.assess={step:-1,answers:[]}; S.filter='ALL'; store.set('banner','1'); try{sessionStorage.removeItem('rgn_cookie');}catch(e){} document.getElementById('cookie').hidden=false; renderBanner(); navigate('home'); toast('Demo reset'); };
+  panel.querySelector('#preset').onclick=()=>{ S.simKey='today'; S.simOffset=0; S.seatsSold=0; S.lastOrder=null; S.bannerHidden=false; S.assess={step:-1,answers:[]}; S.book={m:0,day:null,slot:null,lead:null,done:false}; S.filter='ALL'; store.set('banner','1'); try{sessionStorage.removeItem('rgn_cookie');}catch(e){} document.getElementById('cookie').hidden=false; renderBanner(); navigate('home'); toast('Demo reset'); };
   panel.querySelector('#pmobile').onclick=()=>document.getElementById('menuBtn').click();
 }
 

@@ -53,7 +53,7 @@ export function StatsBlock({ section }: SectionProps<StatsBlockSection>) {
   return (
     <Band
       background={section.background ?? 'white'}
-      watermark={section.watermark ?? 'top-left'}
+      watermark={section.watermark}
       anchorId={section.anchorId}
       className={styles.ruleBand}
     >

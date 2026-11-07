@@ -32,6 +32,7 @@ Phase 6:   Stripe Checkout ──► /api/stripe/webhook ──► GoHighLevel (
 │  │  ├─ speaking/page.tsx, podcast/page.tsx, socials/page.tsx
 │  │  ├─ blog/page.tsx, blog/[slug]/page.tsx
 │  │  ├─ legal/[slug]/page.tsx    privacy, terms, dmca, do-not-sell
+│  │  ├─ growth-strategy/page.tsx growth call booking (round two)
 │  │  ├─ [...slug]/page.tsx       pages the client builds herself from sections (page builder)
 │  │  └─ not-found.tsx
 │  ├─ studio/[[...tool]]/page.tsx  embedded Sanity Studio
@@ -75,6 +76,7 @@ Phase 6:   Stripe Checkout ──► /api/stripe/webhook ──► GoHighLevel (
 | `#speaking`, `#podcast`, `#socials`, `#careers` | `/speaking`, `/podcast`, `/socials`, `/careers` |
 | `#blog`, `#post-N` | `/blog`, `/blog/[slug]` (slugs in content-seed/posts.json) |
 | `#legal-privacy` and so on | `/legal/privacy`, `/legal/terms`, `/legal/dmca`, `/legal/do-not-sell` |
+| `#growth` | `/growth-strategy` |
 | `#notfound` | `not-found.tsx` |
 
 Pages the client hides in Sanity (the `hidden` flag on book and podcast) return 404 and drop out of nav, the footer and the sitemap.

@@ -13,7 +13,7 @@
   align-items: flex-start;
 }
 .fanWord {
-  font: 20px var(--fs);
+  font: 20px var(--font-hand);
   color: var(--orange);
 }
 .body {

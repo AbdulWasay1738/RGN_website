@@ -25,17 +25,18 @@ export const nunitoSans = localFont({
 })
 
 /**
- * Handwritten accents. "RGN Hand" stands in until the licensed Benedict web
- * font arrives (docs/10-open-items.md). Benedict itself is declared in
- * styles/tokens.css and wins when it is installed on the device.
+ * Fallback for the handwritten accents while Benedict loads, or if it fails.
+ * Benedict itself is a temporary remote face in styles/tokens.css until the
+ * client's web licence is bought (docs/03, "Handwritten font setup").
+ * Licorice is SIL Open Font License.
  */
-export const rgnHand = localFont({
-  src: [{ path: '../assets/fonts/comforter.woff2', weight: '400', style: 'normal' }],
-  variable: '--font-hand',
+export const licorice = localFont({
+  src: [{ path: '../assets/fonts/licorice.woff2', weight: '400', style: 'normal' }],
+  variable: '--font-licorice',
   display: 'swap',
   preload: false,
-  declarations: [{ prop: 'size-adjust', value: '118%' }],
-  fallback: ['Segoe Script', 'cursive'],
+  declarations: [{ prop: 'size-adjust', value: '112%' }],
+  fallback: ['cursive'],
 })
 
-export const fontVariables = `${anton.variable} ${nunitoSans.variable} ${rgnHand.variable}`
+export const fontVariables = `${anton.variable} ${nunitoSans.variable} ${licorice.variable}`

@@ -11,6 +11,7 @@ Reel Good News
 │  ├─ Announcement banner    (singleton)
 │  └─ Sales calendar & seats (singleton)
 ├─ Pages                     (page documents: Home, About, Partner, Contact, Careers, Speaking, Podcast, Socials, plus any new page)
+├─ Growth call               (singleton, round two)
 ├─ Offers
 │  ├─ Workshop               (singleton)
 │  ├─ Courses                (3 course documents, orderable)
@@ -56,14 +57,14 @@ Title the Studio "Reel Good News", with the R badge as its icon. Enable the Pres
 **announcementBanner**
 - enabled
 - variants[]: label (for example "NEW"), message, ctaLabel, ctaLink, showFrom (datetime), showUntil (datetime)
-- The site shows the first variant whose window contains `now`. Seed it with the three variants from the client's copy (see content-seed/singletons.json). Hide the banner after the workshop.
+- The site shows the first variant whose window contains `now`. Seed it with the four variants in content-seed/singletons.json (round two moved the intro end to Jan 15). Hide the banner after the workshop.
 
 **salesCalendar**
 - introEndsAt, coursesOpenAt, earlyBirdEndsAt, workshopAt (datetimes, with help text in ET)
 - inPersonSeatCap (default 10), seatsSold (manual until Stripe is connected; read-only once phase 6 syncs it)
 
 **workshop**
-- title, slug, hand line (Benedict), headline, lead, dateLabel, timeLabel, venue (default "[Location to be announced]"), zoomAvailable
+- title, slug, hand line (handwritten font), headline, lead, dateLabel, timeLabel, venue (default "[Location to be announced]"), zoomAvailable
 - earlyBirdPrice (149), standardPrice (199), includes[] ("Workshop instruction", "Production planning workbook")
 - whatThisIs: statement (accentText), body (portable text)
 - outcomes[] (the five "Leave with a practical plan to" items)
@@ -77,7 +78,13 @@ Title the Studio "Reel Good News", with the R badge as its icon. Enable the Pres
 - seo
 
 **bundle**
-- title, slug, headline (accentText), subline, price (597), compareAt (797), pathItems[] (course reference, line), mathsBlock, pairWithWorkshop (headline, body, cta), faqs, seo
+- title, slug, headline (accentText), subline, price (597), introPrice (399, used until `introEndsAt`), compareAt (797), compareAtIntro (447, the three intro prices added up), pathItems[] (course reference, line), mathsBlock, pairWithWorkshop (headline, body, cta), faqs, seo
+
+**growthCall** (round two: the homepage's primary call to action)
+- eyebrow ("Claim your 2027 growth strategy"), headline (accentText, "RGN Growth *Opportunity* Workshop"), intro, steps[] (icon, title, text), callLengthNote
+- form labels are fixed in code (mobile with +1, first name, last name, work email); editable: consentText (optional SMS box, counsel to review), termsLine, continueLabel, lockedMessage ("Please fill out the form before choosing your time slot."), timezoneLabel, confirmLabel, successTitle, successBody
+- calendar: ghlCalendarId (phase 6), availableWeekdays (default Tue, Wed, Thu), bookingWindowDays (default 30), slotLabels (used only until GoHighLevel supplies real free slots)
+- seo
 
 **book**
 - hidden (boolean, so the client can hide it until the book exists), title, subtitle line, publicationDate, price, preorderUrl, cover text, statement, body, insideItems[] (word, line), quote, preorderBonus (optional), seo
@@ -93,7 +100,7 @@ Title the Studio "Reel Good News", with the R badge as its icon. Enable the Pres
 ## Repeatable documents
 
 **course** (three documents)
-- order (1 to 3), stepNumber ("01", "03", "04"), word (Benedict label: Attract, Create, Broadcast), title, fullTitle, slug, headline, summary, shortLine (used in the mega menu price line)
+- order (1 to 3), stepNumber ("01", "03", "04"), word (handwritten label: Attract, Create, Broadcast), title, fullTitle, slug, headline, summary, shortLine (used in the mega menu price line)
 - regularPrice, introPrice
 - problemLabel ("The problem" or "Who it is for"), problem (with an optional highlight phrase), learn[] (strings), outcome, outcomeNote, bestFor, format, hostedOn
 - faqs (references), seo
@@ -125,7 +132,7 @@ Section types (each maps to a prototype block; build each as `components/section
 
 | Section | Used on | Key fields |
 |---|---|---|
-| `heroFounder` | Home | handLine, headline (accentText; the swoosh word marked with `_underscores_`), lead, primaryCta, secondaryCta, portrait cutout, floating cards (workshop date card, stat card), lower-third name and title |
+| `heroFounder` | Home | eyebrow, headline (accentText; coral words with `*asterisks*`, the swoosh word with `_underscores_`, a line break where the text has a new line), lead, primaryCta, secondaryCta, supportLine, portrait cutout, lower-third name and title. No emblem, brush or floating cards (round two). |
 | `pageHero` | Most inner pages | eyebrow, handLine, headline (accentText), lead, ctas[], art (none, portrait cutout, quote mark, reel, steps list, LinkedIn card), background |
 | `ticker` | Home | phrases[] |
 | `methodCalendar` | Home | eyebrow, headline (accentText), body, caption, labels (all strings shown in the calendar card) |
@@ -143,6 +150,7 @@ Section types (each maps to a prototype block; build each as `components/section
 | `teamGrid` | About | headline, members (references), show hiring card plus its text and link |
 | `ctaPanels` | About | panels[] (headline, cta, tone) |
 | `gallery` | Speaking, Workshop | headline, eyebrow, items[] (image, caption, optional link card) |
+| `growthCallCta` | Workshop, any page | line, link label (links to the growth call page) |
 | `formSection` | Contact, Partner, Speaking, Podcast, Careers | form (contact, partner, speaking, guest, talent), headline, intro, side content (quote or list), submitLabel, successTitle, successBody |
 | `episodes` | Podcast | items[] (number, guest, title, summary, spotifyUrl, youtubeUrl) |
 | `socialFeed` | Socials | cards[] (style, text) |

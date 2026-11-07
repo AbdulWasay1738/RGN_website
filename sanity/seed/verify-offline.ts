@@ -36,6 +36,7 @@ const SINGLETON_TYPES = [
   'courseTemplate',
   'orderConfirmation',
   'blogSettings',
+  'growthCall',
 ]
 SINGLETON_TYPES.forEach((t) => contractTypes.add(t))
 /** Section `_type`s declared by the members of the `Section` union in types.ts. */
@@ -194,16 +195,21 @@ async function main() {
 
   await check<Any>('LAYOUT_QUERY', Q.LAYOUT_QUERY, {}, linkMap, (r) => {
     expect(r.settings?.title, 'settings missing')
-    expect(r.banner?.variants?.length === 3, 'banner variants')
+    expect(r.banner?.variants?.length === 4, 'banner variants')
+    expect(r.calendar?.introEndsAt === '2027-01-16T05:00:00Z', 'intro period ends with Jan 15 ET')
     expect(r.calendar?.workshopAt, 'calendar missing')
     expect(r.courses?.length === 3, 'courses != 3')
     expect(r.courses.map((c: Any) => c.slug).join() === 'attract-the-right-audience,build-a-year-of-content,reach-the-right-audience', 'course order')
     expect(r.workshop?.earlyBirdPrice === 149, 'workshop price')
-    expect(r.bundle?.price === 597, 'bundle price')
+    expect(r.bundle?.price === 597 && r.bundle?.introPrice === 399, 'bundle prices')
     expect(r.book?.title, 'book missing')
+    const learn = r.settings.footer?.columns?.find((c: Any) => c.title === 'Learn')
+    expect(learn?.links?.some((l: Any) => l.link?.href === '/growth-strategy'), 'footer links the growth call')
     expect(Array.isArray(r.hiddenHrefs), 'hiddenHrefs not an array')
     const edu = r.settings.headerNav.find((n: Any) => n.label === 'Education')
     expect(edu?.dropdown?.items?.[0]?.priceFromCourse?.shortLine, 'priceFromCourse not expanded')
+    const machine = edu?.dropdown?.items?.find((i: Any) => i.label === 'The Content Machine')
+    expect(machine?.description?.includes('{bundlePrice}'), 'bundle menu line uses {bundlePrice}')
   })
 
   const pageSlugs = ['home', 'about', 'about/jenna-colombo', 'partner', 'contact', 'careers', 'speaking', 'podcast', 'socials']
@@ -221,6 +227,12 @@ async function main() {
         expect(r.sections.find((s: Any) => s._type === 'testimonials').items.every((t: Any) => t.quote), 'testimonials not expanded')
         expect(r.sections.find((s: Any) => s._type === 'founderStory').timeline.every((t: Any) => t.organisation), 'timeline not expanded')
         expect(r.sections.find((s: Any) => s._type === 'faqBlock').faqs.length === 6, 'home faqs')
+        const hero = r.sections[0]
+        expect(hero.primaryCta?.link?.href === '/growth-strategy', 'hero main button goes to the growth call')
+        expect(hero.supportLine && hero.eyebrow && !hero.handLine && !hero.workshopCard && !hero.statCard, 'round-two hero fields')
+        const marks = r.sections.filter((s: Any) => s.watermark && s.watermark !== 'none').map((s: Any) => s._type)
+        expect(marks.join() === 'methodCalendar', `home R watermarks: ${marks.join() || 'none'} (only the method section, plus the footer)`)
+        expect(!r.sections.find((s: Any) => s._type === 'statsBlock').showBadge, 'no R badge on the home page')
       }
       if (slug === 'about') {
         expect(r.sections.find((s: Any) => s._type === 'teamGrid').members.every((m: Any) => m.name), 'team not expanded')
@@ -244,6 +256,14 @@ async function main() {
     expect(r.slug === 'workshop', 'workshop slug')
     expect(r.faqs?.length === 4 && r.faqs.every((f: Any) => f.question), 'workshop faqs')
     expect(r.archive?.images?.length === 2, 'archive images')
+    expect(r.growthCallLink?.workshopLinkLabel, 'growth call line under the tickets')
+  })
+
+  await check<Any>('GROWTH_CALL_QUERY', Q.GROWTH_CALL_QUERY, {}, linkMap, (r) => {
+    expect(r.headline && r.lockedMessage && r.continueLabel, 'growth call copy')
+    expect(r.steps?.length === 3 && r.slotLabels?.length === 5, 'growth call steps and slots')
+    expect(r.availableWeekdays?.join() === 'Tue,Wed,Thu' && r.bookingWindowDays === 30, 'growth call days')
+    expect(r.successCta?.link?.href === '/workshop', 'growth call success button')
   })
 
   const courseSlugs = await check<string[]>('COURSE_SLUGS_QUERY', Q.COURSE_SLUGS_QUERY, {}, linkMap, (r) => {
@@ -255,13 +275,16 @@ async function main() {
       expect(r.course.faqs?.length === 3, 'course faqs')
       expect(r.courses?.length === 3, 'courses')
       expect(r.template?.enrollLabel, 'template')
-      expect(r.bundle?.price === 597, 'bundle price')
+      expect(r.bundle?.price === 597 && r.bundle?.introPrice === 399, 'bundle prices')
+      expect(!/Black Friday|November 27/.test(JSON.stringify(r.template)), 'no Black Friday left in the course labels')
     })
   }
 
   await check<Any>('BUNDLE_PAGE_QUERY', Q.BUNDLE_PAGE_QUERY, {}, linkMap, (r) => {
     expect(r.bundle?.path?.items?.every((i: Any) => i.course?.regularPrice), 'bundle path courses not expanded')
     expect(r.bundle.faqs?.length === 3, 'bundle faqs')
+    expect(r.bundle.introPrice === 399 && r.bundle.compareAtIntro === 447 && r.bundle.maths?.introColumn, 'bundle intro price and math table')
+    expect(r.bundle.path.items.every((i: Any) => typeof i.course?.introPrice === 'number'), 'bundle path intro prices')
     expect(r.courses?.length === 3, 'courses')
   })
 
@@ -303,7 +326,7 @@ async function main() {
   })
   await check<Any>('SITEMAP_QUERY', Q.SITEMAP_QUERY, {}, linkMap, (r) => {
     expect(r.pages?.length === 9 && r.courses?.length === 3 && r.posts?.length === 10 && r.legal?.length === 4, 'sitemap lists')
-    expect(r.workshop && r.bundle && r.book && r.assessment && r.blog, 'sitemap singletons')
+    expect(r.workshop && r.bundle && r.book && r.assessment && r.growthCall && r.blog, 'sitemap singletons')
   })
 
   // Every exported query was evaluated above
@@ -311,7 +334,7 @@ async function main() {
   const covered = [
     'LAYOUT_QUERY', 'PAGE_QUERY', 'PAGE_SLUGS_QUERY', 'WORKSHOP_QUERY', 'COURSE_PAGE_QUERY', 'COURSE_SLUGS_QUERY',
     'BUNDLE_PAGE_QUERY', 'BOOK_QUERY', 'ASSESSMENT_QUERY', 'ORDER_QUERY', 'BLOG_SETTINGS_QUERY', 'POSTS_QUERY',
-    'POST_QUERY', 'POST_SLUGS_QUERY', 'LEGAL_QUERY', 'LEGAL_NAV_QUERY', 'SITEMAP_QUERY',
+    'POST_QUERY', 'POST_SLUGS_QUERY', 'LEGAL_QUERY', 'LEGAL_NAV_QUERY', 'SITEMAP_QUERY', 'GROWTH_CALL_QUERY',
   ]
   for (const k of exported) if (!covered.includes(k)) fail(`query ${k} is not covered by this script`)
 

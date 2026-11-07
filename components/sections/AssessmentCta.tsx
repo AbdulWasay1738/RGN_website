@@ -14,7 +14,7 @@ export function AssessmentCta({ section }: SectionProps<AssessmentCtaSection>) {
   return (
     <Band
       background={section.background ?? 'ink'}
-      watermark={section.watermark ?? 'top-right'}
+      watermark={section.watermark}
       anchorId={section.anchorId}
       className={styles.band}
     >

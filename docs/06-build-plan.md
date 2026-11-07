@@ -1,5 +1,7 @@
 # 06. Build plan
 
+> **Round two (client feedback, Nov 7).** The changes in `CHANGES-ROUND-2.md` are already folded into these phases and the other docs. If a phase was finished before round two, apply that file's checklist to the finished work before moving on.
+
 Work one phase at a time. At the end of each phase: run the checks, update `docs/10-open-items.md`, write a short summary of what changed and how to see it, and stop for review before the next phase.
 
 ## Phase 0. Project setup
@@ -7,7 +9,7 @@ Work one phase at a time. At the end of each phase: run the checks, update `docs
 1. Create the Next.js app (App Router, TypeScript, ESLint) at the repo root, keeping the handoff folders (`docs`, `reference`, `content-seed`, `assets`) in place. Add Prettier.
 2. Install `sanity`, `next-sanity`, `@sanity/image-url`, `@sanity/vision`, and Playwright for tests.
 3. Add `.env.example` (see 02), `.gitignore` (including `.env*.local`) and a README with setup steps.
-4. Copy fonts to load via `next/font/local`, and copy static images to `public/img/`.
+4. Copy fonts to load via `next/font/local` (Benedict is the exception for now: see "Handwritten font setup" in 03), and copy static images to `public/img/`.
 5. Add npm scripts: `dev`, `build`, `lint`, `typegen`, `seed`, `test:visual`.
 6. Add a Vercel config if needed. Preview deployments must send `X-Robots-Tag: noindex`.
 
@@ -38,7 +40,7 @@ Work one phase at a time. At the end of each phase: run the checks, update `docs
 ## Phase 3. Pages
 
 Build the routes in this order, each with real Sanity data:
-1. Home (all sections, including YearCalendar exactly as specified in 03)
+1. Home (all sections, including YearCalendar exactly as specified in 03 and the calm round-two hero), then the growth call page `/growth-strategy`
 2. Workshop, Courses (x3), Bundle, Book (the money pages)
 3. Assessment (plus the questions flow and thank-you), Order confirmed
 4. Partner, Contact, About, Jenna, Speaking, Podcast, Socials, Careers
@@ -59,7 +61,7 @@ Include the checkout modal (placeholder payment step) and all forms (validated, 
 
 ## Phase 5. QA and handover prep
 
-Run the full checklist in 09, fix everything, then deploy to a Vercel preview URL to share with the client. Update the editor guide with screenshots.
+Run the full checklist in 09, fix everything, then deploy to a Vercel preview URL to share with the client. Update the editor guide with screenshots. Keep the site on preview URLs until the Benedict licence item in 10 is closed: production launch needs the licensed, self-hosted file.
 
 ## Phase 6. Integrations (start only when asked)
 

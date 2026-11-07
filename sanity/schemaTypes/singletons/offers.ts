@@ -5,6 +5,10 @@ import { UsersIcon } from '@sanity/icons/Users'
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { accent, bool, cta, ICONS, image, items, link, list, num, obj, PLACEHOLDER_HELP, ref, refs, seo, slug, str, strings, txt } from '../helpers'
 
+/** Price tokens bundle texts can use, filled in from the bundle prices (see bundlePriceTokens in lib/text.ts). */
+export const BUNDLE_PRICE_HELP =
+  'You can write {price}, {introPrice}, {compareAt}, {compareAtIntro} and {save}; the site fills in the numbers from the Content Machine bundle prices, so the text stays right when a price changes.'
+
 /* ---------------- workshop ---------------- */
 
 export const workshop = defineType({
@@ -189,8 +193,9 @@ export const courseTemplate = defineType({
 
     str('regularPriceLabel', { title: 'Regular price label', group: 'price' }),
     str('saveLabel', { title: 'Saving pill', group: 'price', description: 'The amount follows, for example "Save $".' }),
-    str('introEndsLabel', { title: 'Intro countdown heading', group: 'price' }),
-    str('bundleLinkLabel', { title: 'Bundle link', group: 'price' }),
+    str('introEndsLabel', { title: 'Intro countdown heading', group: 'price', description: 'For example "Intro price ends January 15".' }),
+    str('bundleLinkIntroLabel', { title: 'Bundle link during the intro period', group: 'price', description: BUNDLE_PRICE_HELP }),
+    str('bundleLinkLabel', { title: 'Bundle link after the intro period', group: 'price', description: BUNDLE_PRICE_HELP }),
     items('features', [list('icon', ICONS, { title: 'Icon' }), str('text', { title: 'Text' })], {
       title: 'Price card list',
       group: 'price',
@@ -214,7 +219,13 @@ export const courseTemplate = defineType({
     ),
     obj(
       'bundleUpsell',
-      [str('chip', { title: 'Chip' }), str('headline', { title: 'Headline' }), txt('body', { title: 'Text', rows: 2 }), str('ctaLabel', { title: 'Button text' })],
+      [
+        str('chip', { title: 'Chip' }),
+        str('headline', { title: 'Headline' }),
+        txt('bodyIntro', { title: 'Text during the intro period', rows: 2, description: BUNDLE_PRICE_HELP }),
+        txt('body', { title: 'Text after the intro period', rows: 2, description: BUNDLE_PRICE_HELP }),
+        str('ctaLabel', { title: 'Button text' }),
+      ],
       { title: 'Bundle panel', group: 'sections' },
     ),
     accent('faqHeadline', { title: 'FAQ headline', group: 'sections' }),
@@ -245,9 +256,24 @@ export const bundle = defineType({
     accent('headline', { title: 'Headline', group: 'hero' }),
     str('subline', { title: 'Subheadline', group: 'hero' }),
     strings('chips', { title: 'Chips', group: 'hero' }),
-    num('price', { title: 'Price (USD)', required: true, group: 'hero' }),
-    num('compareAt', { title: 'Compared with (USD)', group: 'hero', description: 'The three regular prices added up. Shown struck through.' }),
-    str('saveLabel', { title: 'Saving chip', group: 'hero', description: 'For example "Save $200".' }),
+    num('price', { title: 'Regular price (USD)', required: true, group: 'hero', description: 'Charged after the intro period ends.' }),
+    num('introPrice', {
+      title: 'Introductory price (USD)',
+      group: 'hero',
+      description: 'Charged until the intro period ends (Site > Sales calendar and seats). Leave empty for no intro price.',
+    }),
+    num('compareAt', {
+      title: 'Courses bought separately: regular prices (USD)',
+      group: 'hero',
+      description: 'The three regular course prices added up. Shown struck through after the intro period.',
+    }),
+    num('compareAtIntro', {
+      title: 'Courses bought separately: intro prices (USD)',
+      group: 'hero',
+      description: 'The three intro course prices added up. Used in the math text during the intro period.',
+    }),
+    str('introLabel', { title: 'Intro price chip', group: 'hero', description: `Shown during the intro period, for example "Intro price through Jan 15". ${BUNDLE_PRICE_HELP}` }),
+    str('saveLabel', { title: 'Saving chip', group: 'hero', description: `Shown after the intro period, for example "Save {save}". ${BUNDLE_PRICE_HELP}` }),
     str('ctaLabel', { title: 'Buy button text', group: 'hero' }),
     obj(
       'path',
@@ -268,12 +294,18 @@ export const bundle = defineType({
       [
         str('eyebrow', { title: 'Eyebrow' }),
         accent('headline', { title: 'Headline' }),
-        txt('body', { title: 'Text', rows: 2 }),
+        txt('bodyIntro', { title: 'Text during the intro period', rows: 2, description: BUNDLE_PRICE_HELP }),
+        txt('body', { title: 'Text after the intro period', rows: 2, description: BUNDLE_PRICE_HELP }),
         str('courseColumn', { title: 'Course column heading' }),
-        str('priceColumn', { title: 'Price column heading' }),
+        str('introColumn', { title: 'Intro price column heading', description: 'For example "Intro, through Jan 15". This column shows only during the intro period.' }),
+        str('priceColumn', { title: 'Regular price column heading' }),
         str('separateLabel', { title: 'Total row label' }),
+        str('totalNoteIntro', {
+          title: 'Line under the bundle name during the intro period',
+          description: `For example "Intro price through January 15, then {price}". After the intro period the saving chip text shows here. ${BUNDLE_PRICE_HELP}`,
+        }),
       ],
-      { title: 'The math table', group: 'content', description: 'The table adds up the regular course prices by itself.' },
+      { title: 'The math table', group: 'content', description: 'The table adds up the course prices by itself.' },
     ),
     obj('pairWithWorkshop', [str('eyebrow', { title: 'Eyebrow' }), accent('headline', { title: 'Headline' }), txt('body', { title: 'Text', rows: 2 }), cta('cta', { title: 'Button' })], {
       title: 'Pair with the workshop',

@@ -7,8 +7,9 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { useCheckout, type CheckoutOffer } from '@/components/providers/CheckoutProvider'
 import { useSalesCalendar } from '@/components/providers/SalesCalendarProvider'
-import { coursePriceParts, workshopPrice } from '@/lib/sales-calendar'
-import type { Course, Workshop } from '@/lib/sanity/types'
+import { bundlePriceParts, coursePriceParts, workshopPrice } from '@/lib/sales-calendar'
+import type { Bundle, Course, Workshop } from '@/lib/sanity/types'
+import { bundlePriceTokens, formatUsd, interpolate } from '@/lib/text'
 import { buttonClass } from './Button'
 import { Icon } from './Icon'
 import { track } from '@/lib/analytics'
@@ -110,4 +111,47 @@ export function CoursePriceText({ course }: { course: Pick<Course, 'introPrice' 
 export function WorkshopPriceText({ workshop }: { workshop?: Pick<Workshop, 'earlyBirdPrice' | 'standardPrice'> | null }) {
   const { now, dates } = useSalesCalendar()
   return <>${workshopPrice(workshop, now, dates)}</>
+}
+
+type BundlePrices = Pick<Bundle, 'price' | 'introPrice' | 'compareAt' | 'compareAtIntro'>
+
+/**
+ * Bundle price block by date: "$399  $597  Intro price through Jan 15" during
+ * the intro period, then "$597  $797  Save $200". The chip shows only when a
+ * label is passed.
+ */
+export function BundlePrice({
+  bundle,
+  introLabel,
+  saveLabel,
+  nowClassName,
+  wasClassName,
+}: {
+  bundle: BundlePrices
+  introLabel?: string
+  saveLabel?: string
+  nowClassName?: string
+  wasClassName?: string
+}) {
+  const { now, dates } = useSalesCalendar()
+  const p = bundlePriceParts(bundle, now, dates)
+  const chip = interpolate(p.intro ? introLabel : saveLabel, bundlePriceTokens(bundle))
+  return (
+    <>
+      <span className={['now', nowClassName].filter(Boolean).join(' ')}>{formatUsd(p.now)}</span>
+      {p.was ? (
+        <span className={['was', wasClassName].filter(Boolean).join(' ')}>
+          <span className="sr-only">{p.intro ? 'Regular price ' : 'Bought separately '}</span>
+          {formatUsd(p.was)}
+        </span>
+      ) : null}
+      {chip ? <span className="chip chip-o">{chip}</span> : null}
+    </>
+  )
+}
+
+/** Just the current bundle price as text, for example "$399". */
+export function BundlePriceText({ bundle }: { bundle: BundlePrices }) {
+  const { now, dates } = useSalesCalendar()
+  return <>{formatUsd(bundlePriceParts(bundle, now, dates).now)}</>
 }

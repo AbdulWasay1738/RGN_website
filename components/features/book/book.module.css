@@ -150,7 +150,7 @@ div.insideTile {
   min-height: 200px;
 }
 .insideWord {
-  font: 30px/1 var(--fs);
+  font: 30px/1 var(--font-hand);
   color: var(--orange);
 }
 :global(.tile.lv) .insideWord {

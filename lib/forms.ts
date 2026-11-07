@@ -5,7 +5,8 @@
  *
  * Phase 6: only `deliverForm` changes, to create or update the GoHighLevel
  * contact, add the source tag (and `sms-consent` when ticked) and store
- * assessment answers as a note.
+ * assessment answers as a note. A `growth` lead also triggers the workflow
+ * that texts and emails the client straight away (docs/07).
  */
 
 export type FormKind =
@@ -17,6 +18,7 @@ export type FormKind =
   | 'newsletter'
   | 'assessment'
   | 'checkout'
+  | 'growth'
 
 export type FieldType = 'text' | 'email' | 'tel' | 'url' | 'date' | 'select' | 'textarea' | 'checkbox' | 'radio' | 'hidden'
 
@@ -25,6 +27,8 @@ export type FieldSpec = {
   type: FieldType
   required?: boolean
   autoComplete?: string
+  /** 'US': a 10-digit number typed after a fixed +1 prefix, stored as +1XXXXXXXXXX */
+  country?: 'US'
 }
 
 /** The fields each form accepts. Anything else in the payload is dropped. */
@@ -90,6 +94,14 @@ export const FORM_FIELDS: Record<FormKind, FieldSpec[]> = {
     { name: 'phone', type: 'tel', required: true, autoComplete: 'tel' },
     { name: 'smsConsent', type: 'checkbox' },
   ],
+  /** Growth strategy call, step 1. Sent on Continue, before any time is booked. */
+  growth: [
+    { name: 'phone', type: 'tel', required: true, autoComplete: 'tel-national', country: 'US' },
+    { name: 'firstName', type: 'text', required: true, autoComplete: 'given-name' },
+    { name: 'lastName', type: 'text', required: true, autoComplete: 'family-name' },
+    { name: 'email', type: 'email', required: true, autoComplete: 'email' },
+    { name: 'smsConsent', type: 'checkbox' },
+  ],
 }
 
 /** Fixed UI text (allowed in code by docs/04): validation messages. */
@@ -98,6 +110,7 @@ export const VALIDATION_MESSAGES = {
   email: 'Enter an email address like name@company.com',
   url: 'Enter a full link starting with https://',
   tel: 'Enter a phone number',
+  telUs: 'Enter a 10-digit US mobile number',
   generic: 'Check this field',
   failed: 'That did not send. Check the highlighted fields and try again.',
 }
@@ -116,8 +129,16 @@ export function validateField(spec: FieldSpec, raw: string | undefined): string 
   if (value.length > 5000) return VALIDATION_MESSAGES.generic
   if (spec.type === 'email' && !EMAIL_RE.test(value)) return VALIDATION_MESSAGES.email
   if (spec.type === 'url' && !URL_RE.test(value)) return VALIDATION_MESSAGES.url
+  if (spec.type === 'tel' && spec.country === 'US' && !usDigits(value)) return VALIDATION_MESSAGES.telUs
   if (spec.type === 'tel' && !TEL_RE.test(value)) return VALIDATION_MESSAGES.tel
   return null
+}
+
+/** The 10 digits of a US number typed after the +1 prefix ("(555) 010-2345", "555.010.2345", "1 555 010 2345"). */
+function usDigits(value: string) {
+  const digits = value.replace(/\D/g, '')
+  const ten = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits
+  return /^[2-9]\d{9}$/.test(ten) ? ten : null
 }
 
 export function validateForm(kind: FormKind, values: FormValues): FieldErrors {
@@ -134,7 +155,9 @@ export function pickFields(kind: FormKind, values: FormValues): FormValues {
   const out: FormValues = {}
   for (const spec of FORM_FIELDS[kind]) {
     const v = values[spec.name]
-    if (typeof v === 'string') out[spec.name] = v.trim()
+    if (typeof v !== 'string') continue
+    const us = spec.country === 'US' ? usDigits(v) : null
+    out[spec.name] = us ? `+1${us}` : v.trim()
   }
   return out
 }

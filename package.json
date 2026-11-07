@@ -16,6 +16,7 @@
     "typegen": "sanity schema extract --path=sanity/extract.json --enforce-required-fields --force && sanity typegen generate",
     "seed": "sanity exec sanity/seed/import.ts --with-user-token",
     "seed:ndjson": "tsx sanity/seed/export-ndjson.ts",
+    "migrate:round-2": "sanity exec sanity/migrations/round-2.ts --with-user-token",
     "test": "vitest run",
     "test:visual": "playwright test tests/visual",
     "test:a11y": "playwright test tests/a11y",

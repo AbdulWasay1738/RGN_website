@@ -6,12 +6,12 @@ import type { FinalCtaSection } from '@/lib/sanity/types'
 import type { SectionProps } from './SectionRenderer'
 import styles from './FinalCta.module.css'
 
-/** The orange closing band with the R watermark, the workshop call to action and a live countdown. */
+/** The orange closing band with the workshop call to action and a live countdown. */
 export function FinalCta({ section }: SectionProps<FinalCtaSection>) {
   return (
     <Band
       background={section.background ?? 'orange'}
-      watermark={section.watermark ?? 'center-right'}
+      watermark={section.watermark}
       anchorId={section.anchorId}
       padding="none"
     >

@@ -24,3 +24,31 @@ for (const route of ROUTES) {
     expect(summary, JSON.stringify(summary, null, 2)).toEqual([])
   })
 }
+
+/** The growth call after step 1: the unlocked calendar with a day and a time chosen. */
+test('axe: growth call, unlocked calendar', async ({ page }) => {
+  await page.addInitScript(() => {
+    try {
+      localStorage.setItem('rgn_cookie', 'no')
+    } catch {}
+  })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/growth-strategy')
+  const main = page.locator('main')
+  await main.getByLabel(/mobile number/i).fill('(555) 010-2345')
+  await main.getByLabel('First name').fill('Alex')
+  await main.getByLabel('Last name').fill('Morgan')
+  await main.getByLabel('Work email').fill('alex@example.com')
+  await page.waitForTimeout(2600)
+  await main.getByRole('button', { name: 'Continue' }).click()
+  let day = main.getByRole('button', { name: /, available$/ }).first()
+  if (!(await day.count())) {
+    await main.getByRole('button', { name: 'Next month' }).click()
+    day = main.getByRole('button', { name: /, available$/ }).first()
+  }
+  await day.click()
+  await main.getByRole('group', { name: 'Available times' }).getByRole('button').first().click()
+  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze()
+  const summary = results.violations.map((v) => ({ id: v.id, impact: v.impact, nodes: v.nodes.slice(0, 5).map((n) => n.target.join(' ')) }))
+  expect(summary, JSON.stringify(summary, null, 2)).toEqual([])
+})

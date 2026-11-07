@@ -66,6 +66,7 @@ const PATH_TO_ID: Record<string, string> = {
   '/legal/terms': 'legal-terms',
   '/legal/dmca': 'legal-dmca',
   '/legal/do-not-sell': 'legal-do-not-sell',
+  '/growth-strategy': 'growthCall',
 }
 for (const c of coursesSeed) PATH_TO_ID[`/courses/${c.slug}`] = COURSE_IDS[c.id]
 postsSeed.forEach((p) => {
@@ -334,7 +335,7 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
                 {
                   label: 'The Content Machine',
                   link: link('/courses/content-machine'),
-                  description: 'All three courses · $597',
+                  description: 'All three courses · {bundlePrice}',
                   badgeStyle: 'bundleIcon',
                 },
                 {
@@ -445,7 +446,8 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
       cancelLabel: 'Cancel',
       workshopSubline: '{ticket} ticket · Thursday, Feb 4, 2027 · Noon ET',
       courseSubline: 'Online course · {priceType} · lessons open Dec 1, 2026',
-      bundleSubline: 'All three online courses · lessons open Dec 1, 2026',
+      bundleSubline: 'All three online courses · {priceType} · lessons open Dec 1, 2026',
+      bundleIntroPriceLabel: 'introductory price through January 15',
       earlyBirdTicket: 'Early-bird',
       standardTicket: 'Standard',
       introPriceLabel: 'introductory price',
@@ -737,8 +739,9 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
     detailsLabel: 'Details',
     regularPriceLabel: 'Regular price',
     saveLabel: 'Save $',
-    introEndsLabel: 'Intro price ends Black Friday, November 27',
-    bundleLinkLabel: 'Or get all three courses for $597',
+    introEndsLabel: 'Intro price ends January 15',
+    bundleLinkIntroLabel: 'Or get all three courses for {introPrice} (intro price)',
+    bundleLinkLabel: 'Or get all three courses for {price}',
     features: items(
       'features',
       [
@@ -758,7 +761,8 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
     bundleUpsell: {
       chip: 'Best value',
       headline: 'Take all three courses as the Content Machine.',
-      body: 'One path from strategy to distribution. All three for $597, a $200 saving.',
+      bodyIntro: 'One path from strategy to distribution. All three for {introPrice} through January 15, then {price}.',
+      body: 'One path from strategy to distribution. All three for {price}, a {save} saving.',
       ctaLabel: 'See the bundle',
     },
     faqHeadline: 'Course questions.',
@@ -778,8 +782,11 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
     subline: 'One path from strategy to distribution.',
     chips: ['Best value', 'All three courses · opens Dec 1'],
     price: singletons.bundle.price,
+    introPrice: singletons.bundle.introPrice,
     compareAt: singletons.bundle.compareAt,
-    saveLabel: 'Save $200',
+    compareAtIntro: singletons.bundle.compareAtIntro,
+    introLabel: 'Intro price through Jan 15',
+    saveLabel: 'Save {save}',
     ctaLabel: 'Get the bundle',
     path: {
       eyebrow: 'Three courses, in order',
@@ -798,10 +805,13 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
     maths: {
       eyebrow: 'The math',
       headline: 'Three courses. One price.',
-      body: 'Bought separately, the three courses total $797. The bundle saves $200.',
+      bodyIntro: 'Through January 15, the three courses total {compareAtIntro} at introductory prices. The bundle costs {introPrice}.',
+      body: 'Bought separately, the three courses total {compareAt}. The bundle saves {save}.',
       courseColumn: 'Course',
-      priceColumn: 'Regular price',
+      introColumn: 'Intro, through Jan 15',
+      priceColumn: 'Regular',
       separateLabel: 'Bought separately',
+      totalNoteIntro: 'Intro price through January 15, then {price}',
     },
     pairWithWorkshop: {
       eyebrow: 'Step 02 happens in the room',
@@ -818,9 +828,46 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
       fanWord: 'Machine',
     },
     seo: seo(
-      'All three Reel Good News courses in one path from strategy to distribution. $597, a $200 saving on the regular prices.',
+      'All three Reel Good News courses in one path from strategy to distribution, for less than buying them separately.',
       'The Content Machine bundle',
     ),
+  })
+
+  const gc = singletons.growthCall
+  add({
+    _id: 'growthCall',
+    _type: 'growthCall',
+    eyebrow: gc.eyebrow,
+    headline: gc.headline,
+    intro: gc.intro,
+    steps: items(
+      'steps',
+      gc.steps.map(([icon, title, text]) => ({ icon, title, text })),
+      'step',
+    ),
+    callLengthNote: gc.callLengthNote,
+    formStepLabel: 'Fill out the form',
+    bookStepLabel: 'Book your call',
+    consentText: gc.consentText,
+    termsLine: gc.termsLine,
+    continueLabel: gc.continueLabel,
+    leadSavedMessage: 'Details saved. Our team has them now.',
+    editLabel: 'Edit',
+    lockedMessage: gc.lockedMessage,
+    timezoneLabel: gc.timezoneLabel,
+    confirmLabel: gc.confirmLabel,
+    availableWeekdays: gc.availableWeekdays,
+    bookingWindowDays: gc.bookingWindowDays,
+    slotLabels: gc.slotLabels,
+    callMinutes: 30,
+    successTitle: gc.successTitle,
+    successBody: gc.successBody,
+    bookedMessage: 'Booked. Confirmation text on the way.',
+    addToCalendarLabel: 'Add to calendar',
+    successCta: cta('See the workshop', '/workshop', 'dark'),
+    workshopLine: gc.workshopLine,
+    workshopLinkLabel: gc.workshopLinkLabel,
+    seo: seo(gc.intro, 'Claim your 2027 growth strategy'),
   })
 
   add({
@@ -1063,7 +1110,7 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
           title: 'Start with Course 1: Attract the Right Audience',
           link: link('/courses/attract-the-right-audience'),
           course: ref('course-attract'),
-          introNote: 'introductory price through Black Friday.',
+          introNote: 'introductory price through January 15.',
           regularNote: 'regular price.',
         },
         {
@@ -1221,8 +1268,8 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
       ...extra,
     })
 
-  const homeLead =
-    'Our team at Reel Good News turns expertise, customer results and reputation into a year of strategic content, all from one planned production day.'
+  const hero = singletons.homeHero
+  const homeDescription = 'Reel Good News turns your expertise, customer stories, and industry knowledge into a year of strategic content.'
 
   page(
     'page-home',
@@ -1233,16 +1280,14 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
         _type: 'heroFounder',
         _key: 'hero',
         background: 'navy',
-        watermark: 'none',
-        handLine: 'Hook. Line. Heart.',
-        headline: 'Is your expertise doing the _selling_ for you?',
-        lead: homeLead,
-        primaryCta: cta('Reserve my seat', '/workshop', 'primary'),
-        secondaryCta: cta('Take the free assessment', '/assessment', 'outlineLight'),
+        eyebrow: hero.eyebrow,
+        headline: hero.headline,
+        lead: hero.lead,
+        primaryCta: cta(hero.primaryCta.label, hero.primaryCta.link, 'primary'),
+        secondaryCta: cta(hero.secondaryCta.label, hero.secondaryCta.link, 'outlineLight'),
+        supportLine: hero.supportLine,
         portrait: img('jenna-cutout.webp', JENNA_CUTOUT_ALT),
-        workshopCard: { title: 'Live workshop', line: 'Feb 4, 2027 · Noon ET', link: link('/workshop') },
-        statCard: { value: 250, label: 'founders coached' },
-        lowerThird: { tag: 'FOUNDER', name: 'Jenna Colombo', title: 'Reel Good News · Groundswell Startups' },
+        lowerThird: { tag: hero.lowerThird.tag, name: hero.lowerThird.name, title: hero.lowerThird.line },
       },
       {
         _type: 'ticker',
@@ -1276,7 +1321,7 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
         _type: 'howItWorks',
         _key: 'how',
         background: 'white',
-        watermark: 'bottom-left',
+        watermark: 'none',
         eyebrow: 'How it works',
         headline: 'Four steps from hidden expertise to visible proof.',
         note: 'Each step has its own course or event. Take one, or follow the whole path.',
@@ -1324,7 +1369,7 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
         _key: 'offers',
         anchorId: 'offers',
         background: 'paper',
-        watermark: 'bottom-right',
+        watermark: 'none',
         eyebrow: 'Courses, workshop and book',
         headline: 'Choose a *starting point.*',
         note: 'Take one course, follow all three in order, or see the full method in one room at the live workshop.',
@@ -1334,7 +1379,7 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
         _type: 'assessmentCta',
         _key: 'assessment',
         background: 'ink',
-        watermark: 'top-right',
+        watermark: 'none',
         tornTopEdge: true,
         eyebrow: 'Free · five minutes · reviewed by our team',
         headline: 'Your company has the expertise. Does the marketing *put it to work?*',
@@ -1347,11 +1392,11 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
         _type: 'statsBlock',
         _key: 'stats',
         background: 'white',
-        watermark: 'top-left',
+        watermark: 'none',
         variant: 'rule',
         eyebrow: 'Track record',
         headline: 'Recent wins & *milestones*',
-        showBadge: true,
+        showBadge: false,
         stats: refs(HOME_STATS, 'stat'),
         footnote: singletons.statsFootnote,
       },
@@ -1394,7 +1439,7 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
         _type: 'faqBlock',
         _key: 'faq',
         background: 'white',
-        watermark: 'bottom-right',
+        watermark: 'none',
         eyebrow: 'Questions',
         headline: 'Good questions. *Straight answers.*',
         note: 'Another question? Send a note. Our team replies within [number] business days.',
@@ -1406,14 +1451,14 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
         _type: 'finalCta',
         _key: 'final',
         background: 'orange',
-        watermark: 'center-right',
+        watermark: 'none',
         eyebrow: 'Live workshop · Thursday, February 4, 2027 · Noon ET',
         headline: 'Turn one production day into a year of credibility.',
         cta: cta('Reserve my seat', '/workshop', 'dark'),
         showCountdown: true,
       },
     ],
-    homeLead,
+    homeDescription,
   )
 
   page(

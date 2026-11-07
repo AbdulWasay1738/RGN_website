@@ -64,6 +64,60 @@ export function Field({
   )
 }
 
+/** Phone input after a fixed country prefix, for example "US +1" (the growth call form). */
+export function PhoneField({
+  id,
+  name,
+  label,
+  prefix,
+  prefixLabel,
+  required,
+  error,
+  className,
+  placeholder,
+  defaultValue,
+  autoComplete = 'tel-national',
+}: BaseProps & {
+  /** Shown in the box, for example "US +1" */
+  prefix: string
+  /** Read to screen readers after the label, for example "United States, +1" */
+  prefixLabel: string
+  placeholder?: string
+  defaultValue?: string
+  autoComplete?: string
+}) {
+  return (
+    <label className={['field', error ? 'err' : '', className].filter(Boolean).join(' ')} htmlFor={id}>
+      <span>
+        {label}
+        <span className="sr-only"> ({prefixLabel})</span>
+      </span>
+      <span className="tel">
+        <span className="cc" aria-hidden="true">
+          {prefix}
+        </span>
+        <input
+          id={id}
+          name={name}
+          type="tel"
+          inputMode="tel"
+          required={required}
+          autoComplete={autoComplete}
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${id}-err` : undefined}
+        />
+      </span>
+      {error ? (
+        <span className="em" id={`${id}-err`}>
+          {error}
+        </span>
+      ) : null}
+    </label>
+  )
+}
+
 export function SelectField({
   id,
   name,
@@ -121,10 +175,10 @@ export function TextAreaField({ id, name, label, required, error, className, row
 }
 
 /** Optional, unticked consent box. Wording comes from the Studio ("[Counsel to review]"). */
-export function Consent({ id, name, children }: { id: string; name: string; children: ReactNode }) {
+export function Consent({ id, name, children, defaultChecked }: { id: string; name: string; children: ReactNode; defaultChecked?: boolean }) {
   return (
     <label className="consent" htmlFor={id}>
-      <input id={id} type="checkbox" name={name} value="yes" />
+      <input id={id} type="checkbox" name={name} value="yes" defaultChecked={defaultChecked} />
       <span>{children}</span>
     </label>
   )

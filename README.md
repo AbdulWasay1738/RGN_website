@@ -45,6 +45,13 @@ npx sanity login
 npm run seed
 ```
 
+Only seed an empty or throwaway dataset: it replaces seeded documents with the prototype copy. After the client starts editing, bring the dataset up to date after a feedback round with that round's migration instead. It changes only the fields the round changed, and only while they still hold the old seed text, and lists anything edited in the Studio that it left alone:
+
+```bash
+npm run migrate:round-2 -- -- --dry-run   # list the changes, write nothing
+npm run migrate:round-2                   # write them (deploy the matching code first)
+```
+
 ## Commands
 
 | Command | What it does |
@@ -53,12 +60,13 @@ npm run seed
 | `npm run dev:offline` | The site rendered from `content-seed/`, with no Sanity connection (local development and tests only) |
 | `npm run build` / `npm start` | Production build and server |
 | `npm run lint` / `npm run typecheck` | ESLint and TypeScript |
-| `npm test` | Unit tests (sales calendar rules, text helpers) |
+| `npm test` | Unit tests (sales calendar and bundle prices, growth call calendar and form, text helpers) |
 | `npm run typegen` | Regenerate `sanity.types.ts` from the schema and queries |
-| `npm run seed` | Import `content-seed/` and the prototype copy into the dataset |
+| `npm run seed` | Import `content-seed/` and the prototype copy into an empty dataset |
+| `npm run migrate:round-2` | Apply the client's round-two changes to a dataset already in use, keeping Studio edits (`-- -- --dry-run` to preview) |
 | `npm run test:visual` | Screenshots of the prototype and the site at 1280px and 390px for every route, plus overflow and broken-image checks. Output in `tests/visual/__screenshots__/` |
 | `npm run test:a11y` | axe accessibility checks on every route |
-| `npm run test:e2e` | Behaviour checks: sales states, banner, menus, checkout, assessment, blog filter |
+| `npm run test:e2e` | Behaviour checks: sales states, bundle prices, banner, menus, checkout, assessment, growth call, blog filter, the round-two home page (two R marks, Benedict) |
 | `npm run prototype` | Serves the prototype at http://localhost:8765/index.html |
 
 Playwright tests start `npm start` in offline mode, so run `SANITY_OFFLINE=1 npm run build` first (or set `BASE_URL` to test a running site). Install the browser once with `npx playwright install chromium`.
@@ -73,6 +81,7 @@ app/
                      about/jenna-colombo, and any page the client creates
     workshop/, courses/[slug]/, courses/content-machine/, book/   the offer pages (singletons and course documents)
     assessment/, order/confirmed/, blog/, legal/[slug]/
+    growth-strategy/ the growth strategy call: lead form first (captured on Continue), then day and time
   studio/            the embedded Sanity Studio
   api/revalidate     publish webhook (signature checked) -> revalidateTag
   api/draft-mode/    enable / disable preview
@@ -81,9 +90,10 @@ components/          brand/, ui/, layout/, sections/ (one per page-builder secti
 lib/
   sanity/            client, fetch (tags, draft mode, offline mode, link resolution), queries, types (the content contract)
   sales-calendar.ts  pure, unit-tested price and date rules
+  growth-call.ts     pure, unit-tested booking calendar rules (Eastern Time)
   forms.ts           form field sets, validation and the delivery seam for phase 6
   seo.ts, analytics.ts, text.ts
-sanity/              schemas, Studio structure, Presentation config, seed
+sanity/              schemas, Studio structure, Presentation config, seed, migrations (one per feedback round)
 styles/              tokens.css, base.css, brand.css (ported from the prototype); CSS Modules sit next to components
 ```
 
@@ -94,9 +104,13 @@ styles/              tokens.css, base.css, brand.css (ported from the prototype)
 - In draft mode (the Studio's Presentation tool), pages read drafts with click-to-edit overlays.
 - Link fields store references; `href`s are resolved at fetch time, so renaming a slug never breaks a link. Links to hidden pages disappear from navigation.
 
+### Fonts
+
+Anton, Nunito Sans and Licorice are self-hosted with `next/font/local`. The handwritten accents use **Benedict**, the client's choice, loaded for now with a plain `@font-face` from a remote font host (`styles/tokens.css`) until her web licence is bought; Licorice is the fallback. Components use `var(--font-hand)` and never name a font. When the licence arrives, save the file as `assets/fonts/benedict.woff2`, load it with `next/font/local`, and delete the remote face and the preconnect in `app/(site)/layout.tsx`. Never commit a Benedict file before then. Launching on the real domain waits for this.
+
 ### Time-dependent content
 
-Prices, the banner variant, "opens Dec 1" labels, ticket states and countdowns follow the dates in **Sales calendar & seats**. Pages render on the server with the request time and the browser re-checks every minute, so cached pages switch at each cutoff. On previews and in draft mode, add `?now=2026-11-29T15:00:00Z` to any URL to see another sales state. This never works in production for visitors.
+Course and bundle prices, the banner variant, "opens Dec 1" labels, ticket states and countdowns follow the dates in **Sales calendar & seats**. Bundle texts can use the price tokens `{price}`, `{introPrice}`, `{compareAt}`, `{compareAtIntro}` and `{save}`, and the Education menu line can use `{bundlePrice}`, so prices are typed once. Pages render on the server with the request time and the browser re-checks every minute, so cached pages switch at each cutoff. On previews and in draft mode, add `?now=2026-12-20T15:00:00Z` to any URL to see another sales state. This never works in production for visitors.
 
 ## Deploying to Vercel
 
@@ -110,4 +124,4 @@ Prices, the banner variant, "opens Dec 1" labels, ticket states and countdowns f
 
 ## Phase 6 (not built yet)
 
-Stripe Checkout and GoHighLevel are described in `docs/07-integrations-later.md`. The seams are ready: `lib/forms.ts#deliverForm`, the checkout modal's payment step (`components/features/CheckoutModal.tsx`, marked `Phase 6`), `salesCalendar.seatsSold`, and `lib/analytics.ts#track`.
+Stripe Checkout and GoHighLevel are described in `docs/07-integrations-later.md`. The seams are ready: `lib/forms.ts#deliverForm` (including the `growth` lead, which should alert the client straight away), the growth call's Confirm step (`components/features/growth/GrowthBooking.tsx`, marked `Phase 6`) and `lib/growth-call.ts` (replaced by GoHighLevel free slots), the checkout modal's payment step (`components/features/CheckoutModal.tsx`, marked `Phase 6`), `salesCalendar.seatsSold`, and `lib/analytics.ts#track`.

@@ -3,7 +3,7 @@ import type { Link, LinkTargetType } from './types'
 export type LinkTarget = { _id: string; _type: LinkTargetType; slug?: string; hidden?: boolean }
 
 /** GROQ for every document a link can point to. */
-export const LINK_TARGETS_QUERY = `*[_type in ["page","course","workshop","bundle","book","assessment","post","legalPage","blogSettings"]]{_id, _type, "slug": slug.current, hidden}`
+export const LINK_TARGETS_QUERY = `*[_type in ["page","course","workshop","bundle","book","assessment","post","legalPage","blogSettings","growthCall"]]{_id, _type, "slug": slug.current, hidden}`
 
 /** The public URL of a document, or undefined when it is hidden or has no URL. */
 export function hrefForDocument(doc: Pick<LinkTarget, '_type' | 'slug' | 'hidden'>): string | undefined {
@@ -28,6 +28,8 @@ export function hrefForDocument(doc: Pick<LinkTarget, '_type' | 'slug' | 'hidden
       return doc.slug ? `/legal/${doc.slug}` : undefined
     case 'blogSettings':
       return '/blog'
+    case 'growthCall':
+      return '/growth-strategy'
     default:
       return undefined
   }

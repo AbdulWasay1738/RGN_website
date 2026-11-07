@@ -5,15 +5,17 @@ import styles from '@/components/features/bundle/bundle.module.css'
 import { AccentText } from '@/components/ui/AccentText'
 import { Accordion } from '@/components/ui/Accordion'
 import { CtaLink } from '@/components/ui/Button'
-import { BuyButton } from '@/components/ui/Commerce'
+import { DateSwitch } from '@/components/providers/SalesCalendarProvider'
+import { BundlePrice, BundlePriceText, BuyButton } from '@/components/ui/Commerce'
 import { Icon } from '@/components/ui/Icon'
 import { JsonLd } from '@/components/ui/JsonLd'
 import { sanityFetch } from '@/lib/sanity/fetch'
+import { bundlePriceParts, calendarDates, isIntro } from '@/lib/sales-calendar'
 import { getLayoutData } from '@/lib/sanity/layout'
 import { BUNDLE_PAGE_QUERY } from '@/lib/sanity/queries'
 import type { Bundle, Course } from '@/lib/sanity/types'
 import { absoluteUrl, breadcrumbLd, buildMetadata, faqPageLd } from '@/lib/seo'
-import { plainText } from '@/lib/text'
+import { bundlePriceTokens, formatUsd, interpolate, plainText } from '@/lib/text'
 
 type BundlePageData = { bundle: Bundle | null; courses: Course[] | null }
 
@@ -35,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BundlePage() {
-  const data = await getData()
+  const [data, layout] = await Promise.all([getData(), getLayoutData()])
   const b = data?.bundle
   if (!b) notFound()
 
@@ -44,10 +46,20 @@ export default async function BundlePage() {
   const pathItems = (b.path?.items ?? []).filter((it) => it.course)
   const tableCourses = pathItems.length ? pathItems.map((it) => it.course!) : courses
   const separateTotal = tableCourses.reduce((sum, c) => sum + (c.regularPrice ?? 0), 0)
-  const compareAt = b.compareAt ?? (separateTotal || undefined)
+  const separateIntroTotal = tableCourses.reduce((sum, c) => sum + (c.introPrice ?? c.regularPrice ?? 0), 0)
+  const prices = {
+    ...b,
+    compareAt: b.compareAt ?? (separateTotal || undefined),
+    compareAtIntro: b.compareAtIntro ?? (separateIntroTotal || undefined),
+  }
+  const tokens = bundlePriceTokens(prices)
   const maths = b.maths ?? {}
   const pair = b.pairWithWorkshop ?? {}
 
+  // Structured data follows the price on the server clock (the page regenerates every minute).
+  const dates = calendarDates(layout.calendar)
+  const serverNow = new Date()
+  const offerPrice = bundlePriceParts(prices, serverNow, dates).now
   const productLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -56,7 +68,16 @@ export default async function BundlePage() {
     url: absoluteUrl(PATH),
     brand: { '@type': 'Brand', name: 'Reel Good News' },
     ...(typeof b.price === 'number'
-      ? { offers: { '@type': 'Offer', price: b.price, priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: absoluteUrl(PATH) } }
+      ? {
+          offers: {
+            '@type': 'Offer',
+            price: offerPrice,
+            priceCurrency: 'USD',
+            availability: 'https://schema.org/InStock',
+            url: absoluteUrl(PATH),
+            ...(isIntro(serverNow, dates) && offerPrice !== b.price ? { priceValidUntil: dates.introEndsAt.toISOString().slice(0, 10) } : {}),
+          },
+        }
       : {}),
   }
 
@@ -104,13 +125,13 @@ export default async function BundlePage() {
               </BuyButton>
               {typeof b.price === 'number' ? (
                 <span className="price">
-                  <span className={`now ${styles.heroNow}`}>${b.price}</span>
-                  {compareAt ? (
-                    <span className={`was ${styles.heroWas}`}>
-                      <span className="sr-only">Bought separately </span>${compareAt}
-                    </span>
-                  ) : null}
-                  {b.saveLabel ? <span className="chip chip-o">{b.saveLabel}</span> : null}
+                  <BundlePrice
+                    bundle={prices}
+                    introLabel={b.introLabel}
+                    saveLabel={b.saveLabel}
+                    nowClassName={styles.heroNow}
+                    wasClassName={styles.heroWas}
+                  />
                 </span>
               ) : null}
             </div>
@@ -178,13 +199,30 @@ export default async function BundlePage() {
           <div className="side stack g16 rv">
             {maths.eyebrow ? <span className="eyebrow">{maths.eyebrow}</span> : null}
             <AccentText as="h2" className="h2" text={maths.headline} />
-            {maths.body ? <p className="lead">{maths.body}</p> : null}
+            {maths.body || maths.bodyIntro ? (
+              <p className="lead">
+                <DateSwitch
+                  rule="intro"
+                  whenTrue={interpolate(maths.bodyIntro || maths.body, tokens)}
+                  whenFalse={interpolate(maths.body, tokens)}
+                />
+              </p>
+            ) : null}
           </div>
           <div className={`grow panel rv ${styles.tablePanel}`}>
             <table className="table">
               <thead>
                 <tr>
                   <th scope="col">{maths.courseColumn}</th>
+                  {/* The intro column shows only while intro prices apply. */}
+                  <DateSwitch
+                    rule="intro"
+                    whenTrue={
+                      <th scope="col" className={styles.priceHead}>
+                        {maths.introColumn}
+                      </th>
+                    }
+                  />
                   <th scope="col" className={styles.priceHead}>
                     {maths.priceColumn}
                   </th>
@@ -194,12 +232,14 @@ export default async function BundlePage() {
                 {tableCourses.map((c) => (
                   <tr key={c._id}>
                     <td>{c.title}</td>
-                    <td className="r">{typeof c.regularPrice === 'number' ? `$${c.regularPrice}` : ''}</td>
+                    <DateSwitch rule="intro" whenTrue={<td className="r">{formatUsd(c.introPrice ?? c.regularPrice)}</td>} />
+                    <td className="r">{formatUsd(c.regularPrice)}</td>
                   </tr>
                 ))}
                 <tr>
                   <td className="muted">{maths.separateLabel}</td>
-                  <td className={`r muted ${styles.struck}`}>${separateTotal}</td>
+                  <DateSwitch rule="intro" whenTrue={<td className={`r muted ${styles.struck}`}>{formatUsd(separateIntroTotal)}</td>} />
+                  <td className={`r muted ${styles.struck}`}>{formatUsd(separateTotal)}</td>
                 </tr>
               </tbody>
             </table>
@@ -207,9 +247,17 @@ export default async function BundlePage() {
               <div className={styles.total}>
                 <span className="stack" style={{ lineHeight: 1.2 }}>
                   <strong className={styles.totalName}>{b.title}</strong>
-                  {b.saveLabel ? <span className={styles.totalSave}>{b.saveLabel}</span> : null}
+                  <span className={styles.totalSave}>
+                    <DateSwitch
+                      rule="intro"
+                      whenTrue={interpolate(maths.totalNoteIntro || b.saveLabel, tokens)}
+                      whenFalse={interpolate(b.saveLabel, tokens)}
+                    />
+                  </span>
                 </span>
-                <span className={styles.totalPrice}>${b.price}</span>
+                <span className={styles.totalPrice}>
+                  <BundlePriceText bundle={prices} />
+                </span>
               </div>
             ) : null}
           </div>

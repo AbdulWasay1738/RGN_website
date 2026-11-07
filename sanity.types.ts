@@ -21,17 +21,6 @@ type ArrayOf<T> = Array<
 >
 
 // Source: sanity/extract.json
-export type WorkshopCard = {
-  title?: string
-  line?: string
-  link?: Link
-}
-
-export type StatCard = {
-  value?: number
-  label?: string
-}
-
 export type LowerThird = {
   tag?: string
   name?: string
@@ -248,6 +237,13 @@ export type BlogSettingsReference = {
   [internalGroqTypeReferenceTo]?: 'blogSettings'
 }
 
+export type GrowthCallReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'growthCall'
+}
+
 export type Link = {
   _type: 'link'
   kind?: 'internal' | 'external'
@@ -261,6 +257,7 @@ export type Link = {
     | PostReference
     | LegalPageReference
     | BlogSettingsReference
+    | GrowthCallReference
   external?: string
   anchor?: string
   newTab?: boolean
@@ -285,6 +282,7 @@ export type CourseTemplate = {
   regularPriceLabel?: string
   saveLabel?: string
   introEndsLabel?: string
+  bundleLinkIntroLabel?: string
   bundleLinkLabel?: string
   features?: Array<{
     icon?:
@@ -325,6 +323,7 @@ export type CourseTemplate = {
   bundleUpsell?: {
     chip?: string
     headline?: string
+    bodyIntro?: string
     body?: string
     ctaLabel?: string
   }
@@ -491,6 +490,7 @@ export type SiteSettings = {
     workshopSubline?: string
     courseSubline?: string
     bundleSubline?: string
+    bundleIntroPriceLabel?: string
     earlyBirdTicket?: string
     standardTicket?: string
     introPriceLabel?: string
@@ -575,6 +575,16 @@ export type Faq = {
   question: string
   answer: string
   tags?: Array<string>
+}
+
+export type GrowthCallCta = {
+  _type: 'growthCallCta'
+  line?: string
+  linkLabel: string
+  background?: 'white' | 'paper' | 'navy' | 'ink' | 'lavender' | 'lavender-tint' | 'orange'
+  watermark?: 'none' | 'top-right' | 'top-left' | 'bottom-left' | 'bottom-right' | 'center-right'
+  anchorId?: string
+  hidden?: boolean
 }
 
 export type MediaBand = {
@@ -1058,14 +1068,13 @@ export type Ticker = {
 
 export type HeroFounder = {
   _type: 'heroFounder'
-  handLine?: string
+  eyebrow?: string
   headline: string
   lead?: string
   primaryCta?: Cta
   secondaryCta?: Cta
+  supportLine?: string
   portrait?: ImageWithAlt
-  workshopCard?: WorkshopCard
-  statCard?: StatCard
   lowerThird?: LowerThird
   background?: 'white' | 'paper' | 'navy' | 'ink' | 'lavender' | 'lavender-tint' | 'orange'
   watermark?: 'none' | 'top-right' | 'top-left' | 'bottom-left' | 'bottom-right' | 'center-right'
@@ -1133,6 +1142,62 @@ export type SimpleLink = {
   _type: 'simpleLink'
   label: string
   link?: Link
+}
+
+export type GrowthCall = {
+  _id: string
+  _type: 'growthCall'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  eyebrow?: string
+  headline: string
+  intro?: string
+  steps?: Array<{
+    icon?:
+      | 'arrow'
+      | 'calendar'
+      | 'clock'
+      | 'pin'
+      | 'lock'
+      | 'phone'
+      | 'people'
+      | 'target'
+      | 'camera'
+      | 'film'
+      | 'broadcast'
+      | 'linkedin'
+      | 'check'
+      | 'mail'
+    title?: string
+    text?: string
+    _type: 'stepsItem'
+    _key: string
+  }>
+  callLengthNote?: string
+  formStepLabel?: string
+  bookStepLabel?: string
+  consentText?: string
+  termsLine?: string
+  continueLabel?: string
+  leadSavedMessage?: string
+  editLabel?: string
+  lockedMessage?: string
+  timezoneLabel?: string
+  confirmLabel?: string
+  availableWeekdays?: Array<string>
+  bookingWindowDays?: number
+  slotLabels?: Array<string>
+  callMinutes?: number
+  ghlCalendarId?: string
+  successTitle?: string
+  successBody?: string
+  bookedMessage?: string
+  addToCalendarLabel?: string
+  successCta?: Cta
+  workshopLine?: string
+  workshopLinkLabel?: string
+  seo?: Seo
 }
 
 export type BlogSettings = {
@@ -1391,7 +1456,10 @@ export type Bundle = {
   subline?: string
   chips?: Array<string>
   price: number
+  introPrice?: number
   compareAt?: number
+  compareAtIntro?: number
+  introLabel?: string
   saveLabel?: string
   ctaLabel?: string
   path?: {
@@ -1408,10 +1476,13 @@ export type Bundle = {
   maths?: {
     eyebrow?: string
     headline?: string
+    bodyIntro?: string
     body?: string
     courseColumn?: string
+    introColumn?: string
     priceColumn?: string
     separateLabel?: string
+    totalNoteIntro?: string
   }
   pairWithWorkshop?: {
     eyebrow?: string
@@ -1698,6 +1769,9 @@ export type Page = {
     | ({
         _key: string
       } & MediaBand)
+    | ({
+        _key: string
+      } & GrowthCallCta)
   >
   seo?: Seo
 }
@@ -1828,8 +1902,6 @@ export type Geopoint = {
 }
 
 export type AllSanitySchemaTypes =
-  | WorkshopCard
-  | StatCard
   | LowerThird
   | Calendar
   | ArtCard
@@ -1849,6 +1921,7 @@ export type AllSanitySchemaTypes =
   | PostReference
   | LegalPageReference
   | BlogSettingsReference
+  | GrowthCallReference
   | Link
   | CourseTemplate
   | ImageWithAlt
@@ -1860,6 +1933,7 @@ export type AllSanitySchemaTypes =
   | TimelineEntry
   | Stat
   | Faq
+  | GrowthCallCta
   | MediaBand
   | ProfileBio
   | LinkCards
@@ -1895,6 +1969,7 @@ export type AllSanitySchemaTypes =
   | DecisionRule
   | PullQuote
   | SimpleLink
+  | GrowthCall
   | BlogSettings
   | LegalPage
   | Slug
@@ -1920,7 +1995,7 @@ export type AllSanitySchemaTypes =
 
 // Source: lib/sanity/queries.ts
 // Variable: LAYOUT_QUERY
-// Query: {  "settings": *[_id == "siteSettings"][0]{    ...,    headerNav[]{ ..., dropdown{ ..., items[]{ ..., priceFromCourse->{ shortLine, regularPrice, introPrice } } } }  },  "banner": *[_id == "announcementBanner"][0],  "calendar": *[_id == "salesCalendar"][0],  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, _type, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },  "workshop": *[_id == "workshop"][0]{ title, earlyBirdPrice, standardPrice, dateLabel, timeLabel, venue },  "bundle": *[_id == "bundle"][0]{ title, price },  "book": *[_id == "book"][0]{ hidden, title, preorderUrl, noLinkMessage },  "hiddenHrefs": [    ...*[_type == "page" && hidden == true && defined(slug.current)]{ "href": "/" + slug.current }.href,    ...*[_id == "book" && hidden == true]{ "href": "/book" }.href  ]}
+// Query: {  "settings": *[_id == "siteSettings"][0]{    ...,    headerNav[]{ ..., dropdown{ ..., items[]{ ..., priceFromCourse->{ shortLine, regularPrice, introPrice } } } }  },  "banner": *[_id == "announcementBanner"][0],  "calendar": *[_id == "salesCalendar"][0],  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, _type, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },  "workshop": *[_id == "workshop"][0]{ title, earlyBirdPrice, standardPrice, dateLabel, timeLabel, venue },  "bundle": *[_id == "bundle"][0]{ title, price, introPrice, compareAt, compareAtIntro },  "book": *[_id == "book"][0]{ hidden, title, preorderUrl, noLinkMessage },  "hiddenHrefs": [    ...*[_type == "page" && hidden == true && defined(slug.current)]{ "href": "/" + slug.current }.href,    ...*[_id == "book" && hidden == true]{ "href": "/book" }.href  ]}
 export type LAYOUT_QUERY_RESULT = {
   settings:
     | {
@@ -2146,7 +2221,10 @@ export type LAYOUT_QUERY_RESULT = {
         subline?: string
         chips?: Array<string>
         price: number
+        introPrice?: number
         compareAt?: number
+        compareAtIntro?: number
+        introLabel?: string
         saveLabel?: string
         ctaLabel?: string
         path?: {
@@ -2163,10 +2241,13 @@ export type LAYOUT_QUERY_RESULT = {
         maths?: {
           eyebrow?: string
           headline?: string
+          bodyIntro?: string
           body?: string
           courseColumn?: string
+          introColumn?: string
           priceColumn?: string
           separateLabel?: string
+          totalNoteIntro?: string
         }
         pairWithWorkshop?: {
           eyebrow?: string
@@ -2245,6 +2326,7 @@ export type LAYOUT_QUERY_RESULT = {
         regularPriceLabel?: string
         saveLabel?: string
         introEndsLabel?: string
+        bundleLinkIntroLabel?: string
         bundleLinkLabel?: string
         features?: Array<{
           icon?:
@@ -2285,6 +2367,7 @@ export type LAYOUT_QUERY_RESULT = {
         bundleUpsell?: {
           chip?: string
           headline?: string
+          bodyIntro?: string
           body?: string
           ctaLabel?: string
         }
@@ -2305,6 +2388,62 @@ export type LAYOUT_QUERY_RESULT = {
         question: string
         answer: string
         tags?: Array<string>
+        headerNav: null
+      }
+    | {
+        _id: 'siteSettings'
+        _type: 'growthCall'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        eyebrow?: string
+        headline: string
+        intro?: string
+        steps?: Array<{
+          icon?:
+            | 'arrow'
+            | 'broadcast'
+            | 'calendar'
+            | 'camera'
+            | 'check'
+            | 'clock'
+            | 'film'
+            | 'linkedin'
+            | 'lock'
+            | 'mail'
+            | 'people'
+            | 'phone'
+            | 'pin'
+            | 'target'
+          title?: string
+          text?: string
+          _type: 'stepsItem'
+          _key: string
+        }>
+        callLengthNote?: string
+        formStepLabel?: string
+        bookStepLabel?: string
+        consentText?: string
+        termsLine?: string
+        continueLabel?: string
+        leadSavedMessage?: string
+        editLabel?: string
+        lockedMessage?: string
+        timezoneLabel?: string
+        confirmLabel?: string
+        availableWeekdays?: Array<string>
+        bookingWindowDays?: number
+        slotLabels?: Array<string>
+        callMinutes?: number
+        ghlCalendarId?: string
+        successTitle?: string
+        successBody?: string
+        bookedMessage?: string
+        addToCalendarLabel?: string
+        successCta?: Cta
+        workshopLine?: string
+        workshopLinkLabel?: string
+        seo?: Seo
         headerNav: null
       }
     | {
@@ -2422,6 +2561,9 @@ export type LAYOUT_QUERY_RESULT = {
           | ({
               _key: string
             } & Gallery)
+          | ({
+              _key: string
+            } & GrowthCallCta)
           | ({
               _key: string
             } & HeroFounder)
@@ -2684,6 +2826,7 @@ export type LAYOUT_QUERY_RESULT = {
           workshopSubline?: string
           courseSubline?: string
           bundleSubline?: string
+          bundleIntroPriceLabel?: string
           earlyBirdTicket?: string
           standardTicket?: string
           introPriceLabel?: string
@@ -3128,7 +3271,10 @@ export type LAYOUT_QUERY_RESULT = {
         subline?: string
         chips?: Array<string>
         price: number
+        introPrice?: number
         compareAt?: number
+        compareAtIntro?: number
+        introLabel?: string
         saveLabel?: string
         ctaLabel?: string
         path?: {
@@ -3145,10 +3291,13 @@ export type LAYOUT_QUERY_RESULT = {
         maths?: {
           eyebrow?: string
           headline?: string
+          bodyIntro?: string
           body?: string
           courseColumn?: string
+          introColumn?: string
           priceColumn?: string
           separateLabel?: string
+          totalNoteIntro?: string
         }
         pairWithWorkshop?: {
           eyebrow?: string
@@ -3225,6 +3374,7 @@ export type LAYOUT_QUERY_RESULT = {
         regularPriceLabel?: string
         saveLabel?: string
         introEndsLabel?: string
+        bundleLinkIntroLabel?: string
         bundleLinkLabel?: string
         features?: Array<{
           icon?:
@@ -3265,6 +3415,7 @@ export type LAYOUT_QUERY_RESULT = {
         bundleUpsell?: {
           chip?: string
           headline?: string
+          bodyIntro?: string
           body?: string
           ctaLabel?: string
         }
@@ -3284,6 +3435,61 @@ export type LAYOUT_QUERY_RESULT = {
         question: string
         answer: string
         tags?: Array<string>
+      }
+    | {
+        _id: 'announcementBanner'
+        _type: 'growthCall'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        eyebrow?: string
+        headline: string
+        intro?: string
+        steps?: Array<{
+          icon?:
+            | 'arrow'
+            | 'broadcast'
+            | 'calendar'
+            | 'camera'
+            | 'check'
+            | 'clock'
+            | 'film'
+            | 'linkedin'
+            | 'lock'
+            | 'mail'
+            | 'people'
+            | 'phone'
+            | 'pin'
+            | 'target'
+          title?: string
+          text?: string
+          _type: 'stepsItem'
+          _key: string
+        }>
+        callLengthNote?: string
+        formStepLabel?: string
+        bookStepLabel?: string
+        consentText?: string
+        termsLine?: string
+        continueLabel?: string
+        leadSavedMessage?: string
+        editLabel?: string
+        lockedMessage?: string
+        timezoneLabel?: string
+        confirmLabel?: string
+        availableWeekdays?: Array<string>
+        bookingWindowDays?: number
+        slotLabels?: Array<string>
+        callMinutes?: number
+        ghlCalendarId?: string
+        successTitle?: string
+        successBody?: string
+        bookedMessage?: string
+        addToCalendarLabel?: string
+        successCta?: Cta
+        workshopLine?: string
+        workshopLinkLabel?: string
+        seo?: Seo
       }
     | {
         _id: 'announcementBanner'
@@ -3398,6 +3604,9 @@ export type LAYOUT_QUERY_RESULT = {
           | ({
               _key: string
             } & Gallery)
+          | ({
+              _key: string
+            } & GrowthCallCta)
           | ({
               _key: string
             } & HeroFounder)
@@ -3650,6 +3859,7 @@ export type LAYOUT_QUERY_RESULT = {
           workshopSubline?: string
           courseSubline?: string
           bundleSubline?: string
+          bundleIntroPriceLabel?: string
           earlyBirdTicket?: string
           standardTicket?: string
           introPriceLabel?: string
@@ -4089,7 +4299,10 @@ export type LAYOUT_QUERY_RESULT = {
         subline?: string
         chips?: Array<string>
         price: number
+        introPrice?: number
         compareAt?: number
+        compareAtIntro?: number
+        introLabel?: string
         saveLabel?: string
         ctaLabel?: string
         path?: {
@@ -4106,10 +4319,13 @@ export type LAYOUT_QUERY_RESULT = {
         maths?: {
           eyebrow?: string
           headline?: string
+          bodyIntro?: string
           body?: string
           courseColumn?: string
+          introColumn?: string
           priceColumn?: string
           separateLabel?: string
+          totalNoteIntro?: string
         }
         pairWithWorkshop?: {
           eyebrow?: string
@@ -4186,6 +4402,7 @@ export type LAYOUT_QUERY_RESULT = {
         regularPriceLabel?: string
         saveLabel?: string
         introEndsLabel?: string
+        bundleLinkIntroLabel?: string
         bundleLinkLabel?: string
         features?: Array<{
           icon?:
@@ -4226,6 +4443,7 @@ export type LAYOUT_QUERY_RESULT = {
         bundleUpsell?: {
           chip?: string
           headline?: string
+          bodyIntro?: string
           body?: string
           ctaLabel?: string
         }
@@ -4245,6 +4463,61 @@ export type LAYOUT_QUERY_RESULT = {
         question: string
         answer: string
         tags?: Array<string>
+      }
+    | {
+        _id: 'salesCalendar'
+        _type: 'growthCall'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        eyebrow?: string
+        headline: string
+        intro?: string
+        steps?: Array<{
+          icon?:
+            | 'arrow'
+            | 'broadcast'
+            | 'calendar'
+            | 'camera'
+            | 'check'
+            | 'clock'
+            | 'film'
+            | 'linkedin'
+            | 'lock'
+            | 'mail'
+            | 'people'
+            | 'phone'
+            | 'pin'
+            | 'target'
+          title?: string
+          text?: string
+          _type: 'stepsItem'
+          _key: string
+        }>
+        callLengthNote?: string
+        formStepLabel?: string
+        bookStepLabel?: string
+        consentText?: string
+        termsLine?: string
+        continueLabel?: string
+        leadSavedMessage?: string
+        editLabel?: string
+        lockedMessage?: string
+        timezoneLabel?: string
+        confirmLabel?: string
+        availableWeekdays?: Array<string>
+        bookingWindowDays?: number
+        slotLabels?: Array<string>
+        callMinutes?: number
+        ghlCalendarId?: string
+        successTitle?: string
+        successBody?: string
+        bookedMessage?: string
+        addToCalendarLabel?: string
+        successCta?: Cta
+        workshopLine?: string
+        workshopLinkLabel?: string
+        seo?: Seo
       }
     | {
         _id: 'salesCalendar'
@@ -4359,6 +4632,9 @@ export type LAYOUT_QUERY_RESULT = {
           | ({
               _key: string
             } & Gallery)
+          | ({
+              _key: string
+            } & GrowthCallCta)
           | ({
               _key: string
             } & HeroFounder)
@@ -4611,6 +4887,7 @@ export type LAYOUT_QUERY_RESULT = {
           workshopSubline?: string
           courseSubline?: string
           bundleSubline?: string
+          bundleIntroPriceLabel?: string
           earlyBirdTicket?: string
           standardTicket?: string
           introPriceLabel?: string
@@ -4881,22 +5158,44 @@ export type LAYOUT_QUERY_RESULT = {
     | {
         title: null
         price: null
+        introPrice: null
+        compareAt: null
+        compareAtIntro: null
       }
     | {
         title: string
         price: null
+        introPrice: null
+        compareAt: null
+        compareAtIntro: null
       }
     | {
         title: string | null
         price: null
-      }
-    | {
-        title: string
-        price: number
+        introPrice: null
+        compareAt: null
+        compareAtIntro: null
       }
     | {
         title: string
         price: string | null
+        introPrice: null
+        compareAt: null
+        compareAtIntro: null
+      }
+    | {
+        title: string
+        price: null
+        introPrice: number | null
+        compareAt: null
+        compareAtIntro: null
+      }
+    | {
+        title: string
+        price: number
+        introPrice: number | null
+        compareAt: number | null
+        compareAtIntro: number | null
       }
     | null
   book:
@@ -4940,7 +5239,7 @@ export type LAYOUT_QUERY_RESULT = {
 
 // Source: lib/sanity/queries.ts
 // Variable: PAGE_QUERY
-// Query: *[_type == "page" && slug.current == $slug][0]{  _id, _type, title, "slug": slug.current, hidden, seo,  sections[hidden != true]{   ...,  _type == "offerGrid" => { items[]->{   _id, _type,  _type == "workshop" => {    title, card, stepLabel, heroChips, earlyBirdPrice, standardPrice, reserveLabel, priceNotes,    stub, seatsLine, soldOutLine, zoomChip  },  _type == "course" => { title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },  _type == "bundle" => { title, price, compareAt, card },  _type == "book" => { title, hidden, card, coverAccentWord, coverRest, author } } },  _type == "assessmentCta" => {    "areas": *[_id == "assessment"][0].areas[]{ _key, name },    "reportMock": *[_id == "assessment"][0].reportMock  },  _type == "statsBlock" => { stats[]->{ _id, _type, value, prefix, suffix, label, footnote } },  _type == "testimonials" => { items[]->{ _id, _type, quote, name, company, permissionConfirmed } },  _type == "founderStory" => { timeline[]->{ _id, _type, years, year, homeLabel, organisation, description, shortDescription, homeSummary, highlight, order } },  _type == "faqBlock" => { faqs[]->{ _id, _type, question, answer, tags } },  _type == "timeline" => { entries[]->{ _id, _type, years, year, homeLabel, organisation, description, shortDescription, homeSummary, highlight, order } },  _type == "teamGrid" => { members[]->{ _id, _type, name, title, photo, cutout, bio, link, linkLabel, order } },  _type == "formSection" => { side{ ..., quote->{ _id, _type, quote, name, company, permissionConfirmed } } } }}
+// Query: *[_type == "page" && slug.current == $slug][0]{  _id, _type, title, "slug": slug.current, hidden, seo,  sections[hidden != true]{   ...,  _type == "offerGrid" => { items[]->{   _id, _type,  _type == "workshop" => {    title, card, stepLabel, heroChips, earlyBirdPrice, standardPrice, reserveLabel, priceNotes,    stub, seatsLine, soldOutLine, zoomChip  },  _type == "course" => { title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },  _type == "bundle" => { title, price, introPrice, compareAt, compareAtIntro, card },  _type == "book" => { title, hidden, card, coverAccentWord, coverRest, author } } },  _type == "assessmentCta" => {    "areas": *[_id == "assessment"][0].areas[]{ _key, name },    "reportMock": *[_id == "assessment"][0].reportMock  },  _type == "statsBlock" => { stats[]->{ _id, _type, value, prefix, suffix, label, footnote } },  _type == "testimonials" => { items[]->{ _id, _type, quote, name, company, permissionConfirmed } },  _type == "founderStory" => { timeline[]->{ _id, _type, years, year, homeLabel, organisation, description, shortDescription, homeSummary, highlight, order } },  _type == "faqBlock" => { faqs[]->{ _id, _type, question, answer, tags } },  _type == "timeline" => { entries[]->{ _id, _type, years, year, homeLabel, organisation, description, shortDescription, homeSummary, highlight, order } },  _type == "teamGrid" => { members[]->{ _id, _type, name, title, photo, cutout, bio, link, linkLabel, order } },  _type == "formSection" => { side{ ..., quote->{ _id, _type, quote, name, company, permissionConfirmed } } } }}
 export type PAGE_QUERY_RESULT = {
   _id: string
   _type: 'page'
@@ -5148,15 +5447,25 @@ export type PAGE_QUERY_RESULT = {
       }
     | {
         _key: string
+        _type: 'growthCallCta'
+        line?: string
+        linkLabel: string
+        background?: 'ink' | 'lavender-tint' | 'lavender' | 'navy' | 'orange' | 'paper' | 'white'
+        watermark?:
+          'bottom-left' | 'bottom-right' | 'center-right' | 'none' | 'top-left' | 'top-right'
+        anchorId?: string
+        hidden?: boolean
+      }
+    | {
+        _key: string
         _type: 'heroFounder'
-        handLine?: string
+        eyebrow?: string
         headline: string
         lead?: string
         primaryCta?: Cta
         secondaryCta?: Cta
+        supportLine?: string
         portrait?: ImageWithAlt
-        workshopCard?: WorkshopCard
-        statCard?: StatCard
         lowerThird?: LowerThird
         background?: 'ink' | 'lavender-tint' | 'lavender' | 'navy' | 'orange' | 'paper' | 'white'
         watermark?:
@@ -5288,7 +5597,9 @@ export type PAGE_QUERY_RESULT = {
               _type: 'bundle'
               title: string
               price: number
+              introPrice: number | null
               compareAt: number | null
+              compareAtIntro: number | null
               card: {
                 chip?: string
                 body?: string
@@ -5588,7 +5899,7 @@ export type PAGE_SLUGS_QUERY_RESULT = Array<string>
 
 // Source: lib/sanity/queries.ts
 // Variable: WORKSHOP_QUERY
-// Query: *[_id == "workshop"][0]{  ..., "slug": slug.current, faqs[]->{ _id, _type, question, answer, tags }}
+// Query: *[_id == "workshop"][0]{  ..., "slug": slug.current, faqs[]->{ _id, _type, question, answer, tags },  "growthCallLink": *[_id == "growthCall"][0]{ workshopLine, workshopLinkLabel }}
 export type WORKSHOP_QUERY_RESULT =
   | {
       _id: 'workshop'
@@ -5611,6 +5922,16 @@ export type WORKSHOP_QUERY_RESULT =
       }>
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -5714,6 +6035,16 @@ export type WORKSHOP_QUERY_RESULT =
       seo?: Seo
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -5744,6 +6075,16 @@ export type WORKSHOP_QUERY_RESULT =
       seo?: Seo
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -5799,6 +6140,16 @@ export type WORKSHOP_QUERY_RESULT =
       seo?: Seo
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -5812,7 +6163,10 @@ export type WORKSHOP_QUERY_RESULT =
       subline?: string
       chips?: Array<string>
       price: number
+      introPrice?: number
       compareAt?: number
+      compareAtIntro?: number
+      introLabel?: string
       saveLabel?: string
       ctaLabel?: string
       path?: {
@@ -5829,10 +6183,13 @@ export type WORKSHOP_QUERY_RESULT =
       maths?: {
         eyebrow?: string
         headline?: string
+        bodyIntro?: string
         body?: string
         courseColumn?: string
+        introColumn?: string
         priceColumn?: string
         separateLabel?: string
+        totalNoteIntro?: string
       }
       pairWithWorkshop?: {
         eyebrow?: string
@@ -5855,6 +6212,16 @@ export type WORKSHOP_QUERY_RESULT =
         fanWord?: string
       }
       seo?: Seo
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -5893,6 +6260,16 @@ export type WORKSHOP_QUERY_RESULT =
         tags: Array<string> | null
       }> | null
       seo?: Seo
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -5913,6 +6290,7 @@ export type WORKSHOP_QUERY_RESULT =
       regularPriceLabel?: string
       saveLabel?: string
       introEndsLabel?: string
+      bundleLinkIntroLabel?: string
       bundleLinkLabel?: string
       features?: Array<{
         icon?:
@@ -5953,6 +6331,7 @@ export type WORKSHOP_QUERY_RESULT =
       bundleUpsell?: {
         chip?: string
         headline?: string
+        bodyIntro?: string
         body?: string
         ctaLabel?: string
       }
@@ -5964,6 +6343,16 @@ export type WORKSHOP_QUERY_RESULT =
       }
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -5976,6 +6365,83 @@ export type WORKSHOP_QUERY_RESULT =
       tags?: Array<string>
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
+    }
+  | {
+      _id: 'workshop'
+      _type: 'growthCall'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      eyebrow?: string
+      headline: string
+      intro?: string
+      steps?: Array<{
+        icon?:
+          | 'arrow'
+          | 'broadcast'
+          | 'calendar'
+          | 'camera'
+          | 'check'
+          | 'clock'
+          | 'film'
+          | 'linkedin'
+          | 'lock'
+          | 'mail'
+          | 'people'
+          | 'phone'
+          | 'pin'
+          | 'target'
+        title?: string
+        text?: string
+        _type: 'stepsItem'
+        _key: string
+      }>
+      callLengthNote?: string
+      formStepLabel?: string
+      bookStepLabel?: string
+      consentText?: string
+      termsLine?: string
+      continueLabel?: string
+      leadSavedMessage?: string
+      editLabel?: string
+      lockedMessage?: string
+      timezoneLabel?: string
+      confirmLabel?: string
+      availableWeekdays?: Array<string>
+      bookingWindowDays?: number
+      slotLabels?: Array<string>
+      callMinutes?: number
+      ghlCalendarId?: string
+      successTitle?: string
+      successBody?: string
+      bookedMessage?: string
+      addToCalendarLabel?: string
+      successCta?: Cta
+      workshopLine?: string
+      workshopLinkLabel?: string
+      seo?: Seo
+      slug: null
+      faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -5993,6 +6459,16 @@ export type WORKSHOP_QUERY_RESULT =
       body?: RichBody
       seo?: Seo
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6058,6 +6534,16 @@ export type WORKSHOP_QUERY_RESULT =
       seo?: Seo
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6093,6 +6579,9 @@ export type WORKSHOP_QUERY_RESULT =
         | ({
             _key: string
           } & Gallery)
+        | ({
+            _key: string
+          } & GrowthCallCta)
         | ({
             _key: string
           } & HeroFounder)
@@ -6150,6 +6639,16 @@ export type WORKSHOP_QUERY_RESULT =
       >
       seo?: Seo
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6170,6 +6669,16 @@ export type WORKSHOP_QUERY_RESULT =
       sources?: string
       seo?: Seo
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6182,6 +6691,16 @@ export type WORKSHOP_QUERY_RESULT =
       permanent?: boolean
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6197,6 +6716,16 @@ export type WORKSHOP_QUERY_RESULT =
       seatsSold?: number
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6220,6 +6749,16 @@ export type WORKSHOP_QUERY_RESULT =
       source?: SanityAssetSourceData
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6244,6 +6783,16 @@ export type WORKSHOP_QUERY_RESULT =
       source?: SanityAssetSourceData
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6355,6 +6904,7 @@ export type WORKSHOP_QUERY_RESULT =
         workshopSubline?: string
         courseSubline?: string
         bundleSubline?: string
+        bundleIntroPriceLabel?: string
         earlyBirdTicket?: string
         standardTicket?: string
         introPriceLabel?: string
@@ -6382,6 +6932,16 @@ export type WORKSHOP_QUERY_RESULT =
       }
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6396,6 +6956,16 @@ export type WORKSHOP_QUERY_RESULT =
       footnote?: string
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6413,6 +6983,16 @@ export type WORKSHOP_QUERY_RESULT =
       order?: number
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6426,6 +7006,16 @@ export type WORKSHOP_QUERY_RESULT =
       permissionConfirmed?: boolean
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6444,6 +7034,16 @@ export type WORKSHOP_QUERY_RESULT =
       order?: number
       slug: null
       faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | {
       _id: 'workshop'
@@ -6584,12 +7184,22 @@ export type WORKSHOP_QUERY_RESULT =
         chips?: Array<string>
       }
       seo?: Seo
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
     }
   | null
 
 // Source: lib/sanity/queries.ts
 // Variable: COURSE_PAGE_QUERY
-// Query: {  "course": *[_type == "course" && slug.current == $slug][0]{ ..., "slug": slug.current, faqs[]->{ _id, _type, question, answer, tags } },  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },  "template": *[_id == "courseTemplate"][0],  "bundle": *[_id == "bundle"][0]{ price, compareAt }}
+// Query: {  "course": *[_type == "course" && slug.current == $slug][0]{ ..., "slug": slug.current, faqs[]->{ _id, _type, question, answer, tags } },  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },  "template": *[_id == "courseTemplate"][0],  "bundle": *[_id == "bundle"][0]{ price, introPrice, compareAt, compareAtIntro }}
 export type COURSE_PAGE_QUERY_RESULT = {
   course: {
     _id: string
@@ -6861,7 +7471,10 @@ export type COURSE_PAGE_QUERY_RESULT = {
         subline?: string
         chips?: Array<string>
         price: number
+        introPrice?: number
         compareAt?: number
+        compareAtIntro?: number
+        introLabel?: string
         saveLabel?: string
         ctaLabel?: string
         path?: {
@@ -6878,10 +7491,13 @@ export type COURSE_PAGE_QUERY_RESULT = {
         maths?: {
           eyebrow?: string
           headline?: string
+          bodyIntro?: string
           body?: string
           courseColumn?: string
+          introColumn?: string
           priceColumn?: string
           separateLabel?: string
+          totalNoteIntro?: string
         }
         pairWithWorkshop?: {
           eyebrow?: string
@@ -6958,6 +7574,7 @@ export type COURSE_PAGE_QUERY_RESULT = {
         regularPriceLabel?: string
         saveLabel?: string
         introEndsLabel?: string
+        bundleLinkIntroLabel?: string
         bundleLinkLabel?: string
         features?: Array<{
           icon?:
@@ -6998,6 +7615,7 @@ export type COURSE_PAGE_QUERY_RESULT = {
         bundleUpsell?: {
           chip?: string
           headline?: string
+          bodyIntro?: string
           body?: string
           ctaLabel?: string
         }
@@ -7017,6 +7635,61 @@ export type COURSE_PAGE_QUERY_RESULT = {
         question: string
         answer: string
         tags?: Array<string>
+      }
+    | {
+        _id: 'courseTemplate'
+        _type: 'growthCall'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        eyebrow?: string
+        headline: string
+        intro?: string
+        steps?: Array<{
+          icon?:
+            | 'arrow'
+            | 'broadcast'
+            | 'calendar'
+            | 'camera'
+            | 'check'
+            | 'clock'
+            | 'film'
+            | 'linkedin'
+            | 'lock'
+            | 'mail'
+            | 'people'
+            | 'phone'
+            | 'pin'
+            | 'target'
+          title?: string
+          text?: string
+          _type: 'stepsItem'
+          _key: string
+        }>
+        callLengthNote?: string
+        formStepLabel?: string
+        bookStepLabel?: string
+        consentText?: string
+        termsLine?: string
+        continueLabel?: string
+        leadSavedMessage?: string
+        editLabel?: string
+        lockedMessage?: string
+        timezoneLabel?: string
+        confirmLabel?: string
+        availableWeekdays?: Array<string>
+        bookingWindowDays?: number
+        slotLabels?: Array<string>
+        callMinutes?: number
+        ghlCalendarId?: string
+        successTitle?: string
+        successBody?: string
+        bookedMessage?: string
+        addToCalendarLabel?: string
+        successCta?: Cta
+        workshopLine?: string
+        workshopLinkLabel?: string
+        seo?: Seo
       }
     | {
         _id: 'courseTemplate'
@@ -7131,6 +7804,9 @@ export type COURSE_PAGE_QUERY_RESULT = {
           | ({
               _key: string
             } & Gallery)
+          | ({
+              _key: string
+            } & GrowthCallCta)
           | ({
               _key: string
             } & HeroFounder)
@@ -7383,6 +8059,7 @@ export type COURSE_PAGE_QUERY_RESULT = {
           workshopSubline?: string
           courseSubline?: string
           bundleSubline?: string
+          bundleIntroPriceLabel?: string
           earlyBirdTicket?: string
           standardTicket?: string
           introPriceLabel?: string
@@ -7605,15 +8282,27 @@ export type COURSE_PAGE_QUERY_RESULT = {
   bundle:
     | {
         price: null
+        introPrice: null
         compareAt: null
+        compareAtIntro: null
       }
     | {
         price: string | null
+        introPrice: null
         compareAt: null
+        compareAtIntro: null
+      }
+    | {
+        price: null
+        introPrice: number | null
+        compareAt: null
+        compareAtIntro: null
       }
     | {
         price: number
+        introPrice: number | null
         compareAt: number | null
+        compareAtIntro: number | null
       }
     | null
 }
@@ -7625,7 +8314,7 @@ export type COURSE_SLUGS_QUERY_RESULT = Array<string>
 
 // Source: lib/sanity/queries.ts
 // Variable: BUNDLE_PAGE_QUERY
-// Query: {  "bundle": *[_id == "bundle"][0]{    ..., "slug": slug.current,    path{ ..., items[]{ ..., course->{ _id, title, fullTitle, "slug": slug.current, regularPrice, word, stepNumber } } },    faqs[]->{ _id, _type, question, answer, tags }  },  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice }}
+// Query: {  "bundle": *[_id == "bundle"][0]{    ..., "slug": slug.current,    path{ ..., items[]{ ..., course->{ _id, title, fullTitle, "slug": slug.current, regularPrice, introPrice, word, stepNumber } } },    faqs[]->{ _id, _type, question, answer, tags }  },  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice }}
 export type BUNDLE_PAGE_QUERY_RESULT = {
   bundle:
     | {
@@ -7859,7 +8548,10 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
         subline?: string
         chips?: Array<string>
         price: number
+        introPrice?: number
         compareAt?: number
+        compareAtIntro?: number
+        introLabel?: string
         saveLabel?: string
         ctaLabel?: string
         path: {
@@ -7873,6 +8565,7 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
               fullTitle: string | null
               slug: string
               regularPrice: number
+              introPrice: number | null
               word: string | null
               stepNumber: string | null
             }
@@ -7884,10 +8577,13 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
         maths?: {
           eyebrow?: string
           headline?: string
+          bodyIntro?: string
           body?: string
           courseColumn?: string
+          introColumn?: string
           priceColumn?: string
           separateLabel?: string
+          totalNoteIntro?: string
         }
         pairWithWorkshop?: {
           eyebrow?: string
@@ -7969,6 +8665,7 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
         regularPriceLabel?: string
         saveLabel?: string
         introEndsLabel?: string
+        bundleLinkIntroLabel?: string
         bundleLinkLabel?: string
         features?: Array<{
           icon?:
@@ -8009,6 +8706,7 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
         bundleUpsell?: {
           chip?: string
           headline?: string
+          bodyIntro?: string
           body?: string
           ctaLabel?: string
         }
@@ -8031,6 +8729,64 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
         question: string
         answer: string
         tags?: Array<string>
+        slug: null
+        path: null
+        faqs: null
+      }
+    | {
+        _id: 'bundle'
+        _type: 'growthCall'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        eyebrow?: string
+        headline: string
+        intro?: string
+        steps?: Array<{
+          icon?:
+            | 'arrow'
+            | 'broadcast'
+            | 'calendar'
+            | 'camera'
+            | 'check'
+            | 'clock'
+            | 'film'
+            | 'linkedin'
+            | 'lock'
+            | 'mail'
+            | 'people'
+            | 'phone'
+            | 'pin'
+            | 'target'
+          title?: string
+          text?: string
+          _type: 'stepsItem'
+          _key: string
+        }>
+        callLengthNote?: string
+        formStepLabel?: string
+        bookStepLabel?: string
+        consentText?: string
+        termsLine?: string
+        continueLabel?: string
+        leadSavedMessage?: string
+        editLabel?: string
+        lockedMessage?: string
+        timezoneLabel?: string
+        confirmLabel?: string
+        availableWeekdays?: Array<string>
+        bookingWindowDays?: number
+        slotLabels?: Array<string>
+        callMinutes?: number
+        ghlCalendarId?: string
+        successTitle?: string
+        successBody?: string
+        bookedMessage?: string
+        addToCalendarLabel?: string
+        successCta?: Cta
+        workshopLine?: string
+        workshopLinkLabel?: string
+        seo?: Seo
         slug: null
         path: null
         faqs: null
@@ -8153,6 +8909,9 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
           | ({
               _key: string
             } & Gallery)
+          | ({
+              _key: string
+            } & GrowthCallCta)
           | ({
               _key: string
             } & HeroFounder)
@@ -8419,6 +9178,7 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
           workshopSubline?: string
           courseSubline?: string
           bundleSubline?: string
+          bundleIntroPriceLabel?: string
           earlyBirdTicket?: string
           standardTicket?: string
           introPriceLabel?: string
@@ -8671,6 +9431,1033 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
 }
 
 // Source: lib/sanity/queries.ts
+// Variable: GROWTH_CALL_QUERY
+// Query: *[_id == "growthCall"][0]
+export type GROWTH_CALL_QUERY_RESULT =
+  | {
+      _id: 'growthCall'
+      _type: 'announcementBanner'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      enabled?: boolean
+      variants?: Array<{
+        label?: string
+        message?: string
+        ctaLabel?: string
+        ctaLink?: Link
+        showFrom?: string
+        showUntil?: string
+        countdownTo?:
+          'coursesOpenAt' | 'earlyBirdEndsAt' | 'introEndsAt' | 'none' | 'showUntil' | 'workshopAt'
+        _type: 'variantsItem'
+        _key: string
+      }>
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'assessment'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      turnaroundDays?: number
+      intro?: {
+        pillTag?: string
+        headline?: string
+        subline?: string
+        body?: string
+      }
+      form?: {
+        title?: string
+        stepLabel?: string
+        firstNameLabel?: string
+        lastNameLabel?: string
+        emailLabel?: string
+        phoneLabel?: string
+        companyLabel?: string
+        roleLabel?: string
+        sizeLabel?: string
+        sizePlaceholder?: string
+        companySizes?: Array<string>
+        consentText?: string
+        submitLabel?: string
+      }
+      areasSection?: {
+        headline?: string
+        eyebrow?: string
+      }
+      areas?: Array<{
+        name: string
+        description?: string
+        _type: 'areasItem'
+        _key: string
+      }>
+      questions?: Array<{
+        area?: string
+        question?: string
+        options?: Array<string>
+        status?: 'draft' | 'final'
+        _type: 'questionsItem'
+        _key: string
+      }>
+      flow?: {
+        areasEyebrow?: string
+        areaLabel?: string
+        draftChip?: string
+        helper?: string
+        errorText?: string
+        backLabel?: string
+        nextLabel?: string
+        submitLabel?: string
+        sendingLabel?: string
+        minutesLeft?: string
+        minuteLeft?: string
+      }
+      report?: {
+        eyebrow?: string
+        headline?: string
+        body?: string
+        steps?: Array<{
+          title?: string
+          text?: string
+          _type: 'stepsItem'
+          _key: string
+        }>
+      }
+      reportMock?: {
+        sampleLabel?: string
+        title?: string
+        preparedFor?: string
+        prioritiesLabel?: string
+      }
+      thankYou?: {
+        eyebrow?: string
+        headline?: string
+        body?: string
+        cta?: Cta
+        tracker?: Array<{
+          title?: string
+          text?: string
+          _type: 'trackerItem'
+          _key: string
+        }>
+        meanwhileHeadline?: string
+        cards?: Array<{
+          kind?: 'link' | 'workshop'
+          tone?: 'navy' | 'orange' | 'paper'
+          eyebrow?: string
+          title?: string
+          text?: string
+          link?: Link
+          _type: 'cardsItem'
+          _key: string
+        }>
+      }
+      seo?: Seo
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'blogSettings'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      eyebrow?: string
+      headline?: string
+      allLabel?: string
+      topicLabels?: {
+        OFFERS?: string
+        CONTENT?: string
+        POSITIONING?: string
+        GROWTH?: string
+        MEASUREMENT?: string
+      }
+      featuredLabel?: string
+      emptyText?: string
+      readTimeLabel?: string
+      shareLabel?: string
+      decisionRuleLabel?: string
+      keepReadingHeadline?: string
+      assessmentCta?: {
+        text?: string
+        cta?: Cta
+      }
+      seo?: Seo
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'book'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      hidden?: boolean
+      title: string
+      chip?: string
+      subtitle?: string
+      publicationLine?: string
+      price?: string
+      preorderUrl?: string
+      ctaLabel?: string
+      byline?: string
+      noLinkMessage?: {
+        eyebrow?: string
+        body?: string
+        buttonLabel?: string
+      }
+      coverAccentWord?: string
+      coverRest?: string
+      coverTagline?: string
+      author?: string
+      spineText?: string
+      statement?: string
+      body?: RichBody
+      inside?: {
+        headline?: string
+        eyebrow?: string
+        items?: Array<{
+          word?: string
+          line?: string
+          _type: 'itemsItem'
+          _key: string
+        }>
+      }
+      quote?: {
+        eyebrow?: string
+        text?: string
+      }
+      preorderBonus?: {
+        show?: boolean
+        eyebrow?: string
+        text?: string
+      }
+      card?: {
+        chip?: string
+        body?: string
+        ctaLabel?: string
+      }
+      seo?: Seo
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'bundle'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title: string
+      slug?: Slug
+      headline?: string
+      subline?: string
+      chips?: Array<string>
+      price: number
+      introPrice?: number
+      compareAt?: number
+      compareAtIntro?: number
+      introLabel?: string
+      saveLabel?: string
+      ctaLabel?: string
+      path?: {
+        eyebrow?: string
+        headline?: string
+        regularPriceLabel?: string
+        items?: Array<{
+          course: CourseReference
+          line?: string
+          _type: 'itemsItem'
+          _key: string
+        }>
+      }
+      maths?: {
+        eyebrow?: string
+        headline?: string
+        bodyIntro?: string
+        body?: string
+        courseColumn?: string
+        introColumn?: string
+        priceColumn?: string
+        separateLabel?: string
+        totalNoteIntro?: string
+      }
+      pairWithWorkshop?: {
+        eyebrow?: string
+        headline?: string
+        body?: string
+        cta?: Cta
+      }
+      faqHeadline?: string
+      faqs?: Array<
+        {
+          _key: string
+        } & FaqReference
+      >
+      card?: {
+        chip?: string
+        body?: string
+        ctaLabel?: string
+        fanWord?: string
+      }
+      seo?: Seo
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'course'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      orderRank?: string
+      order?: number
+      title: string
+      fullTitle?: string
+      slug: Slug
+      word?: string
+      stepNumber?: string
+      courseNumber?: number
+      headline?: string
+      summary?: string
+      shortLine?: string
+      regularPrice: number
+      introPrice?: number
+      problemLabel?: string
+      problem?: string
+      problemHighlight?: string
+      learn?: Array<string>
+      outcome?: string
+      outcomeNote?: string
+      bestFor?: string
+      format?: string
+      opensLabel?: string
+      hostedOn?: string
+      faqs?: Array<
+        {
+          _key: string
+        } & FaqReference
+      >
+      seo?: Seo
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'courseTemplate'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      cardChipPrefix?: string
+      opensSoonLabel?: string
+      onDemandLabel?: string
+      heroChip?: string
+      heroOpensLabel?: string
+      heroOnDemandLabel?: string
+      stepOfLabel?: string
+      coverLabel?: string
+      enrollLabel?: string
+      detailsLabel?: string
+      regularPriceLabel?: string
+      saveLabel?: string
+      introEndsLabel?: string
+      bundleLinkIntroLabel?: string
+      bundleLinkLabel?: string
+      features?: Array<{
+        icon?:
+          | 'arrow'
+          | 'broadcast'
+          | 'calendar'
+          | 'camera'
+          | 'check'
+          | 'clock'
+          | 'film'
+          | 'linkedin'
+          | 'lock'
+          | 'mail'
+          | 'people'
+          | 'phone'
+          | 'pin'
+          | 'target'
+        text?: string
+        _type: 'featuresItem'
+        _key: string
+      }>
+      pathWorkshop?: {
+        step?: string
+        word?: string
+        label?: string
+      }
+      pathCourseLabel?: string
+      hereLabel?: string
+      coversHeadline?: string
+      coversCountLabel?: string
+      outcomeEyebrow?: string
+      detailLabels?: {
+        format?: string
+        opens?: string
+        hostedOn?: string
+        bestFor?: string
+      }
+      bundleUpsell?: {
+        chip?: string
+        headline?: string
+        bodyIntro?: string
+        body?: string
+        ctaLabel?: string
+      }
+      faqHeadline?: string
+      teacherCard?: {
+        image?: ImageWithAlt
+        title?: string
+        text?: string
+      }
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'faq'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      question: string
+      answer: string
+      tags?: Array<string>
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'growthCall'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      eyebrow?: string
+      headline: string
+      intro?: string
+      steps?: Array<{
+        icon?:
+          | 'arrow'
+          | 'broadcast'
+          | 'calendar'
+          | 'camera'
+          | 'check'
+          | 'clock'
+          | 'film'
+          | 'linkedin'
+          | 'lock'
+          | 'mail'
+          | 'people'
+          | 'phone'
+          | 'pin'
+          | 'target'
+        title?: string
+        text?: string
+        _type: 'stepsItem'
+        _key: string
+      }>
+      callLengthNote?: string
+      formStepLabel?: string
+      bookStepLabel?: string
+      consentText?: string
+      termsLine?: string
+      continueLabel?: string
+      leadSavedMessage?: string
+      editLabel?: string
+      lockedMessage?: string
+      timezoneLabel?: string
+      confirmLabel?: string
+      availableWeekdays?: Array<string>
+      bookingWindowDays?: number
+      slotLabels?: Array<string>
+      callMinutes?: number
+      ghlCalendarId?: string
+      successTitle?: string
+      successBody?: string
+      bookedMessage?: string
+      addToCalendarLabel?: string
+      successCta?: Cta
+      workshopLine?: string
+      workshopLinkLabel?: string
+      seo?: Seo
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'legalPage'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title: string
+      navLabel?: string
+      slug: Slug
+      order?: number
+      lastUpdated?: string
+      templateBanner?: boolean
+      templateBannerText?: string
+      body?: RichBody
+      seo?: Seo
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'orderConfirmation'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      eyebrow?: string
+      sampleSuffix?: string
+      headline?: string
+      workshopLead?: string
+      courseLead?: string
+      workshopStub?: {
+        label?: string
+        date?: string
+        line1?: string
+        line2?: string
+      }
+      courseStub?: {
+        label?: string
+        date?: string
+        line1?: string
+        line2?: string
+      }
+      rows?: {
+        ticket?: string
+        price?: string
+        attending?: string
+        access?: string
+        name?: string
+        order?: string
+      }
+      zoomLabel?: string
+      inPersonLabel?: string
+      accessValue?: string
+      buyerPlaceholder?: string
+      nextHeadline?: string
+      steps?: Array<{
+        title?: string
+        courseTitle?: string
+        text?: string
+        showCalendarButtons?: boolean
+        _type: 'stepsItem'
+        _key: string
+      }>
+      calendarButtons?: {
+        google?: string
+        apple?: string
+        outlook?: string
+      }
+      upsells?: Array<{
+        kind?: 'course' | 'link'
+        eyebrow?: string
+        title?: string
+        text?: string
+        link?: Link
+        course?: CourseReference
+        introNote?: string
+        regularNote?: string
+        _type: 'upsellsItem'
+        _key: string
+      }>
+      seo?: Seo
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'page'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title: string
+      slug: Slug
+      hidden?: boolean
+      sections?: Array<
+        | ({
+            _key: string
+          } & AssessmentCta)
+        | ({
+            _key: string
+          } & CtaPanels)
+        | ({
+            _key: string
+          } & Episodes)
+        | ({
+            _key: string
+          } & FaqBlock)
+        | ({
+            _key: string
+          } & FinalCta)
+        | ({
+            _key: string
+          } & FormSection)
+        | ({
+            _key: string
+          } & FounderStory)
+        | ({
+            _key: string
+          } & Gallery)
+        | ({
+            _key: string
+          } & GrowthCallCta)
+        | ({
+            _key: string
+          } & HeroFounder)
+        | ({
+            _key: string
+          } & HowItWorks)
+        | ({
+            _key: string
+          } & ImageText)
+        | ({
+            _key: string
+          } & LinkCards)
+        | ({
+            _key: string
+          } & MediaBand)
+        | ({
+            _key: string
+          } & MethodCalendar)
+        | ({
+            _key: string
+          } & OfferGrid)
+        | ({
+            _key: string
+          } & PageHero)
+        | ({
+            _key: string
+          } & ProfileBio)
+        | ({
+            _key: string
+          } & RichText)
+        | ({
+            _key: string
+          } & SocialFeed)
+        | ({
+            _key: string
+          } & Statement)
+        | ({
+            _key: string
+          } & StatsBlock)
+        | ({
+            _key: string
+          } & TeamGrid)
+        | ({
+            _key: string
+          } & Testimonials)
+        | ({
+            _key: string
+          } & Ticker)
+        | ({
+            _key: string
+          } & Timeline)
+        | ({
+            _key: string
+          } & ValuesGrid)
+      >
+      seo?: Seo
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'post'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title: string
+      slug: Slug
+      number?: string
+      coverLine?: string
+      topic: 'CONTENT' | 'GROWTH' | 'MEASUREMENT' | 'OFFERS' | 'POSITIONING'
+      featured?: boolean
+      author?: TeamMemberReference
+      publishedAt?: string
+      excerpt?: string
+      body?: PostBody
+      sources?: string
+      seo?: Seo
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'redirect'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      from: string
+      to: string
+      permanent?: boolean
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'salesCalendar'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      introEndsAt: string
+      coursesOpenAt: string
+      earlyBirdEndsAt: string
+      workshopAt: string
+      inPersonSeatCap?: number
+      seatsSold?: number
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'sanity.fileAsset'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      originalFilename?: string
+      label?: string
+      title?: string
+      description?: string
+      altText?: string
+      sha1hash: string
+      extension: string
+      mimeType: string
+      size: number
+      assetId: string
+      uploadId?: string
+      path: string
+      url: string
+      source?: SanityAssetSourceData
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'sanity.imageAsset'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      originalFilename?: string
+      label?: string
+      title?: string
+      description?: string
+      altText?: string
+      sha1hash: string
+      extension: string
+      mimeType: string
+      size: number
+      assetId: string
+      uploadId?: string
+      path: string
+      url: string
+      metadata?: SanityImageMetadata
+      source?: SanityAssetSourceData
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'siteSettings'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title?: string
+      logo?: ImageWithAlt
+      logoInverted?: ImageWithAlt
+      logoStacked?: ImageWithAlt
+      contactEmail?: string
+      linkedinUrl?: string
+      headerNav?: Array<{
+        label: string
+        link?: Link
+        dropdown?: {
+          style?: 'list' | 'mega'
+          eyebrow?: string
+          items?: Array<{
+            label: string
+            link?: Link
+            description?: string
+            eyebrow?: string
+            badge?: string
+            badgeStyle?: 'bundleIcon' | 'number' | 'script'
+            priceFromCourse?: CourseReference
+            separated?: boolean
+            _type: 'itemsItem'
+            _key: string
+          }>
+          showFeature?: boolean
+        }
+        _type: 'headerNavItem'
+        _key: string
+      }>
+      headerCta?: Cta
+      megaMenuFeature?: {
+        eyebrow?: string
+        headline?: string
+        dateBadge?: string
+        dateLine?: string
+        subLine?: string
+        cta?: Cta
+      }
+      mobileMenuGroups?: Array<{
+        title?: string
+        style?: 'big' | 'pills'
+        links?: Array<
+          {
+            _key: string
+          } & SimpleLink
+        >
+        _type: 'mobileMenuGroupsItem'
+        _key: string
+      }>
+      mobileMenuBottom?: {
+        cta?: Cta
+        note?: string
+      }
+      footer?: {
+        newsletterEyebrow?: string
+        newsletterHeadline?: string
+        newsletterBody?: string
+        newsletterLabel?: string
+        newsletterPlaceholder?: string
+        newsletterButton?: string
+        newsletterSuccess?: string
+        tagline?: string
+        handwrittenLine?: string
+        socialButton?: Cta
+        columns?: Array<{
+          title?: string
+          links?: Array<
+            {
+              _key: string
+            } & SimpleLink
+          >
+          _type: 'columnsItem'
+          _key: string
+        }>
+        legalLinks?: Array<
+          {
+            _key: string
+          } & SimpleLink
+        >
+        disclaimer?: string
+        copyright?: string
+      }
+      checkout?: {
+        eyebrow?: string
+        attendanceLegend?: string
+        inPersonLabel?: string
+        zoomLabel?: string
+        soldOutLabel?: string
+        seatsLeftLabel?: string
+        nameLabel?: string
+        emailLabel?: string
+        phoneLabel?: string
+        phoneHelp?: string
+        consentText?: string
+        totalLabel?: string
+        submitLabel?: string
+        secureNote?: string
+        placeholderChip?: string
+        placeholderBody?: string
+        placeholderButton?: string
+        cancelLabel?: string
+        workshopSubline?: string
+        courseSubline?: string
+        bundleSubline?: string
+        bundleIntroPriceLabel?: string
+        earlyBirdTicket?: string
+        standardTicket?: string
+        introPriceLabel?: string
+        regularPriceLabel?: string
+      }
+      cookieNotice?: {
+        title?: string
+        body?: string
+        acceptLabel?: string
+        declineLabel?: string
+        acceptedToast?: string
+        declinedToast?: string
+      }
+      sceneTransition?: {
+        topLabel?: string
+        bottomLabel?: string
+        productionName?: string
+      }
+      defaultSeo?: Seo
+      organization?: {
+        name?: string
+        url?: string
+        logo?: ImageWithAlt
+        sameAs?: Array<string>
+      }
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'stat'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      value: number
+      prefix?: string
+      suffix?: string
+      label: string
+      footnote?: string
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'teamMember'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      name: string
+      title?: string
+      photo?: ImageWithAlt
+      cutout?: ImageWithAlt
+      bio?: string
+      link?: Link
+      linkLabel?: string
+      order?: number
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'testimonial'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      quote: string
+      name: string
+      company?: string
+      permissionConfirmed?: boolean
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'timelineEntry'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      organisation: string
+      years?: string
+      year?: string
+      homeLabel?: string
+      description?: string
+      shortDescription?: string
+      homeSummary?: string
+      highlight?: boolean
+      order?: number
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'workshop'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title: string
+      slug?: Slug
+      handLine?: string
+      headline: string
+      lead?: string
+      heroChips?: Array<string>
+      dateLabel?: string
+      timeLabel?: string
+      venue?: string
+      zoomAvailable?: boolean
+      earlyBirdPrice: number
+      standardPrice: number
+      reserveLabel?: string
+      priceNotes?: {
+        earlyBird?: string
+        earlyBirdShort?: string
+        standard?: string
+        perSeat?: string
+      }
+      stub?: {
+        eyebrow?: string
+        day?: string
+        date?: string
+        line?: string
+        doneLabel?: string
+      }
+      includes?: Array<string>
+      seatsLine?: string
+      soldOutLine?: string
+      zoomChip?: string
+      stepLabel?: string
+      whatThisIs?: {
+        eyebrow?: string
+        statement?: string
+        body?: RichBody
+        closingLine?: string
+      }
+      outcomesHeadline?: string
+      outcomes?: Array<string>
+      agenda?: {
+        eyebrow?: string
+        headline?: string
+        items?: Array<{
+          time?: string
+          title: string
+          description?: string
+          _type: 'itemsItem'
+          _key: string
+        }>
+      }
+      whoItIsFor?: {
+        eyebrow?: string
+        text?: string
+      }
+      noNeedFor?: {
+        eyebrow?: string
+        items?: Array<string>
+      }
+      tickets?: {
+        eyebrow?: string
+        headline?: string
+        inPersonToggle?: string
+        zoomToggle?: string
+        zoomToast?: string
+        earlyBirdLabel?: string
+        standardLabel?: string
+        onSaleLabel?: string
+        earlyBirdWindow?: string
+        standardWindow?: string
+        earlyBirdEndedChip?: string
+        standardUpcomingChip?: string
+        earlyBirdEndedLabel?: string
+        standardUpcomingLabel?: string
+        reassurances?: Array<{
+          icon?:
+            | 'arrow'
+            | 'broadcast'
+            | 'calendar'
+            | 'camera'
+            | 'check'
+            | 'clock'
+            | 'film'
+            | 'linkedin'
+            | 'lock'
+            | 'mail'
+            | 'people'
+            | 'phone'
+            | 'pin'
+            | 'target'
+          title?: string
+          text?: string
+          _type: 'reassurancesItem'
+          _key: string
+        }>
+      }
+      hostSection?: {
+        eyebrow?: string
+        headline?: string
+        body?: string
+        image?: ImageWithAlt
+        chips?: Array<string>
+        linkLabel?: string
+        link?: Link
+      }
+      archive?: {
+        eyebrow?: string
+        headline?: string
+        lead?: string
+        images?: Array<
+          {
+            _key: string
+          } & ImageWithAlt
+        >
+      }
+      faqHeadline?: string
+      faqLinkLabel?: string
+      faqLink?: Link
+      faqs?: Array<
+        {
+          _key: string
+        } & FaqReference
+      >
+      closingBand?: {
+        headline?: string
+        ctaLabel?: string
+      }
+      card?: {
+        summary?: string
+        chips?: Array<string>
+      }
+      seo?: Seo
+    }
+  | null
+
+// Source: lib/sanity/queries.ts
 // Variable: BOOK_QUERY
 // Query: *[_id == "book"][0]
 export type BOOK_QUERY_RESULT =
@@ -8888,7 +10675,10 @@ export type BOOK_QUERY_RESULT =
       subline?: string
       chips?: Array<string>
       price: number
+      introPrice?: number
       compareAt?: number
+      compareAtIntro?: number
+      introLabel?: string
       saveLabel?: string
       ctaLabel?: string
       path?: {
@@ -8905,10 +10695,13 @@ export type BOOK_QUERY_RESULT =
       maths?: {
         eyebrow?: string
         headline?: string
+        bodyIntro?: string
         body?: string
         courseColumn?: string
+        introColumn?: string
         priceColumn?: string
         separateLabel?: string
+        totalNoteIntro?: string
       }
       pairWithWorkshop?: {
         eyebrow?: string
@@ -8985,6 +10778,7 @@ export type BOOK_QUERY_RESULT =
       regularPriceLabel?: string
       saveLabel?: string
       introEndsLabel?: string
+      bundleLinkIntroLabel?: string
       bundleLinkLabel?: string
       features?: Array<{
         icon?:
@@ -9025,6 +10819,7 @@ export type BOOK_QUERY_RESULT =
       bundleUpsell?: {
         chip?: string
         headline?: string
+        bodyIntro?: string
         body?: string
         ctaLabel?: string
       }
@@ -9044,6 +10839,61 @@ export type BOOK_QUERY_RESULT =
       question: string
       answer: string
       tags?: Array<string>
+    }
+  | {
+      _id: 'book'
+      _type: 'growthCall'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      eyebrow?: string
+      headline: string
+      intro?: string
+      steps?: Array<{
+        icon?:
+          | 'arrow'
+          | 'broadcast'
+          | 'calendar'
+          | 'camera'
+          | 'check'
+          | 'clock'
+          | 'film'
+          | 'linkedin'
+          | 'lock'
+          | 'mail'
+          | 'people'
+          | 'phone'
+          | 'pin'
+          | 'target'
+        title?: string
+        text?: string
+        _type: 'stepsItem'
+        _key: string
+      }>
+      callLengthNote?: string
+      formStepLabel?: string
+      bookStepLabel?: string
+      consentText?: string
+      termsLine?: string
+      continueLabel?: string
+      leadSavedMessage?: string
+      editLabel?: string
+      lockedMessage?: string
+      timezoneLabel?: string
+      confirmLabel?: string
+      availableWeekdays?: Array<string>
+      bookingWindowDays?: number
+      slotLabels?: Array<string>
+      callMinutes?: number
+      ghlCalendarId?: string
+      successTitle?: string
+      successBody?: string
+      bookedMessage?: string
+      addToCalendarLabel?: string
+      successCta?: Cta
+      workshopLine?: string
+      workshopLinkLabel?: string
+      seo?: Seo
     }
   | {
       _id: 'book'
@@ -9158,6 +11008,9 @@ export type BOOK_QUERY_RESULT =
         | ({
             _key: string
           } & Gallery)
+        | ({
+            _key: string
+          } & GrowthCallCta)
         | ({
             _key: string
           } & HeroFounder)
@@ -9410,6 +11263,7 @@ export type BOOK_QUERY_RESULT =
         workshopSubline?: string
         courseSubline?: string
         bundleSubline?: string
+        bundleIntroPriceLabel?: string
         earlyBirdTicket?: string
         standardTicket?: string
         introPriceLabel?: string
@@ -9848,7 +11702,10 @@ export type ASSESSMENT_QUERY_RESULT =
       subline?: string
       chips?: Array<string>
       price: number
+      introPrice?: number
       compareAt?: number
+      compareAtIntro?: number
+      introLabel?: string
       saveLabel?: string
       ctaLabel?: string
       path?: {
@@ -9865,10 +11722,13 @@ export type ASSESSMENT_QUERY_RESULT =
       maths?: {
         eyebrow?: string
         headline?: string
+        bodyIntro?: string
         body?: string
         courseColumn?: string
+        introColumn?: string
         priceColumn?: string
         separateLabel?: string
+        totalNoteIntro?: string
       }
       pairWithWorkshop?: {
         eyebrow?: string
@@ -9945,6 +11805,7 @@ export type ASSESSMENT_QUERY_RESULT =
       regularPriceLabel?: string
       saveLabel?: string
       introEndsLabel?: string
+      bundleLinkIntroLabel?: string
       bundleLinkLabel?: string
       features?: Array<{
         icon?:
@@ -9985,6 +11846,7 @@ export type ASSESSMENT_QUERY_RESULT =
       bundleUpsell?: {
         chip?: string
         headline?: string
+        bodyIntro?: string
         body?: string
         ctaLabel?: string
       }
@@ -10004,6 +11866,61 @@ export type ASSESSMENT_QUERY_RESULT =
       question: string
       answer: string
       tags?: Array<string>
+    }
+  | {
+      _id: 'assessment'
+      _type: 'growthCall'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      eyebrow?: string
+      headline: string
+      intro?: string
+      steps?: Array<{
+        icon?:
+          | 'arrow'
+          | 'broadcast'
+          | 'calendar'
+          | 'camera'
+          | 'check'
+          | 'clock'
+          | 'film'
+          | 'linkedin'
+          | 'lock'
+          | 'mail'
+          | 'people'
+          | 'phone'
+          | 'pin'
+          | 'target'
+        title?: string
+        text?: string
+        _type: 'stepsItem'
+        _key: string
+      }>
+      callLengthNote?: string
+      formStepLabel?: string
+      bookStepLabel?: string
+      consentText?: string
+      termsLine?: string
+      continueLabel?: string
+      leadSavedMessage?: string
+      editLabel?: string
+      lockedMessage?: string
+      timezoneLabel?: string
+      confirmLabel?: string
+      availableWeekdays?: Array<string>
+      bookingWindowDays?: number
+      slotLabels?: Array<string>
+      callMinutes?: number
+      ghlCalendarId?: string
+      successTitle?: string
+      successBody?: string
+      bookedMessage?: string
+      addToCalendarLabel?: string
+      successCta?: Cta
+      workshopLine?: string
+      workshopLinkLabel?: string
+      seo?: Seo
     }
   | {
       _id: 'assessment'
@@ -10118,6 +12035,9 @@ export type ASSESSMENT_QUERY_RESULT =
         | ({
             _key: string
           } & Gallery)
+        | ({
+            _key: string
+          } & GrowthCallCta)
         | ({
             _key: string
           } & HeroFounder)
@@ -10370,6 +12290,7 @@ export type ASSESSMENT_QUERY_RESULT =
         workshopSubline?: string
         courseSubline?: string
         bundleSubline?: string
+        bundleIntroPriceLabel?: string
         earlyBirdTicket?: string
         standardTicket?: string
         introPriceLabel?: string
@@ -10812,7 +12733,10 @@ export type ORDER_QUERY_RESULT =
       subline?: string
       chips?: Array<string>
       price: number
+      introPrice?: number
       compareAt?: number
+      compareAtIntro?: number
+      introLabel?: string
       saveLabel?: string
       ctaLabel?: string
       path?: {
@@ -10829,10 +12753,13 @@ export type ORDER_QUERY_RESULT =
       maths?: {
         eyebrow?: string
         headline?: string
+        bodyIntro?: string
         body?: string
         courseColumn?: string
+        introColumn?: string
         priceColumn?: string
         separateLabel?: string
+        totalNoteIntro?: string
       }
       pairWithWorkshop?: {
         eyebrow?: string
@@ -10911,6 +12838,7 @@ export type ORDER_QUERY_RESULT =
       regularPriceLabel?: string
       saveLabel?: string
       introEndsLabel?: string
+      bundleLinkIntroLabel?: string
       bundleLinkLabel?: string
       features?: Array<{
         icon?:
@@ -10951,6 +12879,7 @@ export type ORDER_QUERY_RESULT =
       bundleUpsell?: {
         chip?: string
         headline?: string
+        bodyIntro?: string
         body?: string
         ctaLabel?: string
       }
@@ -10971,6 +12900,62 @@ export type ORDER_QUERY_RESULT =
       question: string
       answer: string
       tags?: Array<string>
+      upsells: null
+    }
+  | {
+      _id: 'orderConfirmation'
+      _type: 'growthCall'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      eyebrow?: string
+      headline: string
+      intro?: string
+      steps?: Array<{
+        icon?:
+          | 'arrow'
+          | 'broadcast'
+          | 'calendar'
+          | 'camera'
+          | 'check'
+          | 'clock'
+          | 'film'
+          | 'linkedin'
+          | 'lock'
+          | 'mail'
+          | 'people'
+          | 'phone'
+          | 'pin'
+          | 'target'
+        title?: string
+        text?: string
+        _type: 'stepsItem'
+        _key: string
+      }>
+      callLengthNote?: string
+      formStepLabel?: string
+      bookStepLabel?: string
+      consentText?: string
+      termsLine?: string
+      continueLabel?: string
+      leadSavedMessage?: string
+      editLabel?: string
+      lockedMessage?: string
+      timezoneLabel?: string
+      confirmLabel?: string
+      availableWeekdays?: Array<string>
+      bookingWindowDays?: number
+      slotLabels?: Array<string>
+      callMinutes?: number
+      ghlCalendarId?: string
+      successTitle?: string
+      successBody?: string
+      bookedMessage?: string
+      addToCalendarLabel?: string
+      successCta?: Cta
+      workshopLine?: string
+      workshopLinkLabel?: string
+      seo?: Seo
       upsells: null
     }
   | {
@@ -11090,6 +13075,9 @@ export type ORDER_QUERY_RESULT =
         | ({
             _key: string
           } & Gallery)
+        | ({
+            _key: string
+          } & GrowthCallCta)
         | ({
             _key: string
           } & HeroFounder)
@@ -11348,6 +13336,7 @@ export type ORDER_QUERY_RESULT =
         workshopSubline?: string
         courseSubline?: string
         bundleSubline?: string
+        bundleIntroPriceLabel?: string
         earlyBirdTicket?: string
         standardTicket?: string
         introPriceLabel?: string
@@ -11792,7 +13781,10 @@ export type BLOG_SETTINGS_QUERY_RESULT =
       subline?: string
       chips?: Array<string>
       price: number
+      introPrice?: number
       compareAt?: number
+      compareAtIntro?: number
+      introLabel?: string
       saveLabel?: string
       ctaLabel?: string
       path?: {
@@ -11809,10 +13801,13 @@ export type BLOG_SETTINGS_QUERY_RESULT =
       maths?: {
         eyebrow?: string
         headline?: string
+        bodyIntro?: string
         body?: string
         courseColumn?: string
+        introColumn?: string
         priceColumn?: string
         separateLabel?: string
+        totalNoteIntro?: string
       }
       pairWithWorkshop?: {
         eyebrow?: string
@@ -11889,6 +13884,7 @@ export type BLOG_SETTINGS_QUERY_RESULT =
       regularPriceLabel?: string
       saveLabel?: string
       introEndsLabel?: string
+      bundleLinkIntroLabel?: string
       bundleLinkLabel?: string
       features?: Array<{
         icon?:
@@ -11929,6 +13925,7 @@ export type BLOG_SETTINGS_QUERY_RESULT =
       bundleUpsell?: {
         chip?: string
         headline?: string
+        bodyIntro?: string
         body?: string
         ctaLabel?: string
       }
@@ -11948,6 +13945,61 @@ export type BLOG_SETTINGS_QUERY_RESULT =
       question: string
       answer: string
       tags?: Array<string>
+    }
+  | {
+      _id: 'blogSettings'
+      _type: 'growthCall'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      eyebrow?: string
+      headline: string
+      intro?: string
+      steps?: Array<{
+        icon?:
+          | 'arrow'
+          | 'broadcast'
+          | 'calendar'
+          | 'camera'
+          | 'check'
+          | 'clock'
+          | 'film'
+          | 'linkedin'
+          | 'lock'
+          | 'mail'
+          | 'people'
+          | 'phone'
+          | 'pin'
+          | 'target'
+        title?: string
+        text?: string
+        _type: 'stepsItem'
+        _key: string
+      }>
+      callLengthNote?: string
+      formStepLabel?: string
+      bookStepLabel?: string
+      consentText?: string
+      termsLine?: string
+      continueLabel?: string
+      leadSavedMessage?: string
+      editLabel?: string
+      lockedMessage?: string
+      timezoneLabel?: string
+      confirmLabel?: string
+      availableWeekdays?: Array<string>
+      bookingWindowDays?: number
+      slotLabels?: Array<string>
+      callMinutes?: number
+      ghlCalendarId?: string
+      successTitle?: string
+      successBody?: string
+      bookedMessage?: string
+      addToCalendarLabel?: string
+      successCta?: Cta
+      workshopLine?: string
+      workshopLinkLabel?: string
+      seo?: Seo
     }
   | {
       _id: 'blogSettings'
@@ -12062,6 +14114,9 @@ export type BLOG_SETTINGS_QUERY_RESULT =
         | ({
             _key: string
           } & Gallery)
+        | ({
+            _key: string
+          } & GrowthCallCta)
         | ({
             _key: string
           } & HeroFounder)
@@ -12314,6 +14369,7 @@ export type BLOG_SETTINGS_QUERY_RESULT =
         workshopSubline?: string
         courseSubline?: string
         bundleSubline?: string
+        bundleIntroPriceLabel?: string
         earlyBirdTicket?: string
         standardTicket?: string
         introPriceLabel?: string
@@ -12617,7 +14673,7 @@ export type LEGAL_NAV_QUERY_RESULT = Array<{
 
 // Source: lib/sanity/queries.ts
 // Variable: SITEMAP_QUERY
-// Query: {  "pages": *[_type == "page" && hidden != true && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },  "courses": *[_type == "course" && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },  "posts": *[_type == "post" && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },  "legal": *[_type == "legalPage" && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },  "workshop": *[_id == "workshop" && seo.noIndex != true][0]{ _updatedAt },  "bundle": *[_id == "bundle" && seo.noIndex != true][0]{ _updatedAt },  "book": *[_id == "book" && hidden != true && seo.noIndex != true][0]{ _updatedAt },  "assessment": *[_id == "assessment" && seo.noIndex != true][0]{ _updatedAt },  "blog": *[_id == "blogSettings"][0]{ _updatedAt }}
+// Query: {  "pages": *[_type == "page" && hidden != true && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },  "courses": *[_type == "course" && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },  "posts": *[_type == "post" && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },  "legal": *[_type == "legalPage" && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },  "workshop": *[_id == "workshop" && seo.noIndex != true][0]{ _updatedAt },  "bundle": *[_id == "bundle" && seo.noIndex != true][0]{ _updatedAt },  "book": *[_id == "book" && hidden != true && seo.noIndex != true][0]{ _updatedAt },  "assessment": *[_id == "assessment" && seo.noIndex != true][0]{ _updatedAt },  "growthCall": *[_id == "growthCall" && seo.noIndex != true][0]{ _updatedAt },  "blog": *[_id == "blogSettings"][0]{ _updatedAt }}
 export type SITEMAP_QUERY_RESULT = {
   pages: Array<{
     slug: string
@@ -12647,6 +14703,9 @@ export type SITEMAP_QUERY_RESULT = {
   assessment: {
     _updatedAt: string
   } | null
+  growthCall: {
+    _updatedAt: string
+  } | null
   blog: {
     _updatedAt: string
   } | null
@@ -12655,13 +14714,14 @@ export type SITEMAP_QUERY_RESULT = {
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '{\n  "settings": *[_id == "siteSettings"][0]{\n    ...,\n    headerNav[]{ ..., dropdown{ ..., items[]{ ..., priceFromCourse->{ shortLine, regularPrice, introPrice } } } }\n  },\n  "banner": *[_id == "announcementBanner"][0],\n  "calendar": *[_id == "salesCalendar"][0],\n  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, _type, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },\n  "workshop": *[_id == "workshop"][0]{ title, earlyBirdPrice, standardPrice, dateLabel, timeLabel, venue },\n  "bundle": *[_id == "bundle"][0]{ title, price },\n  "book": *[_id == "book"][0]{ hidden, title, preorderUrl, noLinkMessage },\n  "hiddenHrefs": [\n    ...*[_type == "page" && hidden == true && defined(slug.current)]{ "href": "/" + slug.current }.href,\n    ...*[_id == "book" && hidden == true]{ "href": "/book" }.href\n  ]\n}': LAYOUT_QUERY_RESULT
-    '*[_type == "page" && slug.current == $slug][0]{\n  _id, _type, title, "slug": slug.current, hidden, seo,\n  sections[hidden != true]{ \n  ...,\n  _type == "offerGrid" => { items[]->{ \n  _id, _type,\n  _type == "workshop" => {\n    title, card, stepLabel, heroChips, earlyBirdPrice, standardPrice, reserveLabel, priceNotes,\n    stub, seatsLine, soldOutLine, zoomChip\n  },\n  _type == "course" => { title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },\n  _type == "bundle" => { title, price, compareAt, card },\n  _type == "book" => { title, hidden, card, coverAccentWord, coverRest, author }\n } },\n  _type == "assessmentCta" => {\n    "areas": *[_id == "assessment"][0].areas[]{ _key, name },\n    "reportMock": *[_id == "assessment"][0].reportMock\n  },\n  _type == "statsBlock" => { stats[]->{ _id, _type, value, prefix, suffix, label, footnote } },\n  _type == "testimonials" => { items[]->{ _id, _type, quote, name, company, permissionConfirmed } },\n  _type == "founderStory" => { timeline[]->{ _id, _type, years, year, homeLabel, organisation, description, shortDescription, homeSummary, highlight, order } },\n  _type == "faqBlock" => { faqs[]->{ _id, _type, question, answer, tags } },\n  _type == "timeline" => { entries[]->{ _id, _type, years, year, homeLabel, organisation, description, shortDescription, homeSummary, highlight, order } },\n  _type == "teamGrid" => { members[]->{ _id, _type, name, title, photo, cutout, bio, link, linkLabel, order } },\n  _type == "formSection" => { side{ ..., quote->{ _id, _type, quote, name, company, permissionConfirmed } } }\n }\n}': PAGE_QUERY_RESULT
+    '{\n  "settings": *[_id == "siteSettings"][0]{\n    ...,\n    headerNav[]{ ..., dropdown{ ..., items[]{ ..., priceFromCourse->{ shortLine, regularPrice, introPrice } } } }\n  },\n  "banner": *[_id == "announcementBanner"][0],\n  "calendar": *[_id == "salesCalendar"][0],\n  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, _type, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },\n  "workshop": *[_id == "workshop"][0]{ title, earlyBirdPrice, standardPrice, dateLabel, timeLabel, venue },\n  "bundle": *[_id == "bundle"][0]{ title, price, introPrice, compareAt, compareAtIntro },\n  "book": *[_id == "book"][0]{ hidden, title, preorderUrl, noLinkMessage },\n  "hiddenHrefs": [\n    ...*[_type == "page" && hidden == true && defined(slug.current)]{ "href": "/" + slug.current }.href,\n    ...*[_id == "book" && hidden == true]{ "href": "/book" }.href\n  ]\n}': LAYOUT_QUERY_RESULT
+    '*[_type == "page" && slug.current == $slug][0]{\n  _id, _type, title, "slug": slug.current, hidden, seo,\n  sections[hidden != true]{ \n  ...,\n  _type == "offerGrid" => { items[]->{ \n  _id, _type,\n  _type == "workshop" => {\n    title, card, stepLabel, heroChips, earlyBirdPrice, standardPrice, reserveLabel, priceNotes,\n    stub, seatsLine, soldOutLine, zoomChip\n  },\n  _type == "course" => { title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },\n  _type == "bundle" => { title, price, introPrice, compareAt, compareAtIntro, card },\n  _type == "book" => { title, hidden, card, coverAccentWord, coverRest, author }\n } },\n  _type == "assessmentCta" => {\n    "areas": *[_id == "assessment"][0].areas[]{ _key, name },\n    "reportMock": *[_id == "assessment"][0].reportMock\n  },\n  _type == "statsBlock" => { stats[]->{ _id, _type, value, prefix, suffix, label, footnote } },\n  _type == "testimonials" => { items[]->{ _id, _type, quote, name, company, permissionConfirmed } },\n  _type == "founderStory" => { timeline[]->{ _id, _type, years, year, homeLabel, organisation, description, shortDescription, homeSummary, highlight, order } },\n  _type == "faqBlock" => { faqs[]->{ _id, _type, question, answer, tags } },\n  _type == "timeline" => { entries[]->{ _id, _type, years, year, homeLabel, organisation, description, shortDescription, homeSummary, highlight, order } },\n  _type == "teamGrid" => { members[]->{ _id, _type, name, title, photo, cutout, bio, link, linkLabel, order } },\n  _type == "formSection" => { side{ ..., quote->{ _id, _type, quote, name, company, permissionConfirmed } } }\n }\n}': PAGE_QUERY_RESULT
     '*[_type == "page" && defined(slug.current) && slug.current != "home" && hidden != true].slug.current': PAGE_SLUGS_QUERY_RESULT
-    '*[_id == "workshop"][0]{\n  ..., "slug": slug.current, faqs[]->{ _id, _type, question, answer, tags }\n}': WORKSHOP_QUERY_RESULT
-    '{\n  "course": *[_type == "course" && slug.current == $slug][0]{ ..., "slug": slug.current, faqs[]->{ _id, _type, question, answer, tags } },\n  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },\n  "template": *[_id == "courseTemplate"][0],\n  "bundle": *[_id == "bundle"][0]{ price, compareAt }\n}': COURSE_PAGE_QUERY_RESULT
+    '*[_id == "workshop"][0]{\n  ..., "slug": slug.current, faqs[]->{ _id, _type, question, answer, tags },\n  "growthCallLink": *[_id == "growthCall"][0]{ workshopLine, workshopLinkLabel }\n}': WORKSHOP_QUERY_RESULT
+    '{\n  "course": *[_type == "course" && slug.current == $slug][0]{ ..., "slug": slug.current, faqs[]->{ _id, _type, question, answer, tags } },\n  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },\n  "template": *[_id == "courseTemplate"][0],\n  "bundle": *[_id == "bundle"][0]{ price, introPrice, compareAt, compareAtIntro }\n}': COURSE_PAGE_QUERY_RESULT
     '*[_type == "course" && defined(slug.current)].slug.current': COURSE_SLUGS_QUERY_RESULT
-    '{\n  "bundle": *[_id == "bundle"][0]{\n    ..., "slug": slug.current,\n    path{ ..., items[]{ ..., course->{ _id, title, fullTitle, "slug": slug.current, regularPrice, word, stepNumber } } },\n    faqs[]->{ _id, _type, question, answer, tags }\n  },\n  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice }\n}': BUNDLE_PAGE_QUERY_RESULT
+    '{\n  "bundle": *[_id == "bundle"][0]{\n    ..., "slug": slug.current,\n    path{ ..., items[]{ ..., course->{ _id, title, fullTitle, "slug": slug.current, regularPrice, introPrice, word, stepNumber } } },\n    faqs[]->{ _id, _type, question, answer, tags }\n  },\n  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice }\n}': BUNDLE_PAGE_QUERY_RESULT
+    '*[_id == "growthCall"][0]': GROWTH_CALL_QUERY_RESULT
     '*[_id == "book"][0]': BOOK_QUERY_RESULT
     '*[_id == "assessment"][0]': ASSESSMENT_QUERY_RESULT
     '*[_id == "orderConfirmation"][0]{\n  ..., upsells[]{ ..., course->{ regularPrice, introPrice } }\n}': ORDER_QUERY_RESULT
@@ -12671,7 +14731,7 @@ declare global {
     '*[_type == "post" && defined(slug.current)].slug.current': POST_SLUGS_QUERY_RESULT
     '*[_type == "legalPage" && slug.current == $slug][0]{\n  ..., "slug": slug.current\n}': LEGAL_QUERY_RESULT
     '*[_type == "legalPage" && defined(slug.current)] | order(orderRank asc, order asc){ _id, title, navLabel, "slug": slug.current }': LEGAL_NAV_QUERY_RESULT
-    '{\n  "pages": *[_type == "page" && hidden != true && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },\n  "courses": *[_type == "course" && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },\n  "posts": *[_type == "post" && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },\n  "legal": *[_type == "legalPage" && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },\n  "workshop": *[_id == "workshop" && seo.noIndex != true][0]{ _updatedAt },\n  "bundle": *[_id == "bundle" && seo.noIndex != true][0]{ _updatedAt },\n  "book": *[_id == "book" && hidden != true && seo.noIndex != true][0]{ _updatedAt },\n  "assessment": *[_id == "assessment" && seo.noIndex != true][0]{ _updatedAt },\n  "blog": *[_id == "blogSettings"][0]{ _updatedAt }\n}': SITEMAP_QUERY_RESULT
+    '{\n  "pages": *[_type == "page" && hidden != true && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },\n  "courses": *[_type == "course" && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },\n  "posts": *[_type == "post" && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },\n  "legal": *[_type == "legalPage" && seo.noIndex != true && defined(slug.current)]{ "slug": slug.current, _updatedAt },\n  "workshop": *[_id == "workshop" && seo.noIndex != true][0]{ _updatedAt },\n  "bundle": *[_id == "bundle" && seo.noIndex != true][0]{ _updatedAt },\n  "book": *[_id == "book" && hidden != true && seo.noIndex != true][0]{ _updatedAt },\n  "assessment": *[_id == "assessment" && seo.noIndex != true][0]{ _updatedAt },\n  "growthCall": *[_id == "growthCall" && seo.noIndex != true][0]{ _updatedAt },\n  "blog": *[_id == "blogSettings"][0]{ _updatedAt }\n}': SITEMAP_QUERY_RESULT
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

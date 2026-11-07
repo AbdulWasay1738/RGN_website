@@ -1,9 +1,9 @@
 import { ButtonLink } from '@/components/ui/Button'
+import { BundlePrice } from '@/components/ui/Commerce'
 import type { Bundle } from '@/lib/sanity/types'
-import { formatUsd } from '@/lib/text'
 import styles from './BundleCard.module.css'
 
-/** The Content Machine bundle card: fanned course covers, price against the separate total. */
+/** The Content Machine bundle card: fanned course covers and the price by date ($399 against $597 during the intro period). */
 export function BundleCard({ bundle, fanNumbers }: { bundle: Bundle; fanNumbers: string[] }) {
   const card = bundle.card
   const nums = fanNumbers.slice(0, 3)
@@ -28,13 +28,7 @@ export function BundleCard({ bundle, fanNumbers }: { bundle: Bundle; fanNumbers:
         <div className={`row g16 ${styles.buyRow}`}>
           {typeof bundle.price === 'number' ? (
             <span className="price">
-              <span className="now">{formatUsd(bundle.price)}</span>
-              {typeof bundle.compareAt === 'number' ? (
-                <span className={`was ${styles.was}`}>
-                  <span className="sr-only">Bought separately </span>
-                  {formatUsd(bundle.compareAt)}
-                </span>
-              ) : null}
+              <BundlePrice bundle={bundle} wasClassName={styles.was} />
             </span>
           ) : null}
           {card?.ctaLabel ? (

@@ -15,7 +15,7 @@ export const LOCAL_IMAGES: Record<string, { width: number; height: number }> = {
   'promo-hooked.webp': { width: 900, height: 900 },
   'promo-acceleration.webp': { width: 900, height: 900 },
   'r-badge.png': { width: 300, height: 300 },
-  'texture-street.jpg': { width: 1024, height: 1024 },
+  'texture-street.jpg': { width: 1920, height: 1080 },
 }
 
 export type ResolvedImage = {

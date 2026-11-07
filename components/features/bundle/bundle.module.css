@@ -32,7 +32,7 @@
   animation: riseIn 0.9s var(--ease) both;
 }
 .fanWord {
-  font: 34px var(--fs);
+  font: 34px var(--font-hand);
 }
 .fanNum {
   font: 400 120px/0.8 var(--fd);

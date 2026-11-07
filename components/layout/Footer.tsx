@@ -26,7 +26,7 @@ export function Footer() {
 
   return (
     <footer className={styles.footer}>
-      <Watermark style={{ right: -120, bottom: -140, width: 520, color: '#16233A' }} />
+      <Watermark style={{ right: -140, bottom: -160, width: 480, color: '#1A2B45', opacity: 0.55 }} />
       <div className={styles.newsBand}>
         <div className={`wrap row g24 ${styles.newsIn}`}>
           <div className={`stack g8 ${styles.newsCopy}`}>

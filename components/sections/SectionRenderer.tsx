@@ -9,6 +9,7 @@ import { FinalCta } from './FinalCta'
 import { FormBlock } from './FormBlock'
 import { FounderStory } from './FounderStory'
 import { Gallery } from './Gallery'
+import { GrowthCallCta } from './GrowthCallCta'
 import { HeroFounder } from './HeroFounder'
 import { HowItWorks } from './HowItWorks'
 import { ImageText } from './ImageText'
@@ -65,6 +66,7 @@ const COMPONENTS: Record<Section['_type'], ComponentType<SectionProps<never>>> =
   linkCards: LinkCards,
   profileBio: ProfileBio,
   mediaBand: MediaBand,
+  growthCallCta: GrowthCallCta,
 }
 
 /** Renders a page's sections in order, skipping hidden ones and unknown types. */

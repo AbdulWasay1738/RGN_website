@@ -13,7 +13,7 @@
 .strip {
   position: absolute;
   inset: 0;
-  background: #0a121f var(--tex) center/1024px;
+  background: #0a121f var(--tex) center/cover;
   transform: translateX(101%);
   display: grid;
   place-items: center;
@@ -160,7 +160,7 @@
   color: var(--lav);
 }
 .prod {
-  font: 400 30px/1 var(--fs);
+  font: 400 30px/1 var(--font-hand);
   color: var(--lav);
 }
 .ttl {

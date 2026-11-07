@@ -19,7 +19,7 @@
   position: absolute;
   left: -10px;
   bottom: 48px;
-  font: 88px/1 var(--fs);
+  font: 88px/1 var(--font-hand);
   color: var(--lav-i);
   transform: rotate(-8deg);
   z-index: 3;

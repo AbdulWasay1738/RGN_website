@@ -1,7 +1,7 @@
 import '@/styles/tokens.css'
 import '@/styles/base.css'
 import '@/styles/brand.css'
-import { preload } from 'react-dom'
+import { preconnect, preload } from 'react-dom'
 import { BrandFilters } from '@/components/brand'
 import { AnnouncementBanner } from '@/components/layout/AnnouncementBanner'
 import { CookieNotice } from '@/components/layout/CookieNotice'
@@ -28,6 +28,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   const allowSimulation = draft || process.env.VERCEL_ENV !== 'production'
   // The street texture backs every navy band (often the largest paint): fetch it early.
   preload('/img/texture-street.webp', { as: 'image', fetchPriority: 'high' })
+  // Temporary host for the Benedict font (styles/tokens.css). Remove with the remote face once the licensed file is self-hosted.
+  preconnect('https://db.onlinewebfonts.com', { crossOrigin: 'anonymous' })
 
   return (
     <SiteProvider value={data}>

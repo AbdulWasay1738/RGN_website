@@ -4,6 +4,8 @@ For each page, open the matching prototype route and copy its structure, copy an
 
 ## Global (every page)
 
+Footer "Learn" column adds "2027 growth strategy call" linking to `/growth-strategy`.
+
 Every page has the announcement banner (date-driven variant, live day countdown, dismissible), a sticky header (logo, nav with Education and Media dropdowns, "Ready to scale" button, menu button under 1080px), a skip link, the main content, the footer, the cookie notice (shown once, after about 1.6s) and the scene transition between routes.
 
 The footer has: newsletter signup (email, validated, success toast), logo, tagline, handwritten line, a LinkedIn button, three link columns, legal links, disclaimer and copyright. **No agency credit.**
@@ -12,10 +14,10 @@ The footer has: newsletter signup (email, validated, success toast), logo, tagli
 
 | Route | Source (prototype) | Content source | Notes |
 |---|---|---|---|
-| `/` | `P.home` | page "home" (sections) | Sections in order: heroFounder, ticker, methodCalendar, howItWorks, offerGrid (workshop ticket, 3 course cards, bundle card, book card), assessmentCta (ink, torn top edge), statsBlock ("Recent wins & milestones" plus R badge), testimonials (plus logo strip), founderStory (felt plus shards frame), faqBlock, finalCta (orange, R watermark, countdown) |
-| `/workshop` | `P.workshop` | workshop singleton | Hero with the ticket card and countdown, statement, outcomes grid, agenda plus "who it is for" plus "no need for", tickets (early-bird and standard cards by date, attendance toggle, seats row), host, archive gallery, FAQs, orange closing band. "Reserve my seat" opens the checkout modal. |
+| `/` | `P.home` | page "home" (sections) | Sections in order: heroFounder (round-two copy and calm layout, see 03), ticker, methodCalendar (the one R watermark near the top), howItWorks, offerGrid (workshop ticket, 3 course cards, bundle card with intro price, book card), assessmentCta (ink, torn top edge), statsBlock ("Recent wins & milestones", no badge), testimonials (plus logo strip), founderStory (felt plus shards frame), faqBlock, finalCta (orange, no watermark, countdown). The second R watermark is in the footer. |
+| `/workshop` | `P.workshop` | workshop singleton | Hero with the ticket card and countdown, statement, outcomes grid, agenda plus "who it is for" plus "no need for", tickets (early-bird and standard cards by date, attendance toggle, seats row, then "Not sure the in-person workshop fits? Book a growth strategy call"), host, archive gallery, FAQs, orange closing band. "Reserve my seat" opens the checkout modal. |
 | `/courses/[slug]` | `coursePage()` | course | Hero with the sticky price card (intro countdown until `introEndsAt`), the 4-step path bar (Attract to workshop to Create to Broadcast, current one highlighted), problem statement with highlight, "What the course covers" tiles, outcome plus detail tiles, bundle upsell, FAQs plus a "Taught by our team" card |
-| `/courses/content-machine` | `P.bundle` | bundle | Card fan art (it must fit at 390px), path list, maths table, workshop pairing, FAQs |
+| `/courses/content-machine` | `P.bundle` | bundle | Card fan art (it must fit at 390px), price ($399 intro with $597 struck and "Intro price through Jan 15" until `introEndsAt`, then $597 with $797 struck and "Save $200"), path list, math table with Intro and Regular columns, workshop pairing, FAQs |
 | `/book` | `P.book` | book | 3D book cover (single font on the cover title), statement, inside tiles, quote, optional pre-order bonus. Hidden when `book.hidden`. |
 | `/assessment` | `P.assessment` | assessment | Intro plus the form (first name, last name, work email, mobile, company, role, company size, **optional unticked** SMS consent), five areas, report section |
 | `/assessment/questions` | `P['assessment-step']` | assessment.questions | Client-side flow: one question per step, area tracker, progress bar, answer required before Next, Back works, Submit shows "Sending your answers to our team…" then redirects to thank-you. Guard: arriving without form details sends the visitor back to `/assessment`. |
@@ -33,11 +35,14 @@ The footer has: newsletter signup (email, validated, success toast), logo, tagli
 | `/blog/[slug]` | `P.post` | post | Reading progress bar, cover, share buttons (LinkedIn, copy link), body with pull quote and decision rule, sources, assessment CTA, three related posts |
 | `/legal/[slug]` | `P.legal` | legalPage | Side nav of the four legal pages, a "counsel-reviewed text pending" banner while the flag is on |
 | 404 | `P.notfound` | fixed | "This page isn't *good news.*" plus four buttons |
+| `/growth-strategy` | `P.growth` | growthCall | **New in round two.** Two-step booking. Left: eyebrow, headline, intro, three steps, call-length note. Right card: step indicator ("Fill out the form" then "Book your call"); step 1 form (mobile with a US +1 prefix, first name, last name, work email, optional unticked SMS consent, Terms and Privacy line, Continue); a month calendar below the form, locked until the form is complete (clicking it shows "Please fill out the form before choosing your time slot."); after Continue the form collapses into a name and phone summary with Edit, available days highlight, a day shows time slots in ET, a slot shows "Confirm my call", and confirming shows the booked state with Add to calendar. **Capture the lead on Continue, before any time is booked** (phase 6 sends it to GoHighLevel and alerts the client straight away). |
 | `/[...slug]` | none | page | Any page the client creates from sections |
 
 ## Forms (first build)
 
 Build every form with client and server validation (server actions), accessible errors, an honeypot plus a time-trap for spam, and the success state from the prototype. In this phase, the action validates and returns success and logs the payload in development. Phase 6 swaps in GoHighLevel. Keep the payload shape in one `lib/forms.ts` with a `submitForm(kind, data)` interface, so only that function changes later.
+
+Add a `growth` kind to `submitForm` for the growth call's step 1.
 
 Consent checkboxes are **optional and unticked**. Their wording is editable and marked "[Counsel to review]".
 

@@ -8,7 +8,7 @@ import { DateSwitch, useSalesCalendar } from '@/components/providers/SalesCalend
 import { useSite } from '@/components/providers/SiteProvider'
 import { AccentText } from '@/components/ui/AccentText'
 import { buttonClass } from '@/components/ui/Button'
-import { CoursePriceText, WorkshopPriceText } from '@/components/ui/Commerce'
+import { BundlePriceText, CoursePriceText, WorkshopPriceText } from '@/components/ui/Commerce'
 import { Icon } from '@/components/ui/Icon'
 import { downloadIcs, googleCalendarUrl, type CalendarEvent } from '@/lib/ics'
 import type { OrderConfirmation } from '@/lib/sanity/types'
@@ -58,7 +58,9 @@ export function OrderView({ data, params }: { data: OrderConfirmation | null; pa
   const price: ReactNode = isWorkshop ? (
     <WorkshopPriceText workshop={site.workshop} />
   ) : isBundle ? (
-    typeof site.bundle?.price === 'number' ? `$${site.bundle.price}` : ''
+    typeof site.bundle?.price === 'number' ? (
+      <BundlePriceText bundle={site.bundle} />
+    ) : ''
   ) : course ? (
     <CoursePriceText course={course} />
   ) : null

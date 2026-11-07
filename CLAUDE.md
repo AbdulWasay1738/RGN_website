@@ -7,8 +7,8 @@ The site is **white-labelled**. The agency building it must never appear anywher
 ## Source of truth
 
 1. `reference/prototype/index.html` is the approved clickable prototype, already revised after the client's first feedback round. It decides **layout, visual design, animation, copy and behaviour**. Open it in a browser (serve the folder over HTTP, see below) and match it at 1280px and 390px widths.
-2. `docs/` holds the build spec. Read `docs/00-index.md` first.
-3. `reference/client-brief/` holds the client's own documents: requirements, website copy, GTM strategy, bio, blog posts and her feedback round one. Use them for intent. Where they conflict with the prototype, the prototype wins, because it already includes her later feedback. Flag any conflict you notice.
+2. `docs/` holds the build spec. Read `docs/00-index.md` first. `CHANGES-ROUND-2.md` (repo root) lists what changed after the client's second feedback round; the docs below already include those changes.
+3. `reference/client-brief/` holds the client's own documents: requirements, website copy, GTM strategy, bio, blog posts and her feedback rounds one and two. `reference/brand-templates/` holds her social and presentation templates, which define the visual identity (texture, emblem, colour, type, paper shapes). Use them for intent. Where they conflict with the prototype, the prototype wins, because it already includes her later feedback. Flag any conflict you notice.
 4. `content-seed/` holds structured content extracted from the prototype, used to seed the CMS.
 
 To view the prototype: `cd reference/prototype && python3 -m http.server 8765`, then open http://localhost:8765/index.html. It must be served over HTTP, not opened from file://, because the CSS masks need it. The prototype uses hash routes (`#workshop`, `#post-7`). The bottom-right "Presenter" panel exists only for client demos. **Do not build it.**
@@ -18,7 +18,7 @@ To view the prototype: `cd reference/prototype && python3 -m http.server 8765`, 
 - Next.js (App Router, TypeScript, React Server Components), deployed on Vercel
 - Sanity as the CMS, with Sanity Studio embedded at `/studio` (this is "the dashboard" the client edits in)
 - Plain CSS: global design tokens plus CSS Modules. No Tailwind and no UI kit, because the prototype's CSS is the design and should be ported, not re-imagined.
-- Fonts self-hosted with `next/font/local` (files in `assets/fonts/`)
+- Fonts: Anton and Nunito Sans self-hosted with `next/font/local` (files in `assets/fonts/`). Handwritten accents use **Benedict**, loaded from a temporary remote `@font-face` until the client's licence arrives, with Licorice (self-hosted) as the fallback. Follow "Handwritten font setup" in `docs/03-design-system.md`, and never commit a Benedict font file until the licence is bought.
 - Later phases: Stripe Checkout (payments) and GoHighLevel (CRM, texts and course access). Do not build these until asked. See `docs/07-integrations-later.md`.
 
 Use the current stable versions of Next.js, React, `sanity` and `next-sanity` at setup time, and check their docs for current APIs rather than relying on memory.
@@ -38,16 +38,6 @@ Use the current stable versions of Next.js, React, `sanity` and `next-sanity` at
 ## Commands (fill in as the project takes shape)
 
 - `npm run dev`: Next.js plus the Studio at http://localhost:3000/studio
-- `npm run dev:offline`: the site from `content-seed/` with no Sanity connection (`SANITY_OFFLINE=1`, never in production)
 - `npm run typegen`: regenerate Sanity types
-- `npm run seed`: import `content-seed/` into the Sanity dataset (Editor token in `.env.local`, or `npx sanity login` first)
-- `npm run lint`, `npm run typecheck`, `npm run build`, `npm test` (unit)
-- `npm run test:visual`, `npm run test:a11y`, `npm run test:e2e` (Playwright; build with `SANITY_OFFLINE=1` first)
-- `npx tsx sanity/seed/verify-offline.ts`: checks every query against the seed data
-
-## Architecture notes
-
-- `lib/sanity/types.ts` is the content contract between schemas, seed, queries and components. Change it first.
-- Page-builder pages (about, partner, contact, careers, speaking, podcast, socials, about/jenna-colombo and client-made pages) render through `app/(site)/[...slug]/page.tsx`.
-- Links are stored as references and resolved to `href` in `lib/sanity/fetch.ts`. Inline-object array members are named `${fieldName}Item`.
-- Time-dependent UI decides on the client (`DateSwitch`, `components/ui/Commerce.tsx`, `Countdown`) so cached pages flip at each cutoff.
+- `npm run seed`: import `content-seed/` into the Sanity dataset
+- `npm run lint`, `npm run build`, `npm run test:visual`

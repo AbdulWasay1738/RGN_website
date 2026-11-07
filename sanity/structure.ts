@@ -68,6 +68,7 @@ export const structure: StructureResolver = (S, context) => {
         .id('pages')
         .icon(DocumentIcon)
         .child(S.documentTypeList('page').title('Pages').defaultOrdering([{ field: 'title', direction: 'asc' }])),
+      singleton('growthCall', 'Growth call', CalendarIcon),
       S.listItem()
         .title('Offers')
         .id('offers')

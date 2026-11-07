@@ -25,6 +25,7 @@ export const ROUTES: Array<{ name: string; hash: string; path: string }> = [
     path: '/blog/hook-line-heart-a-simple-structure-for-content-people-actually-finish',
   },
   { name: 'legal-privacy', hash: 'legal-privacy', path: '/legal/privacy' },
+  { name: 'growth', hash: 'growth', path: '/growth-strategy' },
   { name: 'notfound', hash: 'notfound', path: '/this-page-does-not-exist' },
 ]
 

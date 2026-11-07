@@ -14,6 +14,7 @@ type SitemapData = {
   bundle?: Entry
   book?: Entry
   assessment?: Entry
+  growthCall?: Entry
   blog?: Entry
 }
 
@@ -25,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     data = await sanityFetch<SitemapData | null>({
       query: SITEMAP_QUERY,
-      tags: ['page', 'course', 'post', 'legalPage', 'workshop', 'bundle', 'book', 'assessment', 'blogSettings'],
+      tags: ['page', 'course', 'post', 'legalPage', 'workshop', 'bundle', 'book', 'assessment', 'growthCall', 'blogSettings'],
     })
   } catch {
     data = null
@@ -45,6 +46,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (data?.bundle) add('/courses/content-machine', data.bundle._updatedAt, 0.8)
   if (data?.book) add('/book', data.book._updatedAt)
   if (data?.assessment) add('/assessment', data.assessment._updatedAt, 0.8)
+  if (data?.growthCall) add('/growth-strategy', data.growthCall._updatedAt, 0.8)
   if (data?.blog) add('/blog', data.blog._updatedAt, 0.7)
   for (const p of data?.posts ?? []) if (p?.slug) add(`/blog/${p.slug}`, p._updatedAt, 0.6)
   for (const l of data?.legal ?? []) if (l?.slug) add(`/legal/${l.slug}`, l._updatedAt, 0.2)

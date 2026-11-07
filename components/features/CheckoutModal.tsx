@@ -11,7 +11,7 @@ import { Consent, Field, SpamTraps } from '@/components/ui/Field'
 import { Icon } from '@/components/ui/Icon'
 import { track } from '@/lib/analytics'
 import { validateForm, VALIDATION_MESSAGES, type FieldErrors } from '@/lib/forms'
-import { coursePrice, isEarlyBird, isIntro, seatsLeft, workshopPrice } from '@/lib/sales-calendar'
+import { bundlePriceParts, coursePrice, isEarlyBird, isIntro, seatsLeft, workshopPrice } from '@/lib/sales-calendar'
 import type { CheckoutLabels } from '@/lib/sanity/types'
 import { interpolate } from '@/lib/text'
 import styles from './CheckoutModal.module.css'
@@ -39,6 +39,7 @@ const DEFAULTS: Required<CheckoutLabels> = {
   workshopSubline: '{ticket} ticket · {date} · {time}',
   courseSubline: 'Online course · {priceType}',
   bundleSubline: '',
+  bundleIntroPriceLabel: 'introductory price',
   earlyBirdTicket: 'Early-bird',
   standardTicket: 'Standard',
   introPriceLabel: 'introductory price',
@@ -104,12 +105,14 @@ export function CheckoutModal({ offer, onClose }: { offer: CheckoutOffer; onClos
       }
     }
     if (offer.kind === 'bundle') {
+      const p = bundlePriceParts(site.bundle, now, dates)
+      const priceType = p.intro ? labels.bundleIntroPriceLabel : labels.regularPriceLabel
       return {
         id: 'bundle',
         kind: 'bundle',
         name: site.bundle?.title ?? 'The Content Machine',
-        sub: labels.bundleSubline,
-        price: site.bundle?.price ?? 0,
+        sub: interpolate(labels.bundleSubline, { priceType, priceLabel: priceType }),
+        price: p.now,
       }
     }
     if (offer.kind === 'course') {
