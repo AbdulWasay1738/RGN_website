@@ -6,16 +6,19 @@ import { useSalesCalendar, useTicker } from '@/components/providers/SalesCalenda
 export type CountdownKey = 'introEndsAt' | 'coursesOpenAt' | 'earlyBirdEndsAt' | 'workshopAt'
 
 /**
- * Live days / hours / minutes / seconds to a sales-calendar date.
+ * Live days / hours / minutes / seconds to a sales-calendar date (`to`) or
+ * any moment (`at`, for example a sale's end).
  * Renders `doneContent` (or nothing) once the date has passed.
  */
 export function Countdown({
   to,
+  at,
   tone = 'default',
   doneContent = null,
   label,
 }: {
-  to: CountdownKey
+  to?: CountdownKey
+  at?: Date
   /** default: navy units. light: white units (on orange). lav: lavender unit labels (on navy). */
   tone?: 'default' | 'light' | 'lav'
   doneContent?: React.ReactNode
@@ -24,7 +27,7 @@ export function Countdown({
 }) {
   const { dates } = useSalesCalendar()
   const now = useTicker(1000)
-  const target = dates[to]
+  const target = at ?? dates[to ?? 'workshopAt']
   const p = countdownParts(target, now)
   if (p.done) return <>{doneContent}</>
   const pad = (n: number) => String(n).padStart(2, '0')

@@ -6,7 +6,7 @@ import { AccentText } from '@/components/ui/AccentText'
 import { Accordion } from '@/components/ui/Accordion'
 import { CtaLink } from '@/components/ui/Button'
 import { DateSwitch } from '@/components/providers/SalesCalendarProvider'
-import { BundlePrice, BundlePriceText, BuyButton } from '@/components/ui/Commerce'
+import { BundleOfferText, BundlePrice, BundlePriceText, BuyButton } from '@/components/ui/Commerce'
 import { Icon } from '@/components/ui/Icon'
 import { JsonLd } from '@/components/ui/JsonLd'
 import { sanityFetch } from '@/lib/sanity/fetch'
@@ -15,9 +15,9 @@ import { getLayoutData } from '@/lib/sanity/layout'
 import { BUNDLE_PAGE_QUERY } from '@/lib/sanity/queries'
 import type { Bundle, Course } from '@/lib/sanity/types'
 import { absoluteUrl, breadcrumbLd, buildMetadata, faqPageLd } from '@/lib/seo'
-import { bundlePriceTokens, formatUsd, interpolate, plainText } from '@/lib/text'
+import { formatUsd, plainText } from '@/lib/text'
 
-type BundlePageData = { bundle: Bundle | null; courses: Course[] | null }
+type BundlePageData = { bundle: Bundle | null; courses: Course[] | null; bundleCourses: Course[] | null }
 
 const PATH = '/courses/content-machine'
 
@@ -43,21 +43,25 @@ export default async function BundlePage() {
 
   const courses = data.courses ?? []
   const chips = b.chips ?? []
-  const pathItems = (b.path?.items ?? []).filter((it) => it.course)
+  // The courses ticked "Part of the Content Machine bundle", with their line from "The path" when it has one.
+  const ticked = data.bundleCourses ?? []
+  const pathItems = ticked.length
+    ? ticked.map((c) => ({ _key: c._id, course: c, line: b.path?.items?.find((it) => it.course?._id === c._id)?.line ?? c.shortLine }))
+    : (b.path?.items ?? []).filter((it) => it.course)
   const tableCourses = pathItems.length ? pathItems.map((it) => it.course!) : courses
   const separateTotal = tableCourses.reduce((sum, c) => sum + (c.regularPrice ?? 0), 0)
   const separateIntroTotal = tableCourses.reduce((sum, c) => sum + (c.introPrice ?? c.regularPrice ?? 0), 0)
+  // Worked out from the courses, so adding a course or changing a price keeps the totals right.
   const prices = {
     ...b,
-    compareAt: b.compareAt ?? (separateTotal || undefined),
-    compareAtIntro: b.compareAtIntro ?? (separateIntroTotal || undefined),
+    compareAt: separateTotal || b.compareAt,
+    compareAtIntro: separateIntroTotal || b.compareAtIntro,
   }
-  const tokens = bundlePriceTokens(prices)
   const maths = b.maths ?? {}
   const pair = b.pairWithWorkshop ?? {}
 
   // Structured data follows the price on the server clock (the page regenerates every minute).
-  const dates = calendarDates(layout.calendar)
+  const dates = calendarDates(layout.calendar, layout.sales)
   const serverNow = new Date()
   const offerPrice = bundlePriceParts(prices, serverNow, dates).now
   const productLd = {
@@ -137,7 +141,7 @@ export default async function BundlePage() {
             </div>
           </div>
           <div className={`side fade-up ${styles.fan}`} style={{ ['--dl' as string]: '.25s' }} aria-hidden="true">
-            {courses.slice(0, 3).map((c, i) => {
+            {tableCourses.slice(0, 3).map((c, i) => {
               const s = FAN_STYLE[i]
               return (
                 <div
@@ -201,11 +205,7 @@ export default async function BundlePage() {
             <AccentText as="h2" className="h2" text={maths.headline} />
             {maths.body || maths.bodyIntro ? (
               <p className="lead">
-                <DateSwitch
-                  rule="intro"
-                  whenTrue={interpolate(maths.bodyIntro || maths.body, tokens)}
-                  whenFalse={interpolate(maths.body, tokens)}
-                />
+                <BundleOfferText bundle={prices} intro={maths.bodyIntro} regular={maths.body} />
               </p>
             ) : null}
           </div>
@@ -248,11 +248,7 @@ export default async function BundlePage() {
                 <span className="stack" style={{ lineHeight: 1.2 }}>
                   <strong className={styles.totalName}>{b.title}</strong>
                   <span className={styles.totalSave}>
-                    <DateSwitch
-                      rule="intro"
-                      whenTrue={interpolate(maths.totalNoteIntro || b.saveLabel, tokens)}
-                      whenFalse={interpolate(b.saveLabel, tokens)}
-                    />
+                    <BundleOfferText bundle={prices} intro={maths.totalNoteIntro} regular={b.saveLabel} />
                   </span>
                 </span>
                 <span className={styles.totalPrice}>

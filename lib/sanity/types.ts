@@ -218,6 +218,26 @@ export type SalesCalendar = {
 
 export type CountdownTarget = 'none' | 'introEndsAt' | 'coursesOpenAt' | 'earlyBirdEndsAt' | 'workshopAt' | 'showUntil'
 
+/** A scheduled sale (for example Black Friday): sale prices, and optionally a banner, between two moments. */
+export type Sale = {
+  _id: string
+  _type: 'sale'
+  title?: string
+  /** Off: the sale never shows (cancelled without deleting it) */
+  enabled?: boolean
+  startsAt?: string
+  endsAt?: string
+  /** Shown beside sale prices, for example "Black Friday price". Empty: "Save $X" */
+  priceLabel?: string
+  items?: Array<{ _key: string; offer?: { _ref: string }; salePrice?: number }>
+  banner?: { show?: boolean; label?: string; message?: string; ctaLabel?: string; ctaLink?: Link }
+}
+
+/** A sale as the site uses it (LAYOUT_QUERY): each item's offer is an id, a course _id, "workshop" or "bundle". */
+export type ScheduledSale = Pick<Sale, '_id' | 'title' | 'startsAt' | 'endsAt' | 'priceLabel' | 'banner'> & {
+  items?: Array<{ _key: string; offerId?: string; salePrice?: number }>
+}
+
 export type BannerVariant = {
   _key: string
   label?: string
@@ -246,7 +266,7 @@ export type NavChild = {
   badge?: string
   badgeStyle?: 'number' | 'bundleIcon' | 'script'
   /** ref -> course (expanded): the description becomes "<shortLine> · $<price>[ intro]" */
-  priceFromCourse?: Pick<Course, 'shortLine' | 'regularPrice' | 'introPrice'>
+  priceFromCourse?: Pick<Course, '_id' | 'shortLine' | 'regularPrice' | 'introPrice'>
   /** Items with this flag sit below a divider in the Education menu */
   separated?: boolean
 }
@@ -480,6 +500,8 @@ export type Course = {
   shortLine?: string
   regularPrice?: number
   introPrice?: number
+  /** Listed on the bundle page and counted in its totals */
+  inBundle?: boolean
   problemLabel?: string
   problem?: string
   /** Phrase inside `problem` to highlight */
@@ -561,7 +583,7 @@ export type Bundle = {
     items?: Array<{
       _key: string
       /** ref -> course (expanded) */
-      course?: Pick<Course, '_id' | 'title' | 'fullTitle' | 'slug' | 'regularPrice' | 'introPrice' | 'word' | 'stepNumber'>
+      course?: Pick<Course, '_id' | 'title' | 'fullTitle' | 'slug' | 'regularPrice' | 'introPrice' | 'word' | 'stepNumber' | 'courseNumber' | 'shortLine'>
       line?: string
     }>
   }
@@ -1225,4 +1247,8 @@ export type LayoutData = {
   book: Pick<Book, 'hidden' | 'title' | 'preorderUrl' | 'noLinkMessage'> | null
   /** Slugs of hidden pages (and "book" when the book is hidden), so nav links to them drop out */
   hiddenHrefs: string[]
+  /** Sales that have not ended yet (scheduled or on now) */
+  sales: ScheduledSale[]
+  /** Draft mode (Live preview): prices get click-to-edit attributes */
+  draft?: boolean
 }

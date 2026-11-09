@@ -3,18 +3,19 @@
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import { useSite } from '@/components/providers/SiteProvider'
+import type { SimpleLink } from '@/lib/sanity/types'
 import { buttonClass } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import { SanityImage } from '@/components/ui/SanityImage'
 import { clean } from '@/lib/text'
-import { visibleHref } from './navLinks'
+import { visibleHref, withAllCourses } from './navLinks'
 import styles from './MobileMenu.module.css'
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
 /** Full-screen navy menu under 1080px. Traps focus, closes on Escape, locks page scroll. */
 export function MobileMenu({ onClose }: { onClose: (restoreFocus: boolean) => void }) {
-  const { settings, hiddenHrefs } = useSite()
+  const { settings, hiddenHrefs, courses } = useSite()
   const rootRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
 
@@ -70,7 +71,14 @@ export function MobileMenu({ onClose }: { onClose: (restoreFocus: boolean) => vo
       </div>
       <div className={styles.body}>
         {groups.map((g) => {
-          const links = (g.links ?? [])
+          // A new course joins the "Courses" list by itself.
+          const all = withAllCourses(
+            g.links ?? [],
+            courses,
+            (l) => l.link?.href,
+            (course, written): SimpleLink => ({ _key: written?._key ?? `course-${course._id}`, label: written?.label ?? course.title, link: { _type: 'link', href: `/courses/${course.slug}` } }),
+          )
+          const links = all
             .map((l) => ({ ...l, href: visibleHref(l.link?.href, hiddenHrefs) }))
             .filter((l) => l.href && l.label)
           if (!links.length) return null

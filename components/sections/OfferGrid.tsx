@@ -6,6 +6,7 @@ import { WorkshopTicket } from '@/components/features/WorkshopTicket'
 import { AccentText } from '@/components/ui/AccentText'
 import { Band } from '@/components/ui/Band'
 import { sanityFetch } from '@/lib/sanity/fetch'
+import { COURSE_CARD } from '@/lib/sanity/queries'
 import type { Book, Bundle, Course, CourseTemplate, OfferGridSection, OfferItem, Workshop } from '@/lib/sanity/types'
 import { clean } from '@/lib/text'
 import type { SectionProps } from './SectionRenderer'
@@ -13,7 +14,7 @@ import styles from './OfferGrid.module.css'
 
 const OFFER_LABELS_QUERY = `{
   "template": *[_id == "courseTemplate"][0],
-  "steps": *[_type == "course"] | order(orderRank asc, order asc){ stepNumber }
+  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, _type, ${COURSE_CARD} }
 }`
 
 type Group =
@@ -21,16 +22,25 @@ type Group =
   | { kind: 'courses'; items: Course[] }
   | { kind: 'extras'; items: Array<Bundle | Book> }
 
-/** Groups the editor's ordered list: the workshop full width, runs of courses in a grid, runs of bundle and book in a two-up grid. */
-function groupItems(items: OfferItem[]): Group[] {
+/**
+ * Groups the editor's ordered list: the workshop full width, the courses in a
+ * grid, runs of bundle and book in a two-up grid. The first course in the list
+ * marks where the courses go: every published course shows there, in the order
+ * of the Courses list, so a new course appears on the home page by itself.
+ */
+function groupItems(items: OfferItem[], allCourses: Course[]): Group[] {
   const groups: Group[] = []
+  let coursesPlaced = false
   for (const item of items) {
     if (!item?._type) continue
     const type = clean(item._type)
     const last = groups.at(-1)
     if (type === 'workshop') groups.push({ kind: 'workshop', item: item as Workshop })
     else if (type === 'course') {
-      if (last?.kind === 'courses') last.items.push(item as Course)
+      if (allCourses.length) {
+        if (!coursesPlaced) groups.push({ kind: 'courses', items: allCourses })
+        coursesPlaced = true
+      } else if (last?.kind === 'courses') last.items.push(item as Course)
       else groups.push({ kind: 'courses', items: [item as Course] })
     } else if (type === 'bundle' || type === 'book') {
       if (type === 'book' && (item as Book).hidden) continue
@@ -43,16 +53,17 @@ function groupItems(items: OfferItem[]): Group[] {
 
 /** "Choose a starting point": the workshop ticket, the course cards, the bundle and the book. */
 export async function OfferGrid({ section }: SectionProps<OfferGridSection>) {
-  const labels = await sanityFetch<{ template: CourseTemplate | null; steps: Array<{ stepNumber?: string }> | null }>({
+  const labels = await sanityFetch<{ template: CourseTemplate | null; courses: Course[] | null }>({
     query: OFFER_LABELS_QUERY,
     tags: ['courseTemplate', 'course'],
   })
-  const fanNumbers = (labels?.steps ?? [])
+  const allCourses = labels?.courses ?? []
+  const fanNumbers = allCourses
     .map((s) => Number.parseInt(clean(s?.stepNumber) ?? '', 10))
     .filter((n) => Number.isFinite(n))
     .map(String)
   const fan = fanNumbers.length >= 3 ? fanNumbers : ['1', '3', '4']
-  const groups = groupItems(section.items ?? [])
+  const groups = groupItems(section.items ?? [], allCourses)
 
   const render = (g: Group, i: number): ReactNode => {
     if (g.kind === 'workshop') return <WorkshopTicket key={i} workshop={g.item} />

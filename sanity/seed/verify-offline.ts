@@ -206,6 +206,8 @@ async function main() {
     const learn = r.settings.footer?.columns?.find((c: Any) => c.title === 'Learn')
     expect(learn?.links?.some((l: Any) => l.link?.href === '/growth-strategy'), 'footer links the growth call')
     expect(Array.isArray(r.hiddenHrefs), 'hiddenHrefs not an array')
+    expect(Array.isArray(r.sales), 'sales not an array')
+    expect(r.courses.every((c: Any) => c._id), 'layout courses carry ids (sale prices match on them)')
     const edu = r.settings.headerNav.find((n: Any) => n.label === 'Education')
     expect(edu?.dropdown?.items?.[0]?.priceFromCourse?.shortLine, 'priceFromCourse not expanded')
     const machine = edu?.dropdown?.items?.find((i: Any) => i.label === 'The Content Machine')
@@ -285,6 +287,7 @@ async function main() {
     expect(r.bundle.faqs?.length === 3, 'bundle faqs')
     expect(r.bundle.introPrice === 399 && r.bundle.compareAtIntro === 447 && r.bundle.maths?.introColumn, 'bundle intro price and math table')
     expect(r.bundle.path.items.every((i: Any) => typeof i.course?.introPrice === 'number'), 'bundle path intro prices')
+    expect(r.bundleCourses?.length === 3, 'three courses ticked "Part of the Content Machine bundle"')
     expect(r.courses?.length === 3, 'courses')
   })
 

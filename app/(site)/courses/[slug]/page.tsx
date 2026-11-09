@@ -6,8 +6,7 @@ import { DateSwitch } from '@/components/providers/SalesCalendarProvider'
 import { AccentText } from '@/components/ui/AccentText'
 import { Accordion } from '@/components/ui/Accordion'
 import { ButtonLink } from '@/components/ui/Button'
-import { BuyButton, CoursePrice } from '@/components/ui/Commerce'
-import { Countdown } from '@/components/ui/Countdown'
+import { BundleOfferText, BuyButton, CoursePrice, PriceDeadline } from '@/components/ui/Commerce'
 import { Icon } from '@/components/ui/Icon'
 import { JsonLd } from '@/components/ui/JsonLd'
 import { SanityImage } from '@/components/ui/SanityImage'
@@ -17,7 +16,7 @@ import { getLayoutData } from '@/lib/sanity/layout'
 import { COURSE_PAGE_QUERY, COURSE_SLUGS_QUERY } from '@/lib/sanity/queries'
 import type { Bundle, Course, CourseTemplate } from '@/lib/sanity/types'
 import { breadcrumbLd, buildMetadata, courseLd, faqPageLd } from '@/lib/seo'
-import { bundlePriceTokens, clean, interpolate } from '@/lib/text'
+import { clean, interpolate } from '@/lib/text'
 
 type CoursePageData = {
   course: Course | null
@@ -75,12 +74,12 @@ export default async function CoursePage({ params }: Props) {
   if (!c) notFound()
 
   const t = data.template ?? {}
-  const bundleTokens = bundlePriceTokens(data.bundle)
+  const bundle = data.bundle ?? {}
   const courses = data.courses ?? []
   const step = c.stepNumber ?? ''
   const stepNum = Number(step) || c.courseNumber || ''
   const path = `/courses/${slug}`
-  const dates = calendarDates(layout.calendar)
+  const dates = calendarDates(layout.calendar, layout.sales)
   const learn = c.learn ?? []
 
   const pathItems = [
@@ -167,25 +166,13 @@ export default async function CoursePage({ params }: Props) {
               <div className="price">
                 <CoursePrice course={c} size="hero" regularLabel={t.regularPriceLabel} saveLabel={t.saveLabel} />
               </div>
-              <DateSwitch
-                rule="intro"
-                whenTrue={
-                  <div className={`stack g8 ${styles.introBox}`}>
-                    {t.introEndsLabel ? <strong>{t.introEndsLabel}</strong> : null}
-                    <Countdown to="introEndsAt" label={t.introEndsLabel} />
-                  </div>
-                }
-              />
+              <PriceDeadline course={c} introLabel={t.introEndsLabel} className={`stack g8 ${styles.introBox}`} />
               <BuyButton offer={{ kind: 'course', slug }} block trackId={`buy_${slug}`}>
                 {t.enrollLabel}
               </BuyButton>
               {t.bundleLinkLabel || t.bundleLinkIntroLabel ? (
                 <Link href="/courses/content-machine" className={`tlink ${styles.bundleLink}`}>
-                  <DateSwitch
-                    rule="intro"
-                    whenTrue={interpolate(t.bundleLinkIntroLabel || t.bundleLinkLabel, bundleTokens)}
-                    whenFalse={interpolate(t.bundleLinkLabel, bundleTokens)}
-                  />
+                  <BundleOfferText bundle={bundle} intro={t.bundleLinkIntroLabel} regular={t.bundleLinkLabel} />
                 </Link>
               ) : null}
               {t.features?.length ? (
@@ -315,11 +302,7 @@ export default async function CoursePage({ params }: Props) {
                 <h2 className={`h3 ${styles.upsellHeadline}`}>{t.bundleUpsell.headline}</h2>
                 {t.bundleUpsell.body || t.bundleUpsell.bodyIntro ? (
                   <p className={styles.upsellBody}>
-                    <DateSwitch
-                      rule="intro"
-                      whenTrue={interpolate(t.bundleUpsell.bodyIntro || t.bundleUpsell.body, bundleTokens)}
-                      whenFalse={interpolate(t.bundleUpsell.body, bundleTokens)}
-                    />
+                    <BundleOfferText bundle={bundle} intro={t.bundleUpsell.bodyIntro} regular={t.bundleUpsell.body} />
                   </p>
                 ) : null}
               </div>

@@ -14,6 +14,7 @@ const EMPTY: LayoutData = {
   bundle: null,
   book: null,
   hiddenHrefs: [],
+  sales: [],
 }
 
 /** Site-wide content (settings, offers, calendar) for client components. */

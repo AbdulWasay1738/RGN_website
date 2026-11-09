@@ -8,7 +8,7 @@ import { Icon } from '@/components/ui/Icon'
 import { bundlePriceParts, coursePriceParts } from '@/lib/sales-calendar'
 import type { NavChild, NavItem, SiteSettings } from '@/lib/sanity/types'
 import { clean, formatUsd, interpolate } from '@/lib/text'
-import { visibleHref } from './navLinks'
+import { visibleHref, withAllCourses } from './navLinks'
 import styles from './Header.module.css'
 
 type Props = {
@@ -27,11 +27,27 @@ type Props = {
 export function NavDropdown({ item, open, hiddenHrefs, feature, onClose, onToggle, onHoverEnter, onHoverLeave }: Props) {
   const triggerRef = useRef<HTMLButtonElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
+  const { courses } = useSite()
   const dropdown = item.dropdown
   const isMega = clean(dropdown?.style) === 'mega'
   const panelId = `ddp-${item._key}`
 
-  const children = (dropdown?.items ?? [])
+  // A new course joins the Education menu by itself (number badge and price line from the course).
+  const items = withAllCourses(
+    dropdown?.items ?? [],
+    courses,
+    (c) => c.link?.href,
+    (course, written): NavChild => ({
+      _key: written?._key ?? `course-${course._id}`,
+      label: written?.label ?? course.title,
+      link: { _type: 'link', href: `/courses/${course.slug}` },
+      eyebrow: written?.eyebrow,
+      badge: written?.badge ?? String(Number.parseInt(course.stepNumber ?? '', 10) || course.courseNumber || ''),
+      badgeStyle: written?.badgeStyle ?? 'number',
+      priceFromCourse: { _id: course._id, shortLine: course.shortLine, regularPrice: course.regularPrice, introPrice: course.introPrice },
+    }),
+  )
+  const children = items
     .map((c) => ({ ...c, href: visibleHref(c.link?.href, hiddenHrefs) }))
     .filter((c) => c.href && c.label)
   const featureHref = visibleHref(feature?.cta?.link?.href, hiddenHrefs)
@@ -149,7 +165,7 @@ function MenuDescription({ child }: { child: NavChild }) {
   const course = child.priceFromCourse
   if (course && (typeof course.regularPrice === 'number' || typeof course.introPrice === 'number')) {
     const p = coursePriceParts(course, now, dates)
-    const parts = [course.shortLine, `$${p.now}${p.intro ? ' intro' : ''}`].filter(Boolean)
+    const parts = [course.shortLine, `$${p.now}${p.sale ? ' sale' : p.intro ? ' intro' : ''}`].filter(Boolean)
     return <span className={styles.s}>{parts.join(' · ')}</span>
   }
   if (!child.description) return null
@@ -157,7 +173,7 @@ function MenuDescription({ child }: { child: NavChild }) {
   if (child.description.includes('{bundlePrice}')) {
     if (typeof bundle?.price !== 'number') return <span className={styles.s}>{child.description.replace(/\s*·?\s*\{bundlePrice\}/, '')}</span>
     const p = bundlePriceParts(bundle, now, dates)
-    return <span className={styles.s}>{interpolate(child.description, { bundlePrice: `${formatUsd(p.now)}${p.intro ? ' intro' : ''}` })}</span>
+    return <span className={styles.s}>{interpolate(child.description, { bundlePrice: `${formatUsd(p.now)}${p.sale ? ' sale' : p.intro ? ' intro' : ''}` })}</span>
   }
   return <span className={styles.s}>{child.description}</span>
 }

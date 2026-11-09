@@ -2,24 +2,37 @@
 
 The Studio is the control panel for reelgoodnews.com. It lives at **reelgoodnews.com/studio**. Sign in with the account our team invited. Every change starts as a draft, shows in the live preview, and goes live only when published.
 
-## The sidebar at a glance
+## Start here: the Home screen
+
+The Studio opens on **Home**: big buttons for the jobs you do most.
+
+| Button | What it does |
+|---|---|
+| **Edit the website** | Shows the real website. Click any text, image or price to change it in the panel beside it. |
+| **Change prices** | Every price and every price-switch date on one screen (see "Change prices and dates" below). |
+| **Run a sale** | Black Friday or any offer, set up once; it starts and stops by itself (see "Run a sale"). |
+| **Add a course** | A new course appears on the home page and in the menus once published (see "Add a course"). |
+| **Write a blog post**, **Change the banner**, **Edit the home page**, **Workshop details**, **Growth call page**, **All pages**, **Menus, footer and contact details** | Open that part of the site straight away. |
+
+The tabs along the top: **Home**, **Prices & sales**, **All content** (everything, in the sidebar), **Edit the website** (the live view) and **Releases** (Sanity's own way to schedule any change; most of the time a sale is all you need).
+
+## The sidebar at a glance (All content)
 
 | Sidebar item | What it controls |
 |---|---|
-| **Site** > Site settings | Logos, main menu, mobile menu, header button, footer, newsletter text, cookie notice, checkout window text, default SEO |
-| **Site** > Announcement banner | The dark strip above the header and its date-driven versions |
-| **Site** > Sales calendar and seats | Price switch dates, course opening date, workshop date, in-person seats |
-| **Pages** | Home, About, Partner, Contact, Careers, Speaking, Podcast, Socials, the founder page, and any new page |
-| **Growth call** | The 2027 growth strategy call page (/growth-strategy): text, form wording, call days and times, the booked message, and the line under the workshop tickets |
-| **Offers** | Workshop, Courses, Course page labels, Content Machine bundle, Book |
+| **Home page** | Every section of the home page, in order |
+| **Pages** | About, Partner, Contact, Careers, Speaking, Podcast, Socials, the founder page, and any new page |
+| **Courses** | Each course: name, prices, page text. Drag to change their order everywhere on the site. |
+| **Sales** | Scheduled sales such as Black Friday |
+| **Live workshop**, **Content Machine bundle**, **Book** | Those pages and their cards |
+| **Blog** | Blog posts and the blog page settings |
+| **Growth call page** | The 2027 growth strategy call page (/growth-strategy): text, form wording, call days and times, the booked message, and the line under the workshop tickets |
 | **Assessment** | The Marketing ROI Assessment pages and questions |
-| **Order confirmation** | The page buyers see after paying |
-| **Blog** | Blog page settings and every blog post |
+| **Banner** | The dark strip above the header and its date-driven messages |
+| **Menus, footer and site settings** | Logos, main menu, mobile menu, header button, footer, newsletter text, cookie notice, checkout window text, default SEO |
+| **Price switch dates and seats** | The same dates as the Prices screen, plus in-person seats sold |
 | **Library** | Testimonials, FAQs, proof numbers, team members, timeline entries. Pages pick these items, so one edit updates every page that uses them. |
-| **Legal pages** | Privacy, Terms, DMCA, Do Not Sell |
-| **Redirects** | Old addresses that forward to new ones |
-
-Two tools sit along the top: **Content** (editing) and **Live preview** (the real site beside the editor).
+| **More settings** | Course page labels, the order confirmation page, legal pages and redirects |
 
 ## Text marks
 
@@ -32,7 +45,7 @@ Two tools sit along the top: **Content** (editing) and **Live preview** (the rea
 
 ## Edit text, images and buttons on any page
 
-1. Open **Pages** and pick the page. For the workshop, the courses, the bundle or the book, open **Offers** instead.
+1. The quickest way: select **Edit the website**, go to the page and click the text you want to change. Or open **Pages** (or **Courses**, **Live workshop**, **Content Machine bundle**, **Book**) in **All content**.
 2. Each page is a list of sections. Open a section to edit its text.
 3. **Images:** select the image, then **Upload** or **Select**. Fill in **Alternative text**: describe what the image shows, for example "Jenna Colombo, founder of Reel Good News." Drag the circle in the image to set the focal point, so cropping keeps the important part.
 4. **Buttons:** each button has a text, a link and a style. For **Link to**, pick **A page on this site** and choose the page, or **Another website** and paste the full address. A link to a hidden page disappears from the site by itself.
@@ -49,13 +62,34 @@ Dates are stored in UTC. Midnight Eastern Time is 05:00 UTC in winter, so "end o
 
 ## Change prices and dates
 
-- **Course prices:** Offers > Courses > pick the course > **Prices** tab. The intro price applies until the date in the sales calendar, then the regular price applies by itself.
-- **Workshop prices:** Offers > Workshop > **Ticket and prices** tab.
-- **Bundle price:** Offers > Content Machine bundle. **Introductory price** ($399) applies until the intro period ends, shown against the regular bundle price; after that the **Regular price** ($597) shows against the three courses bought separately ($797). Leave the introductory price empty to drop it.
-- **The switch dates:** Site > **Sales calendar and seats**. "Intro prices end" flips course and bundle prices (January 15, 2027). "Courses open" flips "Opens Dec 1" to "On demand now". "Workshop early-bird ends" flips the ticket price. "Workshop starts" drives every countdown.
-- **Seats:** in the same document, set **In-person seats sold**. When it reaches the number of seats, the site shows sold out and sells Zoom tickets only.
+1. Select **Prices & sales** at the top (or **Change prices** on Home).
+2. Change any price: each course's regular and intro price, the bundle, the workshop tickets, the book.
+3. Change when prices switch, in Eastern Time: when intro prices end, when the early-bird ends, when courses open and when the workshop starts. "Through January 15" means January 16 at 12:00 AM.
+4. Select **Save and publish** at the bottom. The website shows the new prices within a few seconds. **Undo changes** puts the screen back as it was.
+
+The course and bundle prices are also in each course's **Basics** tab and on the bundle page in **All content**. The bundle's "bought separately" totals add themselves up from the courses ticked **Part of the Content Machine bundle**.
+
+**Seats:** in **Price switch dates and seats**, set **In-person seats sold**. When it reaches the number of seats, the site shows sold out and sells Zoom tickets only.
 
 The written dates on the pages (for example "Thursday, February 4, 2027") are separate text fields on the Workshop document. Update both when the date moves.
+
+## Run a sale (for example Black Friday)
+
+1. Select **Run a sale** on Home (or **Run a new sale** on the Prices screen).
+2. Give it a name, for example "Black Friday sale". Visitors see it beside the countdown.
+3. Pick when it **Starts** and **Ends**. The end is the moment sale prices stop: for a sale through November 30, pick December 1 at 12:00 AM (Eastern).
+4. Under **Sale prices**, add each course, the workshop or the bundle and its sale price. Anything not listed keeps its usual price.
+5. Optional: **Label beside sale prices**, for example "Black Friday price" (empty shows "Save $100" and so on), and a **Banner during the sale** with a short message and a link.
+6. Select **Publish**. That's all: the sale switches on at the start time and off at the end time by itself, everywhere prices show (cards, course pages, menus, checkout and the banner).
+
+To cancel a sale, untick **Sale is on** and publish, or delete it. A sale that is not published never runs; the Prices screen marks it "Not published".
+
+## Add a course
+
+1. Select **Add a course** on Home.
+2. Fill in the **Basics** tab: short title, full title, the page address (select **Generate**), the handwritten word, the step number, the card summary, the menu line and the prices. Tick **Part of the Content Machine bundle** only if the bundle should include it.
+3. Fill in the **Course page** tab (the problem, what it covers, the outcome) and pick **FAQ** questions.
+4. Select **Publish**. The course gets its own page and appears on the home page, in the Education menu and in the mobile menu by itself. Drag it in **Courses** to change its place everywhere.
 
 ## The growth strategy call
 
@@ -72,9 +106,9 @@ The client asked for the R to stay subtle: at most two marks on a page, never in
 
 ## Add, remove and reorder offer cards
 
-1. Open **Pages** > **Home** and the **Offer cards** section.
-2. Under **Offers**, use **Add item** to add a workshop, course, bundle or book, the **...** menu to remove one, and the handle on the left to drag cards into a new order.
-3. To reorder the courses everywhere else (menus, path), open **Offers** > **Courses** and drag them.
+1. Open **Home page** and the **Offer cards** section.
+2. Under **Offers**, drag the workshop, the courses, the bundle and the book into a new order, or use the **...** menu to remove one. Every published course shows where the first course sits, so new courses need no extra step here.
+3. To change the order of the courses (here, in the menus and on the path), open **Courses** in All content and drag them.
 
 ## FAQs, proof numbers and testimonials
 
@@ -94,7 +128,7 @@ The client asked for the R to stay subtle: at most two marks on a page, never in
 
 ## Update the workshop venue and agenda
 
-Open **Offers** > **Workshop**.
+Open **Live workshop** (or **Workshop details** on Home).
 - **Venue:** Hero tab > **Venue**.
 - **Agenda:** Content tab > **Agenda**. Add the time to each item, edit titles and descriptions, and drag to reorder.
 
@@ -108,7 +142,7 @@ A team member without a photo shows as a dashed placeholder card.
 
 ## Show or hide the book and podcast pages
 
-- **Book:** Offers > Book > tick **Hide the book page**.
+- **Book:** **Book** in All content > tick **Hide the book page**.
 - **Podcast:** Pages > Podcast > **Page settings** tab > tick **Hide this page**.
 
 A hidden page shows "page not found", drops out of the menus and the footer, and leaves the sitemap. Untick the box to bring it back.
@@ -119,7 +153,7 @@ A hidden page shows "page not found", drops out of the menus and the footer, and
 2. **Page settings** tab: enter a **Page name** and generate the **Page address** (for example `media-kit`, which becomes reelgoodnews.com/media-kit).
 3. **Sections** tab: select **Add item** and pick from the library: page openings, text and story, offers and calls to action, proof, the method, questions and forms, media.
 4. Fill in each section. Use **Layout and visibility** inside a section to change its background, add the R watermark, or hide it.
-5. Drag sections to reorder them. Check the page in **Live preview**, then **Publish**.
+5. Drag sections to reorder them. Check the page in **Edit the website**, then **Publish**.
 6. To link to the new page, add it to the menu in **Site settings** > **Main menu**, or to a footer column.
 
 ## Page titles and search descriptions (SEO)
@@ -134,7 +168,7 @@ Leave the fields empty to use the page headline and the defaults in Site setting
 
 ## Preview before publishing
 
-1. Open **Live preview** in the top bar, or open a document and select its page under **Used on**.
+1. Open **Edit the website** in the top bar, or open a document and select its page under **Used on**.
 2. The real site shows on the right with your unpublished drafts. Edits appear within a second or two.
 3. Select any text on the preview to jump to the field that controls it.
 
@@ -172,7 +206,7 @@ To undo unpublished edits instead, use the **...** menu next to Publish > **Disc
 
 ## For developers
 
-**Environment.** Copy `.env.example` to `.env.local`. Set `NEXT_PUBLIC_SANITY_PROJECT_ID`, a **Viewer** token as `SANITY_API_READ_TOKEN` (draft mode and Live preview), an **Editor** token as `SANITY_API_WRITE_TOKEN` (seed script only), and a random `SANITY_REVALIDATE_SECRET`. Add the same variables in Vercel.
+**Environment.** Copy `.env.example` to `.env.local`. Set `NEXT_PUBLIC_SANITY_PROJECT_ID`, a **Viewer** token as `SANITY_API_READ_TOKEN` (draft mode and Live preview), an **Editor** token as `SANITY_API_WRITE_TOKEN` (seed and migration scripts only, never on Vercel), and a random `SANITY_REVALIDATE_SECRET`. Add the others in Vercel.
 
 **CORS origins** (sanity.io/manage > project > API > CORS origins): add `http://localhost:3000`, the Vercel preview domain and the production domain, each with **Allow credentials** on. The Studio runs on the site's own domain.
 

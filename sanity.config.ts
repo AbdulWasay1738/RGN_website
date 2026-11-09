@@ -4,6 +4,8 @@
  * Sanity Studio configuration, mounted at /studio (app/studio/[[...tool]]/page.tsx).
  * Marked as a client module so the Next.js page can pass it to <NextStudio>.
  */
+import { HomeIcon } from '@sanity/icons/Home'
+import { TrendUpwardIcon } from '@sanity/icons/TrendUpward'
 import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
 import { presentationTool } from 'sanity/presentation'
@@ -13,6 +15,8 @@ import { StudioIcon } from './sanity/components/StudioIcon'
 import { locations, mainDocuments } from './sanity/presentation'
 import { schemaTypes, SINGLETON_TYPES } from './sanity/schemaTypes'
 import { structure } from './sanity/structure'
+import { Dashboard } from './sanity/tools/Dashboard'
+import { PricesTool } from './sanity/tools/PricesTool'
 
 /** Actions a singleton keeps: no delete, duplicate or unpublish, so the site never loses it. */
 const SINGLETON_ACTIONS = new Set(['publish', 'discardChanges', 'restore'])
@@ -25,14 +29,21 @@ export default defineConfig({
   projectId,
   dataset,
   plugins: [
-    structureTool({ structure, title: 'Content' }),
+    structureTool({ structure, title: 'All content' }),
     presentationTool({
-      title: 'Live preview',
+      title: 'Edit the website',
       // The preview loads the site on the Studio's own origin.
       previewUrl: { previewMode: { enable: '/api/draft-mode/enable' } },
       resolve: { locations, mainDocuments },
     }),
-    visionTool({ defaultApiVersion: apiVersion, title: 'Query tool' }),
+    // The query tool is for developers only.
+    ...(process.env.NODE_ENV === 'development' ? [visionTool({ defaultApiVersion: apiVersion, title: 'Query tool' })] : []),
+  ],
+  // The Studio opens on the start screen; "Prices & sales" sits next to it.
+  tools: (prev) => [
+    { name: 'home', title: 'Home', icon: HomeIcon, component: Dashboard },
+    { name: 'prices', title: 'Prices & sales', icon: TrendUpwardIcon, component: PricesTool },
+    ...prev,
   ],
   schema: {
     types: schemaTypes,

@@ -10,7 +10,7 @@ import {
   workshopDone,
   type CalendarDates,
 } from '@/lib/sales-calendar'
-import type { SalesCalendar } from '@/lib/sanity/types'
+import type { SalesCalendar, ScheduledSale } from '@/lib/sanity/types'
 
 type Ctx = {
   /** Current time: request time on the server, then the visitor's clock (plus any ?now= simulation). */
@@ -33,16 +33,19 @@ const SalesCalendarContext = createContext<Ctx | null>(null)
 export function SalesCalendarProvider({
   serverNow,
   calendar,
+  sales,
   allowSimulation,
   children,
 }: {
   serverNow: string
   calendar: SalesCalendar | null
+  /** Scheduled sales that have not ended (Studio > Sales) */
+  sales: ScheduledSale[]
   /** Previews and draft mode only. Never true in production for normal visitors. */
   allowSimulation: boolean
   children: ReactNode
 }) {
-  const dates = useMemo(() => calendarDates(calendar), [calendar])
+  const dates = useMemo(() => calendarDates(calendar, sales), [calendar, sales])
   const [state, setState] = useState(() => ({ now: new Date(serverNow), offsetMs: 0, live: false }))
 
   useEffect(() => {

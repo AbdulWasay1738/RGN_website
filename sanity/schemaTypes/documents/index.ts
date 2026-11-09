@@ -12,6 +12,7 @@ import { orderRankField, orderRankOrdering } from '@sanity/orderable-document-li
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { SECTION_TYPES, SECTION_INSERT_GROUPS } from '../sections'
 import { bool, image, link, num, PLACEHOLDER_HELP, ref, refs, seo, slug, str, strings, txt } from '../helpers'
+import { sale } from './sale'
 
 /* ---------------- page (page builder) ---------------- */
 
@@ -105,7 +106,7 @@ export const course = defineType({
   ],
   fields: [
     orderRankField({ type: 'course', hidden: true }),
-    num('order', { title: 'Order', group: 'basics', integer: true, description: 'Position in course lists. Drag courses in the Courses list to reorder them.' }),
+    num('order', { title: 'Order', group: 'basics', integer: true, hidden: true, description: 'Older ordering. Drag courses in the Courses list to reorder them.' }),
     str('title', { title: 'Short title', required: true, group: 'basics', max: 60, description: 'Used on cards and in menus, for example "Attract the Right Audience".' }),
     str('fullTitle', { title: 'Full title', group: 'basics', max: 100, description: 'The page headline, for example "Attract the Right Audience: Nail Your Go-to-Market Strategy First".' }),
     slug('slug', { group: 'basics', description: 'The address after /courses/, for example "attract-the-right-audience".' }),
@@ -115,8 +116,19 @@ export const course = defineType({
     txt('headline', { title: 'Subheadline', group: 'basics', rows: 2, max: 120, description: 'The line under the page title.' }),
     txt('summary', { title: 'Card summary', group: 'basics', rows: 3, max: 200, description: 'Two short sentences for the course card on the home page.' }),
     str('shortLine', { title: 'Menu line', group: 'basics', max: 60, description: 'Shown in the Education menu before the price, for example "Nail your go-to-market strategy first".' }),
-    num('regularPrice', { title: 'Regular price (USD)', group: 'prices', required: true, description: 'Charged after the intro period ends (see Sales calendar).' }),
-    num('introPrice', { title: 'Introductory price (USD)', group: 'prices', description: 'Charged until the intro period ends. Leave empty for no intro price.' }),
+    num('regularPrice', {
+      title: 'Regular price (USD)',
+      group: ['basics', 'prices'],
+      required: true,
+      description: 'Charged after the intro period ends. All prices are also on the "Prices & sales" screen.',
+    }),
+    num('introPrice', { title: 'Introductory price (USD)', group: ['basics', 'prices'], description: 'Charged until the intro period ends. Leave empty for no intro price.' }),
+    bool('inBundle', {
+      title: 'Part of the Content Machine bundle',
+      group: ['basics', 'prices'],
+      initialValue: false,
+      description: 'Ticked courses are listed on the bundle page and counted in its "bought separately" totals.',
+    }),
     str('problemLabel', { title: 'Statement label', group: 'page', description: 'For example "The problem" or "Who it is for".' }),
     txt('problem', { title: 'Statement', group: 'page', rows: 3, max: 260 }),
     str('problemHighlight', { title: 'Highlighted phrase', group: 'page', description: 'Copy a phrase exactly from the statement to give it the lavender highlight.' }),
@@ -403,5 +415,5 @@ export const redirect = defineType({
   },
 })
 
-export const documentTypes = [page, course, post, faq, testimonial, stat, teamMember, timelineEntry, legalPage, redirect]
+export const documentTypes = [page, course, sale, post, faq, testimonial, stat, teamMember, timelineEntry, legalPage, redirect]
 

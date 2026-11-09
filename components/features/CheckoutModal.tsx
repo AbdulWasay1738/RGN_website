@@ -11,7 +11,7 @@ import { Consent, Field, SpamTraps } from '@/components/ui/Field'
 import { Icon } from '@/components/ui/Icon'
 import { track } from '@/lib/analytics'
 import { validateForm, VALIDATION_MESSAGES, type FieldErrors } from '@/lib/forms'
-import { bundlePriceParts, coursePrice, isEarlyBird, isIntro, seatsLeft, workshopPrice } from '@/lib/sales-calendar'
+import { bundlePriceParts, coursePriceParts, isEarlyBird, seatsLeft, workshopPriceParts } from '@/lib/sales-calendar'
 import type { CheckoutLabels } from '@/lib/sanity/types'
 import { interpolate } from '@/lib/text'
 import styles from './CheckoutModal.module.css'
@@ -55,6 +55,9 @@ type Product = {
   price: number
 }
 
+/** "Black Friday price" in the checkout line ("Online course · Black Friday price · ..."). */
+const saleLabel = (sale: { priceLabel?: string; title?: string }) => (sale.priceLabel || sale.title || '').replace(/^./, (ch) => ch.toLowerCase())
+
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
@@ -92,21 +95,22 @@ export function CheckoutModal({ offer, onClose }: { offer: CheckoutOffer; onClos
     if (offer.kind === 'workshop') {
       const ws = site.workshop
       const early = isEarlyBird(now, dates)
+      const p = workshopPriceParts(ws, now, dates)
       return {
         id: 'workshop',
         kind: 'workshop',
         name: ws?.title ?? 'Workshop',
         sub: interpolate(labels.workshopSubline, {
-          ticket: early ? labels.earlyBirdTicket : labels.standardTicket,
+          ticket: p.sale ? p.sale.sale.priceLabel || p.sale.sale.title || '' : early ? labels.earlyBirdTicket : labels.standardTicket,
           date: ws?.dateLabel ?? '',
           time: ws?.timeLabel ?? '',
         }),
-        price: workshopPrice(ws, now, dates),
+        price: p.now,
       }
     }
     if (offer.kind === 'bundle') {
       const p = bundlePriceParts(site.bundle, now, dates)
-      const priceType = p.intro ? labels.bundleIntroPriceLabel : labels.regularPriceLabel
+      const priceType = p.sale ? saleLabel(p.sale.sale) : p.intro ? labels.bundleIntroPriceLabel : labels.regularPriceLabel
       return {
         id: 'bundle',
         kind: 'bundle',
@@ -123,10 +127,11 @@ export function CheckoutModal({ offer, onClose }: { offer: CheckoutOffer; onClos
         kind: 'course',
         name: c.title ?? '',
         sub: (() => {
-          const priceType = isIntro(now, dates) && typeof c.introPrice === 'number' ? labels.introPriceLabel : labels.regularPriceLabel
+          const p = coursePriceParts(c, now, dates)
+          const priceType = p.sale ? saleLabel(p.sale.sale) : p.intro ? labels.introPriceLabel : labels.regularPriceLabel
           return interpolate(labels.courseSubline, { priceType, priceLabel: priceType })
         })(),
-        price: coursePrice(c, now, dates),
+        price: coursePriceParts(c, now, dates).now,
       }
     }
     return null

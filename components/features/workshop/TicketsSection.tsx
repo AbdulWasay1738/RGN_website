@@ -1,13 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-import { useDateRule } from '@/components/providers/SalesCalendarProvider'
+import { useDateRule, useSalesCalendar } from '@/components/providers/SalesCalendarProvider'
 import { useSite } from '@/components/providers/SiteProvider'
 import { useToast } from '@/components/providers/ToastProvider'
 import { AccentText } from '@/components/ui/AccentText'
 import { Icon } from '@/components/ui/Icon'
 import { seatLine, Seats } from '@/components/ui/Seats'
-import { seatCap, seatsLeft } from '@/lib/sales-calendar'
+import { seatCap, seatsLeft, workshopPriceParts } from '@/lib/sales-calendar'
+import type { SaleMatch } from '@/lib/sales-calendar'
 import type { Workshop } from '@/lib/sanity/types'
 import { clean, interpolate } from '@/lib/text'
 import { ReserveButton, useAttendance } from './Attendance'
@@ -25,6 +26,8 @@ export function TicketsSection({ workshop }: { workshop: Workshop }) {
   const toast = useToast()
   const { attendance, setAttendance } = useAttendance()
   const early = useDateRule('earlyBird')
+  const { now, dates } = useSalesCalendar()
+  const sale = workshopPriceParts(workshop, now, dates).sale
   const left = seatsLeft(calendar)
   const cap = seatCap(calendar)
   const sold = Math.min(cap, calendar?.seatsSold ?? 0)
@@ -59,6 +62,7 @@ export function TicketsSection({ workshop }: { workshop: Workshop }) {
             active={early}
             label={t.earlyBirdLabel}
             price={workshop.earlyBirdPrice}
+            sale={early ? sale : null}
             window={t.earlyBirdWindow}
             onSale={t.onSaleLabel}
             notOnSaleChip={t.earlyBirdEndedChip}
@@ -70,6 +74,7 @@ export function TicketsSection({ workshop }: { workshop: Workshop }) {
             active={!early}
             label={t.standardLabel}
             price={workshop.standardPrice}
+            sale={early ? null : sale}
             window={t.standardWindow}
             onSale={t.onSaleLabel}
             notOnSaleChip={t.standardUpcomingChip}
@@ -114,6 +119,7 @@ function TicketCard({
   active,
   label,
   price,
+  sale,
   window,
   onSale,
   notOnSaleChip,
@@ -124,6 +130,8 @@ function TicketCard({
   active: boolean
   label?: string
   price?: number
+  /** A scheduled sale on this ticket */
+  sale?: SaleMatch | null
   window?: string
   onSale?: string
   notOnSaleChip?: string
@@ -137,12 +145,23 @@ function TicketCard({
         <div className={styles.ticketCardHead}>
           <span className={`eyebrow ${styles.ticketLabel}`}>{label}</span>
           {active ? (
-            onSale ? <span className="chip chip-o">{onSale}</span> : null
+            sale || onSale ? <span className="chip chip-o">{sale ? sale.sale.priceLabel || sale.sale.title : onSale}</span> : null
           ) : notOnSaleChip ? (
             <span className="chip chip-line-l">{notOnSaleChip}</span>
           ) : null}
         </div>
-        {typeof price === 'number' ? <span className={styles.ticketPrice}>${price}</span> : null}
+        {sale ? (
+          <span className="row g8 center">
+            <span className={styles.ticketPrice}>${sale.price}</span>
+            {typeof price === 'number' && price > sale.price ? (
+              <span className="was">
+                <span className="sr-only">Usual price </span>${price}
+              </span>
+            ) : null}
+          </span>
+        ) : typeof price === 'number' ? (
+          <span className={styles.ticketPrice}>${price}</span>
+        ) : null}
         {window ? <span className={styles.ticketWindow}>{window}</span> : null}
         {includes?.length ? (
           <div className={`stack g8 ${styles.includes}`}>

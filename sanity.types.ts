@@ -577,6 +577,32 @@ export type Faq = {
   tags?: Array<string>
 }
 
+export type Sale = {
+  _id: string
+  _type: 'sale'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  enabled?: boolean
+  startsAt: string
+  endsAt: string
+  items: Array<{
+    offer: CourseReference | WorkshopReference | BundleReference
+    salePrice: number
+    _type: 'itemsItem'
+    _key: string
+  }>
+  priceLabel?: string
+  banner?: {
+    show?: boolean
+    label?: string
+    message?: string
+    ctaLabel?: string
+    ctaLink?: Link
+  }
+}
+
 export type GrowthCallCta = {
   _type: 'growthCallCta'
   line?: string
@@ -1663,6 +1689,7 @@ export type Course = {
   shortLine?: string
   regularPrice: number
   introPrice?: number
+  inBundle?: boolean
   problemLabel?: string
   problem?: string
   problemHighlight?: string
@@ -1933,6 +1960,7 @@ export type AllSanitySchemaTypes =
   | TimelineEntry
   | Stat
   | Faq
+  | Sale
   | GrowthCallCta
   | MediaBand
   | ProfileBio
@@ -1995,7 +2023,7 @@ export type AllSanitySchemaTypes =
 
 // Source: lib/sanity/queries.ts
 // Variable: LAYOUT_QUERY
-// Query: {  "settings": *[_id == "siteSettings"][0]{    ...,    headerNav[]{ ..., dropdown{ ..., items[]{ ..., priceFromCourse->{ shortLine, regularPrice, introPrice } } } }  },  "banner": *[_id == "announcementBanner"][0],  "calendar": *[_id == "salesCalendar"][0],  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, _type, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },  "workshop": *[_id == "workshop"][0]{ title, earlyBirdPrice, standardPrice, dateLabel, timeLabel, venue },  "bundle": *[_id == "bundle"][0]{ title, price, introPrice, compareAt, compareAtIntro },  "book": *[_id == "book"][0]{ hidden, title, preorderUrl, noLinkMessage },  "hiddenHrefs": [    ...*[_type == "page" && hidden == true && defined(slug.current)]{ "href": "/" + slug.current }.href,    ...*[_id == "book" && hidden == true]{ "href": "/book" }.href  ]}
+// Query: {  "settings": *[_id == "siteSettings"][0]{    ...,    headerNav[]{ ..., dropdown{ ..., items[]{ ..., priceFromCourse->{ _id, shortLine, regularPrice, introPrice } } } }  },  "banner": *[_id == "announcementBanner"][0],  "calendar": *[_id == "salesCalendar"][0],  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, _type, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },  "workshop": *[_id == "workshop"][0]{ title, earlyBirdPrice, standardPrice, dateLabel, timeLabel, venue },  "bundle": *[_id == "bundle"][0]{ title, price, introPrice, compareAt, compareAtIntro },  "book": *[_id == "book"][0]{ hidden, title, preorderUrl, noLinkMessage },  "sales": *[_type == "sale" && enabled != false && defined(startsAt) && defined(endsAt) && dateTime(endsAt) > dateTime(now())] | order(startsAt asc){    _id, title, startsAt, endsAt, priceLabel, banner,    "items": items[]{ _key, "offerId": offer._ref, salePrice }  },  "hiddenHrefs": [    ...*[_type == "page" && hidden == true && defined(slug.current)]{ "href": "/" + slug.current }.href,    ...*[_id == "book" && hidden == true]{ "href": "/book" }.href  ]}
 export type LAYOUT_QUERY_RESULT = {
   settings:
     | {
@@ -2289,6 +2317,7 @@ export type LAYOUT_QUERY_RESULT = {
         shortLine?: string
         regularPrice: number
         introPrice?: number
+        inBundle?: boolean
         problemLabel?: string
         problem?: string
         problemHighlight?: string
@@ -2655,6 +2684,32 @@ export type LAYOUT_QUERY_RESULT = {
       }
     | {
         _id: 'siteSettings'
+        _type: 'sale'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        title: string
+        enabled?: boolean
+        startsAt: string
+        endsAt: string
+        items: Array<{
+          offer: BundleReference | CourseReference | WorkshopReference
+          salePrice: number
+          _type: 'itemsItem'
+          _key: string
+        }>
+        priceLabel?: string
+        banner?: {
+          show?: boolean
+          label?: string
+          message?: string
+          ctaLabel?: string
+          ctaLink?: Link
+        }
+        headerNav: null
+      }
+    | {
+        _id: 'siteSettings'
         _type: 'salesCalendar'
         _createdAt: string
         _updatedAt: string
@@ -2738,6 +2793,7 @@ export type LAYOUT_QUERY_RESULT = {
               badge?: string
               badgeStyle?: 'bundleIcon' | 'number' | 'script'
               priceFromCourse: {
+                _id: string
                 shortLine: string | null
                 regularPrice: number
                 introPrice: number | null
@@ -3338,6 +3394,7 @@ export type LAYOUT_QUERY_RESULT = {
         shortLine?: string
         regularPrice: number
         introPrice?: number
+        inBundle?: boolean
         problemLabel?: string
         problem?: string
         problemHighlight?: string
@@ -3692,6 +3749,31 @@ export type LAYOUT_QUERY_RESULT = {
         from: string
         to: string
         permanent?: boolean
+      }
+    | {
+        _id: 'announcementBanner'
+        _type: 'sale'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        title: string
+        enabled?: boolean
+        startsAt: string
+        endsAt: string
+        items: Array<{
+          offer: BundleReference | CourseReference | WorkshopReference
+          salePrice: number
+          _type: 'itemsItem'
+          _key: string
+        }>
+        priceLabel?: string
+        banner?: {
+          show?: boolean
+          label?: string
+          message?: string
+          ctaLabel?: string
+          ctaLink?: Link
+        }
       }
     | {
         _id: 'announcementBanner'
@@ -4366,6 +4448,7 @@ export type LAYOUT_QUERY_RESULT = {
         shortLine?: string
         regularPrice: number
         introPrice?: number
+        inBundle?: boolean
         problemLabel?: string
         problem?: string
         problemHighlight?: string
@@ -4720,6 +4803,31 @@ export type LAYOUT_QUERY_RESULT = {
         from: string
         to: string
         permanent?: boolean
+      }
+    | {
+        _id: 'salesCalendar'
+        _type: 'sale'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        title: string
+        enabled?: boolean
+        startsAt: string
+        endsAt: string
+        items: Array<{
+          offer: BundleReference | CourseReference | WorkshopReference
+          salePrice: number
+          _type: 'itemsItem'
+          _key: string
+        }>
+        priceLabel?: string
+        banner?: {
+          show?: boolean
+          label?: string
+          message?: string
+          ctaLabel?: string
+          ctaLink?: Link
+        }
       }
     | {
         _id: 'salesCalendar'
@@ -5234,6 +5342,25 @@ export type LAYOUT_QUERY_RESULT = {
         } | null
       }
     | null
+  sales: Array<{
+    _id: string
+    title: string
+    startsAt: string
+    endsAt: string
+    priceLabel: string | null
+    banner: {
+      show?: boolean
+      label?: string
+      message?: string
+      ctaLabel?: string
+      ctaLink?: Link
+    } | null
+    items: Array<{
+      _key: string
+      offerId: string
+      salePrice: number
+    }>
+  }>
   hiddenHrefs: Array<string | '/book'>
 }
 
@@ -6242,6 +6369,7 @@ export type WORKSHOP_QUERY_RESULT =
       shortLine?: string
       regularPrice: number
       introPrice?: number
+      inBundle?: boolean
       problemLabel?: string
       problem?: string
       problemHighlight?: string
@@ -6689,6 +6817,43 @@ export type WORKSHOP_QUERY_RESULT =
       from: string
       to: string
       permanent?: boolean
+      slug: null
+      faqs: null
+      growthCallLink:
+        | {
+            workshopLine: null
+            workshopLinkLabel: null
+          }
+        | {
+            workshopLine: string | null
+            workshopLinkLabel: string | null
+          }
+        | null
+    }
+  | {
+      _id: 'workshop'
+      _type: 'sale'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title: string
+      enabled?: boolean
+      startsAt: string
+      endsAt: string
+      items: Array<{
+        offer: BundleReference | CourseReference | WorkshopReference
+        salePrice: number
+        _type: 'itemsItem'
+        _key: string
+      }>
+      priceLabel?: string
+      banner?: {
+        show?: boolean
+        label?: string
+        message?: string
+        ctaLabel?: string
+        ctaLink?: Link
+      }
       slug: null
       faqs: null
       growthCallLink:
@@ -7220,6 +7385,7 @@ export type COURSE_PAGE_QUERY_RESULT = {
     shortLine?: string
     regularPrice: number
     introPrice?: number
+    inBundle?: boolean
     problemLabel?: string
     problem?: string
     problemHighlight?: string
@@ -7538,6 +7704,7 @@ export type COURSE_PAGE_QUERY_RESULT = {
         shortLine?: string
         regularPrice: number
         introPrice?: number
+        inBundle?: boolean
         problemLabel?: string
         problem?: string
         problemHighlight?: string
@@ -7892,6 +8059,31 @@ export type COURSE_PAGE_QUERY_RESULT = {
         from: string
         to: string
         permanent?: boolean
+      }
+    | {
+        _id: 'courseTemplate'
+        _type: 'sale'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        title: string
+        enabled?: boolean
+        startsAt: string
+        endsAt: string
+        items: Array<{
+          offer: BundleReference | CourseReference | WorkshopReference
+          salePrice: number
+          _type: 'itemsItem'
+          _key: string
+        }>
+        priceLabel?: string
+        banner?: {
+          show?: boolean
+          label?: string
+          message?: string
+          ctaLabel?: string
+          ctaLink?: Link
+        }
       }
     | {
         _id: 'courseTemplate'
@@ -8314,7 +8506,7 @@ export type COURSE_SLUGS_QUERY_RESULT = Array<string>
 
 // Source: lib/sanity/queries.ts
 // Variable: BUNDLE_PAGE_QUERY
-// Query: {  "bundle": *[_id == "bundle"][0]{    ..., "slug": slug.current,    path{ ..., items[]{ ..., course->{ _id, title, fullTitle, "slug": slug.current, regularPrice, introPrice, word, stepNumber } } },    faqs[]->{ _id, _type, question, answer, tags }  },  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice }}
+// Query: {  "bundle": *[_id == "bundle"][0]{    ..., "slug": slug.current,    path{ ..., items[]{ ..., course->{ _id, title, fullTitle, "slug": slug.current, regularPrice, introPrice, word, stepNumber, courseNumber, shortLine } } },    faqs[]->{ _id, _type, question, answer, tags }  },  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },  "bundleCourses": *[_type == "course" && inBundle == true] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice, fullTitle }}
 export type BUNDLE_PAGE_QUERY_RESULT = {
   bundle:
     | {
@@ -8568,6 +8760,8 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
               introPrice: number | null
               word: string | null
               stepNumber: string | null
+              courseNumber: number | null
+              shortLine: string | null
             }
             line?: string
             _type: 'itemsItem'
@@ -8626,6 +8820,7 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
         shortLine?: string
         regularPrice: number
         introPrice?: number
+        inBundle?: boolean
         problemLabel?: string
         problem?: string
         problemHighlight?: string
@@ -9001,6 +9196,34 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
         from: string
         to: string
         permanent?: boolean
+        slug: null
+        path: null
+        faqs: null
+      }
+    | {
+        _id: 'bundle'
+        _type: 'sale'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        title: string
+        enabled?: boolean
+        startsAt: string
+        endsAt: string
+        items: Array<{
+          offer: BundleReference | CourseReference | WorkshopReference
+          salePrice: number
+          _type: 'itemsItem'
+          _key: string
+        }>
+        priceLabel?: string
+        banner?: {
+          show?: boolean
+          label?: string
+          message?: string
+          ctaLabel?: string
+          ctaLink?: Link
+        }
         slug: null
         path: null
         faqs: null
@@ -9428,6 +9651,19 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
     regularPrice: number
     introPrice: number | null
   }>
+  bundleCourses: Array<{
+    _id: string
+    title: string
+    slug: string
+    word: string | null
+    stepNumber: string | null
+    courseNumber: number | null
+    summary: string | null
+    shortLine: string | null
+    regularPrice: number
+    introPrice: number | null
+    fullTitle: string | null
+  }>
 }
 
 // Source: lib/sanity/queries.ts
@@ -9715,6 +9951,7 @@ export type GROWTH_CALL_QUERY_RESULT =
       shortLine?: string
       regularPrice: number
       introPrice?: number
+      inBundle?: boolean
       problemLabel?: string
       problem?: string
       problemHighlight?: string
@@ -10069,6 +10306,31 @@ export type GROWTH_CALL_QUERY_RESULT =
       from: string
       to: string
       permanent?: boolean
+    }
+  | {
+      _id: 'growthCall'
+      _type: 'sale'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title: string
+      enabled?: boolean
+      startsAt: string
+      endsAt: string
+      items: Array<{
+        offer: BundleReference | CourseReference | WorkshopReference
+        salePrice: number
+        _type: 'itemsItem'
+        _key: string
+      }>
+      priceLabel?: string
+      banner?: {
+        show?: boolean
+        label?: string
+        message?: string
+        ctaLabel?: string
+        ctaLink?: Link
+      }
     }
   | {
       _id: 'growthCall'
@@ -10742,6 +11004,7 @@ export type BOOK_QUERY_RESULT =
       shortLine?: string
       regularPrice: number
       introPrice?: number
+      inBundle?: boolean
       problemLabel?: string
       problem?: string
       problemHighlight?: string
@@ -11096,6 +11359,31 @@ export type BOOK_QUERY_RESULT =
       from: string
       to: string
       permanent?: boolean
+    }
+  | {
+      _id: 'book'
+      _type: 'sale'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title: string
+      enabled?: boolean
+      startsAt: string
+      endsAt: string
+      items: Array<{
+        offer: BundleReference | CourseReference | WorkshopReference
+        salePrice: number
+        _type: 'itemsItem'
+        _key: string
+      }>
+      priceLabel?: string
+      banner?: {
+        show?: boolean
+        label?: string
+        message?: string
+        ctaLabel?: string
+        ctaLink?: Link
+      }
     }
   | {
       _id: 'book'
@@ -11769,6 +12057,7 @@ export type ASSESSMENT_QUERY_RESULT =
       shortLine?: string
       regularPrice: number
       introPrice?: number
+      inBundle?: boolean
       problemLabel?: string
       problem?: string
       problemHighlight?: string
@@ -12123,6 +12412,31 @@ export type ASSESSMENT_QUERY_RESULT =
       from: string
       to: string
       permanent?: boolean
+    }
+  | {
+      _id: 'assessment'
+      _type: 'sale'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title: string
+      enabled?: boolean
+      startsAt: string
+      endsAt: string
+      items: Array<{
+        offer: BundleReference | CourseReference | WorkshopReference
+        salePrice: number
+        _type: 'itemsItem'
+        _key: string
+      }>
+      priceLabel?: string
+      banner?: {
+        show?: boolean
+        label?: string
+        message?: string
+        ctaLabel?: string
+        ctaLink?: Link
+      }
     }
   | {
       _id: 'assessment'
@@ -12513,7 +12827,7 @@ export type ASSESSMENT_QUERY_RESULT =
 
 // Source: lib/sanity/queries.ts
 // Variable: ORDER_QUERY
-// Query: *[_id == "orderConfirmation"][0]{  ..., upsells[]{ ..., course->{ regularPrice, introPrice } }}
+// Query: *[_id == "orderConfirmation"][0]{  ..., upsells[]{ ..., course->{ _id, regularPrice, introPrice } }}
 export type ORDER_QUERY_RESULT =
   | {
       _id: 'orderConfirmation'
@@ -12801,6 +13115,7 @@ export type ORDER_QUERY_RESULT =
       shortLine?: string
       regularPrice: number
       introPrice?: number
+      inBundle?: boolean
       problemLabel?: string
       problem?: string
       problemHighlight?: string
@@ -13031,6 +13346,7 @@ export type ORDER_QUERY_RESULT =
         text?: string
         link?: Link
         course: {
+          _id: string
           regularPrice: number
           introPrice: number | null
         } | null
@@ -13165,6 +13481,32 @@ export type ORDER_QUERY_RESULT =
       from: string
       to: string
       permanent?: boolean
+      upsells: null
+    }
+  | {
+      _id: 'orderConfirmation'
+      _type: 'sale'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title: string
+      enabled?: boolean
+      startsAt: string
+      endsAt: string
+      items: Array<{
+        offer: BundleReference | CourseReference | WorkshopReference
+        salePrice: number
+        _type: 'itemsItem'
+        _key: string
+      }>
+      priceLabel?: string
+      banner?: {
+        show?: boolean
+        label?: string
+        message?: string
+        ctaLabel?: string
+        ctaLink?: Link
+      }
       upsells: null
     }
   | {
@@ -13848,6 +14190,7 @@ export type BLOG_SETTINGS_QUERY_RESULT =
       shortLine?: string
       regularPrice: number
       introPrice?: number
+      inBundle?: boolean
       problemLabel?: string
       problem?: string
       problemHighlight?: string
@@ -14202,6 +14545,31 @@ export type BLOG_SETTINGS_QUERY_RESULT =
       from: string
       to: string
       permanent?: boolean
+    }
+  | {
+      _id: 'blogSettings'
+      _type: 'sale'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      title: string
+      enabled?: boolean
+      startsAt: string
+      endsAt: string
+      items: Array<{
+        offer: BundleReference | CourseReference | WorkshopReference
+        salePrice: number
+        _type: 'itemsItem'
+        _key: string
+      }>
+      priceLabel?: string
+      banner?: {
+        show?: boolean
+        label?: string
+        message?: string
+        ctaLabel?: string
+        ctaLink?: Link
+      }
     }
   | {
       _id: 'blogSettings'
@@ -14714,17 +15082,17 @@ export type SITEMAP_QUERY_RESULT = {
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '{\n  "settings": *[_id == "siteSettings"][0]{\n    ...,\n    headerNav[]{ ..., dropdown{ ..., items[]{ ..., priceFromCourse->{ shortLine, regularPrice, introPrice } } } }\n  },\n  "banner": *[_id == "announcementBanner"][0],\n  "calendar": *[_id == "salesCalendar"][0],\n  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, _type, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },\n  "workshop": *[_id == "workshop"][0]{ title, earlyBirdPrice, standardPrice, dateLabel, timeLabel, venue },\n  "bundle": *[_id == "bundle"][0]{ title, price, introPrice, compareAt, compareAtIntro },\n  "book": *[_id == "book"][0]{ hidden, title, preorderUrl, noLinkMessage },\n  "hiddenHrefs": [\n    ...*[_type == "page" && hidden == true && defined(slug.current)]{ "href": "/" + slug.current }.href,\n    ...*[_id == "book" && hidden == true]{ "href": "/book" }.href\n  ]\n}': LAYOUT_QUERY_RESULT
+    '{\n  "settings": *[_id == "siteSettings"][0]{\n    ...,\n    headerNav[]{ ..., dropdown{ ..., items[]{ ..., priceFromCourse->{ _id, shortLine, regularPrice, introPrice } } } }\n  },\n  "banner": *[_id == "announcementBanner"][0],\n  "calendar": *[_id == "salesCalendar"][0],\n  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, _type, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },\n  "workshop": *[_id == "workshop"][0]{ title, earlyBirdPrice, standardPrice, dateLabel, timeLabel, venue },\n  "bundle": *[_id == "bundle"][0]{ title, price, introPrice, compareAt, compareAtIntro },\n  "book": *[_id == "book"][0]{ hidden, title, preorderUrl, noLinkMessage },\n  "sales": *[_type == "sale" && enabled != false && defined(startsAt) && defined(endsAt) && dateTime(endsAt) > dateTime(now())] | order(startsAt asc){\n    _id, title, startsAt, endsAt, priceLabel, banner,\n    "items": items[]{ _key, "offerId": offer._ref, salePrice }\n  },\n  "hiddenHrefs": [\n    ...*[_type == "page" && hidden == true && defined(slug.current)]{ "href": "/" + slug.current }.href,\n    ...*[_id == "book" && hidden == true]{ "href": "/book" }.href\n  ]\n}': LAYOUT_QUERY_RESULT
     '*[_type == "page" && slug.current == $slug][0]{\n  _id, _type, title, "slug": slug.current, hidden, seo,\n  sections[hidden != true]{ \n  ...,\n  _type == "offerGrid" => { items[]->{ \n  _id, _type,\n  _type == "workshop" => {\n    title, card, stepLabel, heroChips, earlyBirdPrice, standardPrice, reserveLabel, priceNotes,\n    stub, seatsLine, soldOutLine, zoomChip\n  },\n  _type == "course" => { title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },\n  _type == "bundle" => { title, price, introPrice, compareAt, compareAtIntro, card },\n  _type == "book" => { title, hidden, card, coverAccentWord, coverRest, author }\n } },\n  _type == "assessmentCta" => {\n    "areas": *[_id == "assessment"][0].areas[]{ _key, name },\n    "reportMock": *[_id == "assessment"][0].reportMock\n  },\n  _type == "statsBlock" => { stats[]->{ _id, _type, value, prefix, suffix, label, footnote } },\n  _type == "testimonials" => { items[]->{ _id, _type, quote, name, company, permissionConfirmed } },\n  _type == "founderStory" => { timeline[]->{ _id, _type, years, year, homeLabel, organisation, description, shortDescription, homeSummary, highlight, order } },\n  _type == "faqBlock" => { faqs[]->{ _id, _type, question, answer, tags } },\n  _type == "timeline" => { entries[]->{ _id, _type, years, year, homeLabel, organisation, description, shortDescription, homeSummary, highlight, order } },\n  _type == "teamGrid" => { members[]->{ _id, _type, name, title, photo, cutout, bio, link, linkLabel, order } },\n  _type == "formSection" => { side{ ..., quote->{ _id, _type, quote, name, company, permissionConfirmed } } }\n }\n}': PAGE_QUERY_RESULT
     '*[_type == "page" && defined(slug.current) && slug.current != "home" && hidden != true].slug.current': PAGE_SLUGS_QUERY_RESULT
     '*[_id == "workshop"][0]{\n  ..., "slug": slug.current, faqs[]->{ _id, _type, question, answer, tags },\n  "growthCallLink": *[_id == "growthCall"][0]{ workshopLine, workshopLinkLabel }\n}': WORKSHOP_QUERY_RESULT
     '{\n  "course": *[_type == "course" && slug.current == $slug][0]{ ..., "slug": slug.current, faqs[]->{ _id, _type, question, answer, tags } },\n  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },\n  "template": *[_id == "courseTemplate"][0],\n  "bundle": *[_id == "bundle"][0]{ price, introPrice, compareAt, compareAtIntro }\n}': COURSE_PAGE_QUERY_RESULT
     '*[_type == "course" && defined(slug.current)].slug.current': COURSE_SLUGS_QUERY_RESULT
-    '{\n  "bundle": *[_id == "bundle"][0]{\n    ..., "slug": slug.current,\n    path{ ..., items[]{ ..., course->{ _id, title, fullTitle, "slug": slug.current, regularPrice, introPrice, word, stepNumber } } },\n    faqs[]->{ _id, _type, question, answer, tags }\n  },\n  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice }\n}': BUNDLE_PAGE_QUERY_RESULT
+    '{\n  "bundle": *[_id == "bundle"][0]{\n    ..., "slug": slug.current,\n    path{ ..., items[]{ ..., course->{ _id, title, fullTitle, "slug": slug.current, regularPrice, introPrice, word, stepNumber, courseNumber, shortLine } } },\n    faqs[]->{ _id, _type, question, answer, tags }\n  },\n  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice },\n  "bundleCourses": *[_type == "course" && inBundle == true] | order(orderRank asc, order asc){ _id, title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice, fullTitle }\n}': BUNDLE_PAGE_QUERY_RESULT
     '*[_id == "growthCall"][0]': GROWTH_CALL_QUERY_RESULT
     '*[_id == "book"][0]': BOOK_QUERY_RESULT
     '*[_id == "assessment"][0]': ASSESSMENT_QUERY_RESULT
-    '*[_id == "orderConfirmation"][0]{\n  ..., upsells[]{ ..., course->{ regularPrice, introPrice } }\n}': ORDER_QUERY_RESULT
+    '*[_id == "orderConfirmation"][0]{\n  ..., upsells[]{ ..., course->{ _id, regularPrice, introPrice } }\n}': ORDER_QUERY_RESULT
     '*[_id == "blogSettings"][0]': BLOG_SETTINGS_QUERY_RESULT
     '*[_type == "post" && defined(slug.current)] | order(number asc){ \n  _id, title, "slug": slug.current, number, coverLine, topic, featured, publishedAt,\n  "excerpt": coalesce(excerpt, pt::text(body[_type == "block" && style == "normal"][0])),\n  "readingTime": round(length(pt::text(body)) / 1100),\n  author->{ name, title, photo }\n }': POSTS_QUERY_RESULT
     '*[_type == "post" && slug.current == $slug][0]{\n  _type, \n  _id, title, "slug": slug.current, number, coverLine, topic, featured, publishedAt,\n  "excerpt": coalesce(excerpt, pt::text(body[_type == "block" && style == "normal"][0])),\n  "readingTime": round(length(pt::text(body)) / 1100),\n  author->{ name, title, photo }\n, body, sources, seo\n}': POST_QUERY_RESULT

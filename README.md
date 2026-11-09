@@ -64,6 +64,7 @@ npm run migrate:round-2                   # write them (deploy the matching code
 | `npm run typegen` | Regenerate `sanity.types.ts` from the schema and queries |
 | `npm run seed` | Import `content-seed/` and the prototype copy into an empty dataset |
 | `npm run migrate:round-2` | Apply the client's round-two changes to a dataset already in use, keeping Studio edits (`-- -- --dry-run` to preview) |
+| `npm run migrate:bundle-courses` | Tick "Part of the Content Machine bundle" on the courses in the bundle (needed once after the simpler Studio) |
 | `npm run test:visual` | Screenshots of the prototype and the site at 1280px and 390px for every route, plus overflow and broken-image checks. Output in `tests/visual/__screenshots__/` |
 | `npm run test:a11y` | axe accessibility checks on every route |
 | `npm run test:e2e` | Behaviour checks: sales states, bundle prices, banner, menus, checkout, assessment, growth call, blog filter, the round-two home page (two R marks, Benedict) |
@@ -107,6 +108,10 @@ styles/              tokens.css, base.css, brand.css (ported from the prototype)
 ### Fonts
 
 Anton, Nunito Sans and Licorice are self-hosted with `next/font/local`. The handwritten accents use **Benedict**, the client's choice, loaded for now with a plain `@font-face` from a remote font host (`styles/tokens.css`) until her web licence is bought; Licorice is the fallback. Components use `var(--font-hand)` and never name a font. When the licence arrives, save the file as `assets/fonts/benedict.woff2`, load it with `next/font/local`, and delete the remote face and the preconnect in `app/(site)/layout.tsx`. Never commit a Benedict file before then. Launching on the real domain waits for this.
+
+### The Studio for the client
+
+The Studio opens on a start screen (`sanity/tools/Dashboard.tsx`) with buttons for common jobs, and a **Prices & sales** screen (`sanity/tools/PricesTool.tsx`) that edits every price and price-switch date at once (it patches the published document and any open draft) and lists scheduled sales. A **Sale** document gives chosen courses, the workshop or the bundle a sale price between two moments, with an optional banner; `lib/sales-calendar.ts` applies it everywhere prices show. New courses join the home offer grid and both menus automatically (`withAllCourses` in `components/layout/navLinks.ts`); the bundle lists the courses ticked "Part of the Content Machine bundle". In Live preview, prices carry `data-sanity` attributes (`components/ui/editAttribute.ts`) so they are click-to-edit. The query tool only shows in development.
 
 ### Time-dependent content
 

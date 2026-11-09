@@ -11,7 +11,7 @@ const TESTIMONIAL = `_id, _type, quote, name, company, permissionConfirmed`
 const STAT = `_id, _type, value, prefix, suffix, label, footnote`
 const TIMELINE = `_id, _type, years, year, homeLabel, organisation, description, shortDescription, homeSummary, highlight, order`
 const TEAM = `_id, _type, name, title, photo, cutout, bio, link, linkLabel, order`
-const COURSE_CARD = `title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice`
+export const COURSE_CARD = `title, "slug": slug.current, word, stepNumber, courseNumber, summary, shortLine, regularPrice, introPrice`
 
 /** Fields the home offer grid needs for each offer type. */
 const OFFER_CARD = `
@@ -47,7 +47,7 @@ export const SECTION_PROJECTION = `
 export const LAYOUT_QUERY = defineQuery(`{
   "settings": *[_id == "siteSettings"][0]{
     ...,
-    headerNav[]{ ..., dropdown{ ..., items[]{ ..., priceFromCourse->{ shortLine, regularPrice, introPrice } } } }
+    headerNav[]{ ..., dropdown{ ..., items[]{ ..., priceFromCourse->{ _id, shortLine, regularPrice, introPrice } } } }
   },
   "banner": *[_id == "announcementBanner"][0],
   "calendar": *[_id == "salesCalendar"][0],
@@ -55,6 +55,10 @@ export const LAYOUT_QUERY = defineQuery(`{
   "workshop": *[_id == "workshop"][0]{ title, earlyBirdPrice, standardPrice, dateLabel, timeLabel, venue },
   "bundle": *[_id == "bundle"][0]{ title, price, introPrice, compareAt, compareAtIntro },
   "book": *[_id == "book"][0]{ hidden, title, preorderUrl, noLinkMessage },
+  "sales": *[_type == "sale" && enabled != false && defined(startsAt) && defined(endsAt) && dateTime(endsAt) > dateTime(now())] | order(startsAt asc){
+    _id, title, startsAt, endsAt, priceLabel, banner,
+    "items": items[]{ _key, "offerId": offer._ref, salePrice }
+  },
   "hiddenHrefs": [
     ...*[_type == "page" && hidden == true && defined(slug.current)]{ "href": "/" + slug.current }.href,
     ...*[_id == "book" && hidden == true]{ "href": "/book" }.href
@@ -91,10 +95,11 @@ export const COURSE_SLUGS_QUERY = defineQuery(`*[_type == "course" && defined(sl
 export const BUNDLE_PAGE_QUERY = defineQuery(`{
   "bundle": *[_id == "bundle"][0]{
     ..., "slug": slug.current,
-    path{ ..., items[]{ ..., course->{ _id, title, fullTitle, "slug": slug.current, regularPrice, introPrice, word, stepNumber } } },
+    path{ ..., items[]{ ..., course->{ _id, title, fullTitle, "slug": slug.current, regularPrice, introPrice, word, stepNumber, courseNumber, shortLine } } },
     faqs[]->{ ${FAQ} }
   },
-  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, ${COURSE_CARD} }
+  "courses": *[_type == "course"] | order(orderRank asc, order asc){ _id, ${COURSE_CARD} },
+  "bundleCourses": *[_type == "course" && inBundle == true] | order(orderRank asc, order asc){ _id, ${COURSE_CARD}, fullTitle }
 }`)
 
 export const GROWTH_CALL_QUERY = defineQuery(`*[_id == "growthCall"][0]`)
@@ -106,7 +111,7 @@ export const BOOK_QUERY = defineQuery(`*[_id == "book"][0]`)
 export const ASSESSMENT_QUERY = defineQuery(`*[_id == "assessment"][0]`)
 
 export const ORDER_QUERY = defineQuery(`*[_id == "orderConfirmation"][0]{
-  ..., upsells[]{ ..., course->{ regularPrice, introPrice } }
+  ..., upsells[]{ ..., course->{ _id, regularPrice, introPrice } }
 }`)
 
 /* ---------------- blog ---------------- */

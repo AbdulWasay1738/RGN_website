@@ -18,6 +18,7 @@ import { TimelineIcon } from '@sanity/icons/Timeline'
 import { TransferIcon } from '@sanity/icons/Transfer'
 import { UserIcon } from '@sanity/icons/User'
 import { UsersIcon } from '@sanity/icons/Users'
+import { HomeIcon } from '@sanity/icons/Home'
 import { ImagesIcon } from '@sanity/icons/Images'
 import { EarthGlobeIcon } from '@sanity/icons/EarthGlobe'
 import { orderableDocumentListDeskItem } from '@sanity/orderable-document-list'
@@ -25,8 +26,9 @@ import type { ComponentType } from 'react'
 import type { StructureResolver } from 'sanity/structure'
 
 /**
- * The Studio sidebar (docs/04): site settings first, then pages, offers,
- * the assessment, the blog, the library of reusable items, legal and redirects.
+ * The Studio sidebar, in plain words and in order of use: the home page,
+ * pages, courses, sales and offers first; site-wide settings, the library and
+ * rarely changed settings below the line.
  */
 export const structure: StructureResolver = (S, context) => {
   const singleton = (type: string, title: string, icon: ComponentType) =>
@@ -51,41 +53,20 @@ export const structure: StructureResolver = (S, context) => {
     .title('Reel Good News')
     .items([
       S.listItem()
-        .title('Site')
-        .id('site')
-        .icon(EarthGlobeIcon)
-        .child(
-          S.list()
-            .title('Site')
-            .items([
-              singleton('siteSettings', 'Site settings', CogIcon),
-              singleton('announcementBanner', 'Announcement banner', BellIcon),
-              singleton('salesCalendar', 'Sales calendar and seats', CalendarIcon),
-            ]),
-        ),
+        .title('Home page')
+        .id('home-page')
+        .icon(HomeIcon)
+        .child(S.document().schemaType('page').documentId('page-home').title('Home page')),
       S.listItem()
         .title('Pages')
         .id('pages')
         .icon(DocumentIcon)
         .child(S.documentTypeList('page').title('Pages').defaultOrdering([{ field: 'title', direction: 'asc' }])),
-      singleton('growthCall', 'Growth call', CalendarIcon),
-      S.listItem()
-        .title('Offers')
-        .id('offers')
-        .icon(TagIcon)
-        .child(
-          S.list()
-            .title('Offers')
-            .items([
-              singleton('workshop', 'Workshop', UsersIcon),
-              orderableDocumentListDeskItem({ type: 'course', title: 'Courses', icon: PlayIcon, id: 'orderable-course', S, context }),
-              singleton('courseTemplate', 'Course page labels', TiersIcon),
-              singleton('bundle', 'Content Machine bundle', PackageIcon),
-              singleton('book', 'Book', BookIcon),
-            ]),
-        ),
-      singleton('assessment', 'Assessment', ClipboardIcon),
-      singleton('orderConfirmation', 'Order confirmation', CheckmarkCircleIcon),
+      orderableDocumentListDeskItem({ type: 'course', title: 'Courses (drag to reorder)', icon: PlayIcon, id: 'orderable-course', S, context }),
+      docList('sale', 'Sales', TagIcon, [{ field: 'startsAt', direction: 'desc' }]),
+      singleton('workshop', 'Live workshop', UsersIcon),
+      singleton('bundle', 'Content Machine bundle', PackageIcon),
+      singleton('book', 'Book', BookIcon),
       S.listItem()
         .title('Blog')
         .id('blog')
@@ -94,13 +75,18 @@ export const structure: StructureResolver = (S, context) => {
           S.list()
             .title('Blog')
             .items([
-              singleton('blogSettings', 'Blog page settings', ComposeIcon),
               docList('post', 'Blog posts', ComposeIcon, [{ field: 'number', direction: 'desc' }]),
+              singleton('blogSettings', 'Blog page settings', ComposeIcon),
             ]),
         ),
+      singleton('growthCall', 'Growth call page', CalendarIcon),
+      singleton('assessment', 'Assessment', ClipboardIcon),
       S.divider(),
+      singleton('announcementBanner', 'Banner', BellIcon),
+      singleton('siteSettings', 'Menus, footer and site settings', CogIcon),
+      singleton('salesCalendar', 'Price switch dates and seats', CalendarIcon),
       S.listItem()
-        .title('Library')
+        .title('Library: testimonials, FAQs, numbers, team')
         .id('library')
         .icon(ImagesIcon)
         .child(
@@ -114,7 +100,19 @@ export const structure: StructureResolver = (S, context) => {
               docList('timelineEntry', 'Timeline entries', TimelineIcon, [{ field: 'order', direction: 'asc' }]),
             ]),
         ),
-      docList('legalPage', 'Legal pages', DocumentTextIcon, [{ field: 'order', direction: 'asc' }]),
-      docList('redirect', 'Redirects', TransferIcon, [{ field: 'from', direction: 'asc' }]),
+      S.listItem()
+        .title('More settings')
+        .id('more')
+        .icon(EarthGlobeIcon)
+        .child(
+          S.list()
+            .title('More settings')
+            .items([
+              singleton('courseTemplate', 'Course page labels', TiersIcon),
+              singleton('orderConfirmation', 'Order confirmation page', CheckmarkCircleIcon),
+              docList('legalPage', 'Legal pages', DocumentTextIcon, [{ field: 'order', direction: 'asc' }]),
+              docList('redirect', 'Redirects', TransferIcon, [{ field: 'from', direction: 'asc' }]),
+            ]),
+        ),
     ])
 }

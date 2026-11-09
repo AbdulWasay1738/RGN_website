@@ -709,6 +709,7 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
       shortLine: c.short,
       regularPrice: c.regular,
       introPrice: c.intro,
+      inBundle: true,
       problemLabel: c.blockLabel,
       problem: c.block,
       problemHighlight: c.blockHighlight,

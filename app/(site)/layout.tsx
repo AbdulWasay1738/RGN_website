@@ -32,8 +32,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   preconnect('https://db.onlinewebfonts.com', { crossOrigin: 'anonymous' })
 
   return (
-    <SiteProvider value={data}>
-      <SalesCalendarProvider serverNow={new Date().toISOString()} calendar={data.calendar} allowSimulation={allowSimulation}>
+    <SiteProvider value={{ ...data, draft }}>
+      <SalesCalendarProvider serverNow={new Date().toISOString()} calendar={data.calendar} sales={data.sales} allowSimulation={allowSimulation}>
         <ToastProvider>
           <CheckoutProvider>
             <BrandFilters />

@@ -282,7 +282,9 @@ export const bundle = defineType({
         accent('headline', { title: 'Headline' }),
         str('regularPriceLabel', { title: 'Regular price wording', description: 'For example "regular price".' }),
         items('items', [ref('course', ['course'], { title: 'Course', required: true }), str('line', { title: 'Line' })], {
-          title: 'Courses in order',
+          title: 'Lines for each course',
+          description:
+            'The line shown under each course on the bundle page. Which courses are in the bundle is set on each course ("Part of the Content Machine bundle"); a course with no line here shows its menu line.',
           itemTitle: 'Course',
           preview: { select: { title: 'course.title', subtitle: 'line' } },
         }),

@@ -34,6 +34,8 @@ async function sanityRedirects() {
 }
 
 const nextConfig: NextConfig = {
+  // `next dev` would otherwise write an AGENTS.md tooling note into the repo.
+  agentRules: false,
   reactStrictMode: true,
   images: {
     formats: ['image/avif', 'image/webp'],

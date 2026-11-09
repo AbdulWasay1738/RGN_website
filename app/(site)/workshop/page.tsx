@@ -40,7 +40,7 @@ export default async function WorkshopPage() {
   const [ws, layout] = await Promise.all([getWorkshop(), getLayoutData()])
   if (!ws) notFound()
 
-  const dates = calendarDates(layout.calendar)
+  const dates = calendarDates(layout.calendar, layout.sales)
   const stub = ws.stub ?? {}
   const chips = ws.heroChips ?? []
   const what = ws.whatThisIs ?? {}

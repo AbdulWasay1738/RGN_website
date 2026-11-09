@@ -10,9 +10,12 @@ import {
   daysUntil,
   isEarlyBird,
   isIntro,
+  saleFor,
+  saleIsOn,
   seatsLeft,
   workshopDone,
   workshopPrice,
+  workshopPriceParts,
 } from '@/lib/sales-calendar'
 import type { AnnouncementBanner } from '@/lib/sanity/types'
 
@@ -90,10 +93,10 @@ describe('the sales states', () => {
 
 describe('bundle price', () => {
   it('Jan 15 (ET afternoon): $399 against $597', () => {
-    expect(bundlePriceParts(bundle, at('2027-01-15T20:00:00Z'), d)).toEqual({ now: 399, was: 597, save: 198, intro: true })
+    expect(bundlePriceParts(bundle, at('2027-01-15T20:00:00Z'), d)).toEqual({ now: 399, was: 597, save: 198, intro: true, sale: null })
   })
   it('Jan 16: $597 against $797, save $200', () => {
-    expect(bundlePriceParts(bundle, at('2027-01-16T15:00:00Z'), d)).toEqual({ now: 597, was: 797, save: 200, intro: false })
+    expect(bundlePriceParts(bundle, at('2027-01-16T15:00:00Z'), d)).toEqual({ now: 597, was: 797, save: 200, intro: false, sale: null })
   })
   it('no intro price: always the regular price', () => {
     expect(bundlePriceParts({ price: 597, compareAt: 797 }, at('2026-11-20T15:00:00Z'), d)).toMatchObject({ now: 597, was: 797, intro: false })
@@ -123,5 +126,57 @@ describe('helpers', () => {
   it('missing dates fall back to the defaults', () => {
     expect(calendarDates(null).introEndsAt.toISOString()).toBe('2027-01-16T05:00:00.000Z')
     expect(calendarDates(null).workshopAt.toISOString()).toBe('2027-02-04T17:00:00.000Z')
+  })
+})
+
+describe('scheduled sales (for example Black Friday)', () => {
+  const blackFriday = {
+    _id: 'sale-bf',
+    title: 'Black Friday sale',
+    startsAt: '2026-11-27T05:00:00Z',
+    endsAt: '2026-12-01T05:00:00Z',
+    priceLabel: 'Black Friday price',
+    banner: { show: true, label: 'BLACK FRIDAY', message: 'Every course is on sale until Monday.' },
+    items: [
+      { _key: 'a', offerId: 'course-attract', salePrice: 79 },
+      { _key: 'w', offerId: 'workshop', salePrice: 119 },
+      { _key: 'b', offerId: 'bundle', salePrice: 349 },
+    ],
+  }
+  const withSale = calendarDates(
+    { introEndsAt: '2027-01-16T05:00:00Z', coursesOpenAt: '2026-12-01T05:00:00Z', earlyBirdEndsAt: '2026-12-11T05:00:00Z', workshopAt: '2027-02-04T17:00:00Z' },
+    [blackFriday],
+  )
+  const attract = { _id: 'course-attract', introPrice: 99, regularPrice: 199 }
+  const create = { _id: 'course-create', introPrice: 249, regularPrice: 399 }
+  const during = at('2026-11-28T15:00:00Z')
+
+  it('sale prices beat intro and early-bird prices, struck against the regular price', () => {
+    expect(coursePriceParts(attract, during, withSale)).toMatchObject({ now: 79, was: 199, save: 120, intro: false })
+    expect(coursePriceParts(attract, during, withSale).sale?.sale.title).toBe('Black Friday sale')
+    expect(workshopPriceParts(ws, during, withSale)).toMatchObject({ now: 119, was: 149 })
+    expect(bundlePriceParts(bundle, during, withSale)).toMatchObject({ now: 349, was: 597, save: 248 })
+  })
+  it('offers not in the sale keep their usual price', () => {
+    expect(coursePriceParts(create, during, withSale)).toMatchObject({ now: 249, intro: true, sale: null })
+  })
+  it('starts and stops by itself, to the minute', () => {
+    expect(coursePrice(attract, at('2026-11-27T04:59:59Z'), withSale)).toBe(99)
+    expect(coursePrice(attract, at('2026-11-27T05:00:00Z'), withSale)).toBe(79)
+    expect(coursePrice(attract, at('2026-12-01T04:59:59Z'), withSale)).toBe(79)
+    expect(coursePrice(attract, at('2026-12-01T05:00:00Z'), withSale)).toBe(99)
+    expect(saleFor('course-attract', at('2026-12-02T00:00:00Z'), withSale)).toBeNull()
+  })
+  it('its banner replaces the regular one while it runs, with a countdown to its end', () => {
+    const v = activeBannerVariant(banner, during, withSale)
+    expect(v).toMatchObject({ label: 'BLACK FRIDAY', message: 'Every course is on sale until Monday.', countdownTo: 'showUntil', showUntil: '2026-12-01T05:00:00Z' })
+    expect(activeBannerVariant(banner, at('2026-12-05T15:00:00Z'), withSale)?.label).toBe('EARLY-BIRD')
+  })
+  it('a sale without a banner leaves the regular banner alone', () => {
+    const quiet = calendarDates(null, [{ ...blackFriday, banner: { show: false } }])
+    expect(activeBannerVariant(banner, during, quiet)?.label).toBe('NEW')
+  })
+  it('a sale with missing dates never runs', () => {
+    expect(saleIsOn({ startsAt: undefined, endsAt: '2026-12-01T05:00:00Z' }, during)).toBe(false)
   })
 })
