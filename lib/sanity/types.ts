@@ -628,6 +628,8 @@ export type Book = {
   preorderUrl?: string
   ctaLabel?: string
   byline?: string
+  /** Beside the statement (client feedback round three) */
+  photo?: SanityImageData
   statement?: AccentText
   body?: PortableTextValue
   inside?: { headline?: AccentText; eyebrow?: string; items?: Array<{ _key: string; word?: string; line?: string }> }
@@ -817,6 +819,9 @@ export type GrowthCall = {
   /** Eastern times written like "10:00 AM" */
   slotLabels?: string[]
   callMinutes?: number
+  /** A booking page (Google Calendar appointments now, GoHighLevel later) shown in step 2 once the form is sent */
+  bookingUrl?: string
+  bookingLinkLabel?: string
   /** Phase 6 */
   ghlCalendarId?: string
   successTitle?: string
@@ -975,6 +980,8 @@ export type FounderStorySection = SectionBase & {
   signature?: string
   /** ref[] -> timelineEntry (expanded) */
   timeline?: TimelineEntry[]
+  /** Show the year on each timeline card (off by default, client feedback round three) */
+  showYears?: boolean
   cta?: Cta
 }
 

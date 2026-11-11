@@ -35,6 +35,7 @@ export const SEED_IMAGE_FILES = [
   'jenna-square.jpg',
   'promo-hooked.webp',
   'promo-acceleration.webp',
+  'book-reader.webp',
 ] as const
 
 /* ------------------------------------------------------------------ */
@@ -614,7 +615,7 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
     outcomesHeadline: 'Leave with a *practical plan* to:',
     outcomes: ws.outcomes,
     agenda: {
-      eyebrow: 'The agenda · times to confirm',
+      eyebrow: 'The agenda',
       headline: 'How the session runs.',
       items: items(
         'items',
@@ -653,8 +654,8 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
       ),
     },
     hostSection: {
-      eyebrow: 'Your hosts',
-      headline: 'Led by our team *and our founder*',
+      eyebrow: 'Your host',
+      headline: 'Led by our team *and founder*',
       body: 'Founder Jenna Colombo leads the session with our team at Reel Good News. She co-founded Groundswell Startups and has worked with founders and early-stage companies since 2012. The workshop teaches the same planning method our team uses with clients.',
       image: img('jenna-cutout.webp', JENNA_CUTOUT_ALT),
       chips: ['250 founders coached', 'Groundswell Startups co-founder', 'Since 2012'],
@@ -860,7 +861,9 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
     availableWeekdays: gc.availableWeekdays,
     bookingWindowDays: gc.bookingWindowDays,
     slotLabels: gc.slotLabels,
-    callMinutes: 30,
+    bookingUrl: gc.bookingUrl,
+    bookingLinkLabel: 'Open the booking calendar in a new tab',
+    callMinutes: gc.callMinutes,
     successTitle: gc.successTitle,
     successBody: gc.successBody,
     bookedMessage: 'Booked. Confirmation text on the way.',
@@ -884,9 +887,10 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
     spineText: 'ATTRACT MORE RAVING FANS · COLOMBO',
     subtitle: 'A practical system that turns expertise, customer results and reputation into growth.',
     publicationLine: 'Publishes [PUBLICATION DATE]. Pre-order today.',
-    price: '[PRICE]',
+    price: '$18',
     ctaLabel: 'Pre-order the book',
     byline: 'By Jenna Colombo, founder of Reel Good News',
+    photo: img('book-reader.webp', 'A reader on a train with a coffee, holding a copy of Attract More Raving Fans.'),
     statement: 'Most businesses do not have a shortage of expertise. The gap is in how they *communicate its value.*',
     body: [
       block(
@@ -1429,11 +1433,10 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
         watermark: 'none',
         eyebrow: 'The team',
         headline: 'Built by operators, *for founders.*',
-        handLine: 'founder to founder',
         body: 'Our team at Reel Good News brings more than a decade of work with founders, investors and early-stage companies. Founder Jenna Colombo co-founded Groundswell Startups, one of the largest networks of serial entrepreneurs and investors in the Southeast. Since 2012 our approach has helped companies bring products to market, land first customers and prepare to raise capital.',
         photo: img('jenna-portrait.jpg', JENNA_CUTOUT_ALT),
-        signature: 'Jenna',
         timeline: refs(TIMELINE_IDS, 'tl'),
+        showYears: false,
         cta: cta('Meet our founder', '/about/jenna-colombo', 'outline'),
       },
       {
@@ -1442,8 +1445,8 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
         background: 'white',
         watermark: 'none',
         eyebrow: 'Questions',
-        headline: 'Good questions. *Straight answers.*',
-        note: 'Another question? Send a note. Our team replies within [number] business days.',
+        headline: 'Got questions? *Get straight answers.*',
+        note: 'It’s time to take back your time & attract best-fit partners.',
         cta: cta('Contact us', '/contact', 'textLink'),
         openFirst: true,
         faqs: refs(HOME_FAQS, 'faq'),
@@ -1523,11 +1526,11 @@ export function buildDocuments(opts: BuildOptions): SeedDocument[] {
         background: 'paper',
         watermark: 'none',
         eyebrow: 'Leadership',
-        headline: 'Meet the team.',
-        members: refs(['team-jenna', 'team-placeholder'], 'member'),
+        headline: 'Join the team.',
+        members: [],
         showHiringCard: true,
         hiringCard: {
-          eyebrow: 'We are hiring, always',
+          eyebrow: 'We are hiring',
           headline: 'Great storyteller? This could be your card.',
           linkLabel: 'SEE CAREERS',
           link: link('/careers'),

@@ -94,7 +94,7 @@ test('home, round two: calm hero, two R marks, handwritten accents in Benedict',
   expect(font.loaded, 'Benedict loads from the font host').toBe(true)
 })
 
-test('growth call: locked until the form is sent, then day, time and confirm', async ({ page }) => {
+test('growth call: locked until the form is sent, then her booking calendar', async ({ page }) => {
   await page.goto('/growth-strategy')
   const main = page.locator('main')
   const note = main.getByRole('note')
@@ -118,16 +118,41 @@ test('growth call: locked until the form is sent, then day, time and confirm', a
   await page.waitForTimeout(2600)
   await main.getByRole('button', { name: 'Continue' }).click()
 
-  let day = main.getByRole('button', { name: /, available$/ }).first()
-  if (!(await day.count())) {
-    await main.getByRole('button', { name: 'Next month' }).click()
-    day = main.getByRole('button', { name: /, available$/ }).first()
-  }
-  await day.click()
-  await main.getByRole('group', { name: 'Available times' }).getByRole('button').first().click()
-  await main.getByRole('button', { name: 'Confirm my call' }).click()
-  await expect(main.getByRole('heading', { name: 'Your call is booked.' })).toBeVisible()
-  await expect(main.getByRole('button', { name: 'Add to calendar' })).toBeVisible()
+  // Step 2 is her real booking calendar (Google Calendar now, GoHighLevel later), framed at its embed address.
+  const frame = main.locator('iframe[title="Book your call"]')
+  await expect(frame).toHaveAttribute('src', /^https:\/\/calendar\.google\.com\/calendar\/appointments\/schedules\/[^?]+\?gv=true$/)
+  const newTab = main.getByRole('link', { name: 'Open the booking calendar in a new tab' })
+  await expect(newTab).toHaveAttribute('target', '_blank')
+})
+
+test('round three: lowercase handwriting, quieter founder story, team and FAQ copy', async ({ page }) => {
+  await page.goto('/')
+  // Every handwritten accent is lowercase.
+  const cases = await page.evaluate(() =>
+    [...document.querySelectorAll<HTMLElement>('body *')]
+      .filter((e) => /Benedict/.test(getComputedStyle(e).fontFamily) && e.textContent?.trim())
+      .map((e) => getComputedStyle(e).textTransform),
+  )
+  expect(cases.length).toBeGreaterThan(0)
+  expect(new Set(cases)).toEqual(new Set(['lowercase']))
+  // Founder story: no handwritten line, no signature, no years on the cards.
+  const story = page.locator('main section').filter({ hasText: 'Built by operators' })
+  await expect(story).not.toContainText(/founder to founder/i)
+  await expect(story).not.toContainText(/2013|2015|2019/)
+  await expect(page.locator('main')).toContainText(/got questions\?/i)
+  await expect(page.locator('main')).toContainText('take back your time')
+  await expect(page.locator('main')).not.toContainText('[number] business days')
+  await expect(page.locator('footer')).toContainText(/get good news in your inbox/i)
+  await page.goto('/about')
+  const team = page.locator('main section').filter({ hasText: /join the team/i })
+  await expect(team).toContainText('We are hiring')
+  await expect(team).not.toContainText(/always|\[Team member\]|Jenna Colombo/)
+  await page.goto('/workshop')
+  await expect(page.locator('main')).toContainText('Noon')
+  await expect(page.locator('main')).not.toContainText('[TIME]')
+  await page.goto('/book')
+  await expect(page.locator('main')).toContainText('$18')
+  await expect(page.locator('main img[alt*="Attract More Raving Fans"]')).toBeVisible()
 })
 
 test('the hero button and the workshop page both lead to the growth call', async ({ page }) => {

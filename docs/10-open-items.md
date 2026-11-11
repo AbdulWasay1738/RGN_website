@@ -13,23 +13,36 @@ Keep the visible `[placeholders]` in place until these arrive. Update this list 
 | Homepage hero copy | The client's advisor copy (see 03 and content-seed `homeHero`). |
 | Hero call to action | "Claim your 2027 growth strategy" leads to the new growth call page. The assessment stays as the secondary button. |
 
+## Closed in round three (client notes, Nov 11)
+
+| Item | Decision |
+|---|---|
+| "Build trust" in the hero | Keep it. Her concern was with other uses of "trust" in the original copy, which are already gone. |
+| Book price | $18. Her photo of a reader with the book now sits beside the statement on the book page. |
+| Workshop agenda times | Noon, 1 PM, 2 PM, 3 PM, 4 PM |
+| Growth call length and host | 45-minute calls, taken by the client. Step 2 shows her Google Calendar booking page until the GoHighLevel calendar link arrives (Growth call > Booking calendar link). |
+| AI chat assistant | Not now. She expects many clients will want it, so the plan in `11-ai-assistant-later.md` stays on file. |
+| Handwritten font | Always lowercase, everywhere (her rule). Done in the CSS, so capitals typed in the Studio still show lowercase. |
+| Copy edits from her PDF | Home FAQ heading and note, newsletter heading, the "Build a Year of Content" subheadline, workshop host heading, About team section ("Join the team.", her card and the placeholder card removed, "We are hiring"), and the founder story on the home page (no handwritten line, signature or years). |
+
 ## Still open
 
 | Item | Where it shows | Status |
 |---|---|---|
-| **Benedict web licence (launch blocker)** | All handwritten accents | Loaded for now from the same font host her current site uses (see 03). The client is buying the licence (Benedict by Joanne Marie, sold as a duo with Mistress Benedict). Then self-host the licensed file and remove the remote face. |
+| **Benedict web licence (launch blocker)** | All handwritten accents | Loaded for now from the same font host her current site uses (see 03). She asked whether Canva's Benedict could be used: no, Canva's font licence covers designs made in Canva, not serving the font on a website. Options: buy the web licence (Benedict by Joanne Marie, sold as a duo with Mistress Benedict), then self-host it, or switch to Licorice (free for web use, already the fallback). |
+| GoHighLevel booking calendar link | `/growth-strategy` step 2 | She will send it. Paste it into Growth call > Booking calendar link to replace the Google Calendar page. |
+| "Leadership" label on the About team section | About page | The section now shows only the "We are hiring" card. Keep the label or change it? |
+| "Reel Good News. The last good news there is." | Course page subheadline | Used on "Build a Year of Content" as marked. Should the other two courses get it too? |
+| Book photo | Book page | Confirm it may be used on the website (if it was made with Canva or an image tool, its licence should allow web use). |
 | Wording of the two new banner windows (Dec 11 to Jan 15, and the "courses on sale" line now ending Jan 15) | Announcement banner | Drafted, awaiting approval |
-| Growth call: intro, steps, call length and format, available days and times, who takes the call | `/growth-strategy` | Drafted, awaiting approval. Real times come from her GoHighLevel calendar. The calendar file assumes a 30-minute call (Growth call > Call length) until she confirms. |
+| Growth call: intro, steps and call format (phone or video) | `/growth-strategy` | Drafted, awaiting approval. Length (45 minutes) and host (the client) are confirmed. |
 | Growth call step labels and messages ("Fill out the form", "Book your call", "Details saved. Our team has them now.", "Booked. Confirmation text on the way.", "Add to calendar") | `/growth-strategy` | Taken from the prototype, editable in the Studio |
-| Hero copy uses "build trust", which her round-one rules avoid | Home hero | Kept verbatim because it is her advisor's copy. Flagged to her. |
-| AI chat assistant | Site-wide | Approach proposed in `11-ai-assistant-later.md`. Not in the current build. |
 | Workshop venue | Workshop page, order page, checkout | `[Location to be announced]` |
-| Workshop agenda times | Workshop agenda | `[TIME]` |
 | Report turnaround days | Assessment report and thank-you page, contact reply time | `[number] business days` |
 | Final assessment questions | Assessment flow | Five draft questions, marked "Draft question" |
-| Book: publication date, price, pre-order link, bonus | Book page | Placeholders. The page can be hidden. |
+| Book: publication date, pre-order link, bonus | Book page | Placeholders. The page can be hidden. |
 | Podcast name, episodes and links | Podcast page | Placeholders. The page can be hidden. |
-| Team members beyond Jenna (names, titles, photos) | About page | One placeholder card |
+| Team members (names, titles, photos) | About page | Removed for now at her request: the team section shows only the "We are hiring" card. Add members in the Studio when ready. |
 | Company timeline dates | About page | Uses Jenna's career timeline for now |
 | LinkedIn URL and other social channels | Footer, socials page | `[LinkedIn URL]` |
 | Legal page text (counsel) | Four legal pages | Template banner shows |

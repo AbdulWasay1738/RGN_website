@@ -196,7 +196,7 @@ main:focus {
   font-weight: 400;
   color: var(--lav-i);
   letter-spacing: 0;
-  text-transform: none;
+  text-transform: lowercase;
 }
 .navy .script,
 .ink .script {
@@ -219,7 +219,7 @@ main:focus {
   display: block;
   font: 400 clamp(30px, 3vw, 44px) / 1 var(--font-hand);
   color: var(--lav-i);
-  text-transform: none;
+  text-transform: lowercase;
   letter-spacing: 0;
   margin-top: -0.1em;
 }
@@ -654,6 +654,7 @@ main:focus {
 }
 .cover .word {
   font-family: var(--font-hand);
+  text-transform: lowercase; /* client rule: the handwritten font is always lowercase */
   font-size: 40px;
   color: var(--lav);
   position: relative;

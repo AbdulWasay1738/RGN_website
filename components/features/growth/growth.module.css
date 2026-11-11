@@ -289,6 +289,25 @@ button.sel:hover {
   color: var(--white);
 }
 
+/* the real booking calendar, shown once the form is sent */
+.booking {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.frame {
+  width: 100%;
+  height: 640px;
+  border: 1.5px solid var(--rule2);
+  border-radius: 14px;
+  background: var(--white);
+}
+.newTab:global(.tlink) {
+  align-self: center;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
 /* booked */
 .done {
   padding: 24px 8px;
@@ -311,6 +330,9 @@ button.sel:hover {
 }
 
 @media (max-width: 520px) {
+  .frame {
+    height: 760px;
+  }
   .grid {
     gap: 4px;
   }

@@ -33,6 +33,7 @@
 }
 .fanWord {
   font: 34px var(--font-hand);
+  text-transform: lowercase; /* client rule: the handwritten font is always lowercase */
 }
 .fanNum {
   font: 400 120px/0.8 var(--fd);

@@ -255,6 +255,7 @@ p.leadWide {
 }
 .podHand {
   font: 34px/1 var(--font-hand);
+  text-transform: lowercase; /* client rule: the handwritten font is always lowercase */
   color: var(--white);
 }
 

@@ -1,5 +1,5 @@
 import { CalendarIcon } from '@sanity/icons/Calendar'
-import { defineType } from 'sanity'
+import { defineField, defineType } from 'sanity'
 import { accent, cta, ICONS, items, list, num, PLACEHOLDER_HELP, seo, str, strings, txt } from '../helpers'
 
 const WEEKDAYS = [
@@ -76,7 +76,7 @@ export const growthCall = defineType({
       title: 'Days with calls',
       group: 'calendar',
       list: WEEKDAYS,
-      description: 'Used until the GoHighLevel calendar supplies real free times.',
+      description: 'Used only when no booking calendar link is set.',
     }),
     num('bookingWindowDays', {
       title: 'Days ahead to show',
@@ -89,9 +89,23 @@ export const growthCall = defineType({
     strings('slotLabels', {
       title: 'Call times (Eastern)',
       group: 'calendar',
-      description: 'Written like "10:00 AM". Used until the GoHighLevel calendar supplies real free times.',
+      description: 'Written like "10:00 AM". Used only when no booking calendar link is set.',
     }),
-    num('callMinutes', { title: 'Call length (minutes)', group: 'calendar', integer: true, min: 5, initialValue: 30, description: 'Used for the calendar file.' }),
+    defineField({
+      name: 'bookingUrl',
+      title: 'Booking calendar link',
+      type: 'url',
+      group: 'calendar',
+      description:
+        'Paste the link to your booking calendar (a Google Calendar appointment page now, the GoHighLevel calendar later). Once the form is filled out, visitors pick a time in it, right on the page. Leave empty to show the sample calendar below instead.',
+      validation: (Rule) => Rule.uri({ scheme: ['https'] }),
+    }),
+    str('bookingLinkLabel', {
+      title: 'Link to open the calendar in a new tab',
+      group: 'calendar',
+      description: 'Shown under the booking calendar, for anyone whose browser does not show it on the page.',
+    }),
+    num('callMinutes', { title: 'Call length (minutes)', group: 'calendar', integer: true, min: 5, initialValue: 45, description: 'Used for the calendar file.' }),
     str('ghlCalendarId', {
       title: 'GoHighLevel calendar ID',
       group: 'calendar',

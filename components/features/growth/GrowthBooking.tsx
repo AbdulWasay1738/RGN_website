@@ -10,15 +10,34 @@ import { Consent, Field, PhoneField, SpamTraps } from '@/components/ui/Field'
 import { Icon } from '@/components/ui/Icon'
 import { track } from '@/lib/analytics'
 import { FORM_FIELDS, validateForm, VALIDATION_MESSAGES, type FieldErrors } from '@/lib/forms'
-import { bookableDays, dayKey, dayLabel, lastMonthOffset, monthGrid, monthLabel, slotStart } from '@/lib/growth-call'
+import {
+  bookableDays,
+  dayKey,
+  dayLabel,
+  lastMonthOffset,
+  monthGrid,
+  monthLabel,
+  slotStart,
+} from '@/lib/growth-call'
 import { downloadIcs } from '@/lib/ics'
 import type { GrowthCall } from '@/lib/sanity/types'
 import { clean, interpolate, plainText } from '@/lib/text'
 import styles from './growth.module.css'
 
-type Lead = { firstName: string; lastName: string; phone: string; email: string; smsConsent: boolean }
+type Lead = {
+  firstName: string
+  lastName: string
+  phone: string
+  email: string
+  smsConsent: boolean
+}
 
-const IDS: Record<string, string> = { phone: 'gr-ph', firstName: 'gr-fn', lastName: 'gr-ln', email: 'gr-em' }
+const IDS: Record<string, string> = {
+  phone: 'gr-ph',
+  firstName: 'gr-fn',
+  lastName: 'gr-ln',
+  email: 'gr-em',
+}
 const WEEKDAY_HEADINGS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
 /** "By continuing, you agree to our Terms and Privacy Policy." with the two legal links. */
@@ -49,7 +68,13 @@ function TermsLine({ text }: { text?: string }) {
  * team can call even if no time is ever booked. The calendar stays locked
  * until then. Phase 6: Confirm creates the GoHighLevel appointment.
  */
-export function GrowthBooking({ content }: { content: GrowthCall }) {
+export function GrowthBooking({
+  content,
+  booking,
+}: {
+  content: GrowthCall
+  booking?: { embedUrl: string | null; link: string } | null
+}) {
   const toast = useToast()
   const { now } = useSalesCalendar()
   const monthHeadingId = useId()
@@ -67,8 +92,11 @@ export function GrowthBooking({ content }: { content: GrowthCall }) {
   const [done, setDone] = useState(false)
 
   const windowDays = content.bookingWindowDays ?? 30
-  const weekdays = content.availableWeekdays?.length ? content.availableWeekdays.map((w) => clean(w)) : undefined
-  const available = bookableDays(now, { weekdays, windowDays })
+  const weekdays = content.availableWeekdays?.length
+    ? content.availableWeekdays.map((w) => clean(w))
+    : undefined
+  // With a real booking calendar, the sample calendar only shows (locked) until the form is sent.
+  const available = booking ? new Set<string>() : bookableDays(now, { weekdays, windowDays })
   const maxMonth = lastMonthOffset(now, windowDays)
   const { first, cells } = monthGrid(now, month)
   const slots = content.slotLabels?.length ? content.slotLabels : []
@@ -95,7 +123,9 @@ export function GrowthBooking({ content }: { content: GrowthCall }) {
     setBusy(false)
     if (!result || !result.ok) {
       setErrors(result && !result.ok ? result.errors : {})
-      setFormError(result && !result.ok && result.message ? result.message : VALIDATION_MESSAGES.failed)
+      setFormError(
+        result && !result.ok && result.message ? result.message : VALIDATION_MESSAGES.failed,
+      )
       return
     }
     const next: Lead = {
@@ -143,7 +173,8 @@ export function GrowthBooking({ content }: { content: GrowthCall }) {
         start,
         end: new Date(start.getTime() + minutes * 6e4),
         description: content.intro ?? undefined,
-        url: typeof window !== 'undefined' ? `${window.location.origin}/growth-strategy` : undefined,
+        url:
+          typeof window !== 'undefined' ? `${window.location.origin}/growth-strategy` : undefined,
         uid: `growth-call-${day}-${slot.replace(/\W/g, '')}@reelgoodnews.com`,
       },
       'growth-strategy-call.ics',
@@ -159,7 +190,11 @@ export function GrowthBooking({ content }: { content: GrowthCall }) {
         <h2 className={styles.doneTitle} ref={doneRef} tabIndex={-1}>
           {content.successTitle}
         </h2>
-        {content.successBody ? <p className={styles.doneBody}>{interpolate(content.successBody, { date: dayLabel(day), time: slot })}</p> : null}
+        {content.successBody ? (
+          <p className={styles.doneBody}>
+            {interpolate(content.successBody, { date: dayLabel(day), time: slot })}
+          </p>
+        ) : null}
         <div className={`row g12 ${styles.doneActions}`}>
           {content.addToCalendarLabel ? (
             <button type="button" className="btn btn-o btn-sm" onClick={addToCalendar}>
@@ -175,7 +210,10 @@ export function GrowthBooking({ content }: { content: GrowthCall }) {
   return (
     <>
       <ol className={styles.steps} aria-label="Booking steps">
-        <li className={lead ? styles.stepDone : styles.stepOn} aria-current={lead ? undefined : 'step'}>
+        <li
+          className={lead ? styles.stepDone : styles.stepOn}
+          aria-current={lead ? undefined : 'step'}
+        >
           <i aria-hidden="true" />
           {content.formStepLabel}
         </li>
@@ -198,7 +236,12 @@ export function GrowthBooking({ content }: { content: GrowthCall }) {
           </button>
         </div>
       ) : (
-        <form className={`form ${styles.form}`} onSubmit={onSubmit} noValidate aria-label={content.formStepLabel || 'Your details'}>
+        <form
+          className={`form ${styles.form}`}
+          onSubmit={onSubmit}
+          noValidate
+          aria-label={content.formStepLabel || 'Your details'}
+        >
           <PhoneField
             id={IDS.phone}
             name="phone"
@@ -211,10 +254,35 @@ export function GrowthBooking({ content }: { content: GrowthCall }) {
             defaultValue={lastLead?.phone}
           />
           <div className="fgrid">
-            <Field id={IDS.firstName} name="firstName" label="First name" required autoComplete="given-name" error={errors.firstName} defaultValue={lastLead?.firstName} />
-            <Field id={IDS.lastName} name="lastName" label="Last name" required autoComplete="family-name" error={errors.lastName} defaultValue={lastLead?.lastName} />
+            <Field
+              id={IDS.firstName}
+              name="firstName"
+              label="First name"
+              required
+              autoComplete="given-name"
+              error={errors.firstName}
+              defaultValue={lastLead?.firstName}
+            />
+            <Field
+              id={IDS.lastName}
+              name="lastName"
+              label="Last name"
+              required
+              autoComplete="family-name"
+              error={errors.lastName}
+              defaultValue={lastLead?.lastName}
+            />
           </div>
-          <Field id={IDS.email} name="email" type="email" label="Work email" required autoComplete="email" error={errors.email} defaultValue={lastLead?.email} />
+          <Field
+            id={IDS.email}
+            name="email"
+            type="email"
+            label="Work email"
+            required
+            autoComplete="email"
+            error={errors.email}
+            defaultValue={lastLead?.email}
+          />
           {content.consentText ? (
             <Consent id="gr-ok" name="smsConsent" defaultChecked={lastLead?.smsConsent}>
               {content.consentText}
@@ -233,81 +301,140 @@ export function GrowthBooking({ content }: { content: GrowthCall }) {
         </form>
       )}
 
-      <div className={`${styles.cal} ${locked ? styles.locked : ''}`} ref={calendarRef} onClick={onLockedClick}>
-        <div className={styles.calHead}>
+      {!locked && booking ? (
+        <div className={styles.booking} ref={calendarRef}>
           <h2 className={styles.month} id={monthHeadingId} tabIndex={-1}>
-            {monthLabel(first)}
+            {content.bookStepLabel || 'Book your call'}
           </h2>
-          <div className={styles.nav}>
-            <button type="button" aria-label="Previous month" disabled={month <= 0} onClick={() => setMonth((m) => Math.max(0, m - 1))}>
-              ‹
-            </button>
-            <button type="button" aria-label="Next month" disabled={month >= maxMonth} onClick={() => setMonth((m) => Math.min(maxMonth, m + 1))}>
-              ›
-            </button>
-          </div>
+          {booking.embedUrl ? (
+            <iframe
+              src={booking.embedUrl}
+              title={content.bookStepLabel || 'Book your call'}
+              className={styles.frame}
+              loading="lazy"
+            />
+          ) : null}
+          <a
+            href={booking.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={booking.embedUrl ? `tlink ${styles.newTab}` : 'btn btn-p btn-block'}
+            onClick={() => track('growth_booking_open')}
+          >
+            {content.bookingLinkLabel || 'Open the booking calendar in a new tab'}
+          </a>
         </div>
-        <div className={styles.grid} role="group" aria-labelledby={monthHeadingId} aria-hidden={locked ? true : undefined}>
-          {WEEKDAY_HEADINGS.map((w) => (
-            <span key={w} className={styles.wd} aria-hidden="true">
-              {w}
-            </span>
-          ))}
-          {cells.map((cell, i) => {
-            if (!cell) return <span key={`b${i}`} aria-hidden="true" />
-            const key = dayKey(cell)
-            const n = cell.getUTCDate()
-            if (locked || !available.has(key)) {
-              return (
-                <span key={key} className={`${styles.dy} ${available.has(key) ? styles.av : ''}`} aria-hidden="true">
-                  {n}
-                </span>
-              )
-            }
-            const selected = day === key
-            return (
+      ) : (
+        <div
+          className={`${styles.cal} ${locked ? styles.locked : ''}`}
+          ref={calendarRef}
+          onClick={onLockedClick}
+        >
+          <div className={styles.calHead}>
+            <h2 className={styles.month} id={monthHeadingId} tabIndex={-1}>
+              {monthLabel(first)}
+            </h2>
+            <div className={styles.nav}>
               <button
-                key={key}
                 type="button"
-                className={`${styles.dy} ${styles.av} ${selected ? styles.sel : ''}`}
-                aria-pressed={selected}
-                aria-label={`${dayLabel(key)}, available`}
-                onClick={() => {
-                  setDay(key)
-                  setSlot(null)
-                }}
+                aria-label="Previous month"
+                disabled={month <= 0}
+                onClick={() => setMonth((m) => Math.max(0, m - 1))}
               >
-                {n}
+                ‹
               </button>
-            )
-          })}
-        </div>
-        {locked && content.lockedMessage ? (
-          <p className={styles.lockMsg} role="note">
-            {content.lockedMessage}
-          </p>
-        ) : null}
-        {!locked && day ? (
-          <div className="stack g8">
-            <strong className={styles.slotHead}>
-              {dayLabel(day)}
-              {content.timezoneLabel ? ` · ${content.timezoneLabel}` : ''}
-            </strong>
-            <div className={styles.slots} role="group" aria-label="Available times">
-              {slots.map((s) => (
-                <button key={s} type="button" className={styles.slot} aria-pressed={slot === s} onClick={() => setSlot(s)}>
-                  {s}
-                </button>
-              ))}
+              <button
+                type="button"
+                aria-label="Next month"
+                disabled={month >= maxMonth}
+                onClick={() => setMonth((m) => Math.min(maxMonth, m + 1))}
+              >
+                ›
+              </button>
             </div>
           </div>
-        ) : null}
-        {!locked && day && slot ? (
-          <button type="button" className="btn btn-p btn-block" onClick={confirm} data-track="growth_booked">
-            {content.confirmLabel || 'Confirm'}
-          </button>
-        ) : null}
-      </div>
+          <div
+            className={styles.grid}
+            role="group"
+            aria-labelledby={monthHeadingId}
+            aria-hidden={locked ? true : undefined}
+          >
+            {WEEKDAY_HEADINGS.map((w) => (
+              <span key={w} className={styles.wd} aria-hidden="true">
+                {w}
+              </span>
+            ))}
+            {cells.map((cell, i) => {
+              if (!cell) return <span key={`b${i}`} aria-hidden="true" />
+              const key = dayKey(cell)
+              const n = cell.getUTCDate()
+              if (locked || !available.has(key)) {
+                return (
+                  <span
+                    key={key}
+                    className={`${styles.dy} ${available.has(key) ? styles.av : ''}`}
+                    aria-hidden="true"
+                  >
+                    {n}
+                  </span>
+                )
+              }
+              const selected = day === key
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  className={`${styles.dy} ${styles.av} ${selected ? styles.sel : ''}`}
+                  aria-pressed={selected}
+                  aria-label={`${dayLabel(key)}, available`}
+                  onClick={() => {
+                    setDay(key)
+                    setSlot(null)
+                  }}
+                >
+                  {n}
+                </button>
+              )
+            })}
+          </div>
+          {locked && content.lockedMessage ? (
+            <p className={styles.lockMsg} role="note">
+              {content.lockedMessage}
+            </p>
+          ) : null}
+          {!locked && day ? (
+            <div className="stack g8">
+              <strong className={styles.slotHead}>
+                {dayLabel(day)}
+                {content.timezoneLabel ? ` · ${content.timezoneLabel}` : ''}
+              </strong>
+              <div className={styles.slots} role="group" aria-label="Available times">
+                {slots.map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    className={styles.slot}
+                    aria-pressed={slot === s}
+                    onClick={() => setSlot(s)}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+          {!locked && day && slot ? (
+            <button
+              type="button"
+              className="btn btn-p btn-block"
+              onClick={confirm}
+              data-track="growth_booked"
+            >
+              {content.confirmLabel || 'Confirm'}
+            </button>
+          ) : null}
+        </div>
+      )}
     </>
   )
 }

@@ -108,13 +108,23 @@ export default async function BookPage() {
         </div>
       </section>
 
-      {/* Statement */}
+      {/* Statement, with the photo beside it when there is one */}
       {book.statement || book.body?.length ? (
         <section className="band">
-          <div className={`wrap narrow stack g24 ${styles.statementWrap}`}>
-            <AccentText as="p" className={`rv ${styles.statement}`} text={book.statement} />
-            <RichText value={book.body} className={`rv ${styles.body}`} />
-          </div>
+          {book.photo?.asset ? (
+            <div className={`wrap row g64 ${styles.photoRow}`}>
+              <SanityImage image={book.photo} className={`rv ${styles.photo}`} sizes="(max-width: 760px) 92vw, 560px" />
+              <div className="grow stack g24">
+                <AccentText as="p" className={`rv ${styles.statement}`} text={book.statement} />
+                <RichText value={book.body} className={`rv ${styles.body}`} />
+              </div>
+            </div>
+          ) : (
+            <div className={`wrap narrow stack g24 ${styles.statementWrap}`}>
+              <AccentText as="p" className={`rv ${styles.statement}`} text={book.statement} />
+              <RichText value={book.body} className={`rv ${styles.body}`} />
+            </div>
+          )}
         </section>
       ) : null}
 

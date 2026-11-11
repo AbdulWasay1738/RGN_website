@@ -954,6 +954,7 @@ export type FounderStory = {
       _key: string
     } & TimelineEntryReference
   >
+  showYears?: boolean
   cta?: Cta
   background?: 'white' | 'paper' | 'navy' | 'ink' | 'lavender' | 'lavender-tint' | 'orange'
   watermark?: 'none' | 'top-right' | 'top-left' | 'bottom-left' | 'bottom-right' | 'center-right'
@@ -1214,6 +1215,8 @@ export type GrowthCall = {
   availableWeekdays?: Array<string>
   bookingWindowDays?: number
   slotLabels?: Array<string>
+  bookingUrl?: string
+  bookingLinkLabel?: string
   callMinutes?: number
   ghlCalendarId?: string
   successTitle?: string
@@ -1441,6 +1444,7 @@ export type Book = {
   coverTagline?: string
   author?: string
   spineText?: string
+  photo?: ImageWithAlt
   statement?: string
   body?: RichBody
   inside?: {
@@ -2208,6 +2212,7 @@ export type LAYOUT_QUERY_RESULT = {
         coverTagline?: string
         author?: string
         spineText?: string
+        photo?: ImageWithAlt
         statement?: string
         body?: RichBody
         inside?: {
@@ -2463,6 +2468,8 @@ export type LAYOUT_QUERY_RESULT = {
         availableWeekdays?: Array<string>
         bookingWindowDays?: number
         slotLabels?: Array<string>
+        bookingUrl?: string
+        bookingLinkLabel?: string
         callMinutes?: number
         ghlCalendarId?: string
         successTitle?: string
@@ -3287,6 +3294,7 @@ export type LAYOUT_QUERY_RESULT = {
         coverTagline?: string
         author?: string
         spineText?: string
+        photo?: ImageWithAlt
         statement?: string
         body?: RichBody
         inside?: {
@@ -3537,6 +3545,8 @@ export type LAYOUT_QUERY_RESULT = {
         availableWeekdays?: Array<string>
         bookingWindowDays?: number
         slotLabels?: Array<string>
+        bookingUrl?: string
+        bookingLinkLabel?: string
         callMinutes?: number
         ghlCalendarId?: string
         successTitle?: string
@@ -4341,6 +4351,7 @@ export type LAYOUT_QUERY_RESULT = {
         coverTagline?: string
         author?: string
         spineText?: string
+        photo?: ImageWithAlt
         statement?: string
         body?: RichBody
         inside?: {
@@ -4591,6 +4602,8 @@ export type LAYOUT_QUERY_RESULT = {
         availableWeekdays?: Array<string>
         bookingWindowDays?: number
         slotLabels?: Array<string>
+        bookingUrl?: string
+        bookingLinkLabel?: string
         callMinutes?: number
         ghlCalendarId?: string
         successTitle?: string
@@ -5540,6 +5553,7 @@ export type PAGE_QUERY_RESULT = {
           highlight: boolean | null
           order: number | null
         }> | null
+        showYears?: boolean
         cta?: Cta
         background?: 'ink' | 'lavender-tint' | 'lavender' | 'navy' | 'orange' | 'paper' | 'white'
         watermark?:
@@ -6238,6 +6252,7 @@ export type WORKSHOP_QUERY_RESULT =
       coverTagline?: string
       author?: string
       spineText?: string
+      photo?: ImageWithAlt
       statement?: string
       body?: RichBody
       inside?: {
@@ -6548,6 +6563,8 @@ export type WORKSHOP_QUERY_RESULT =
       availableWeekdays?: Array<string>
       bookingWindowDays?: number
       slotLabels?: Array<string>
+      bookingUrl?: string
+      bookingLinkLabel?: string
       callMinutes?: number
       ghlCalendarId?: string
       successTitle?: string
@@ -7597,6 +7614,7 @@ export type COURSE_PAGE_QUERY_RESULT = {
         coverTagline?: string
         author?: string
         spineText?: string
+        photo?: ImageWithAlt
         statement?: string
         body?: RichBody
         inside?: {
@@ -7847,6 +7865,8 @@ export type COURSE_PAGE_QUERY_RESULT = {
         availableWeekdays?: Array<string>
         bookingWindowDays?: number
         slotLabels?: Array<string>
+        bookingUrl?: string
+        bookingLinkLabel?: string
         callMinutes?: number
         ghlCalendarId?: string
         successTitle?: string
@@ -8697,6 +8717,7 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
         coverTagline?: string
         author?: string
         spineText?: string
+        photo?: ImageWithAlt
         statement?: string
         body?: RichBody
         inside?: {
@@ -8972,6 +8993,8 @@ export type BUNDLE_PAGE_QUERY_RESULT = {
         availableWeekdays?: Array<string>
         bookingWindowDays?: number
         slotLabels?: Array<string>
+        bookingUrl?: string
+        bookingLinkLabel?: string
         callMinutes?: number
         ghlCalendarId?: string
         successTitle?: string
@@ -9844,6 +9867,7 @@ export type GROWTH_CALL_QUERY_RESULT =
       coverTagline?: string
       author?: string
       spineText?: string
+      photo?: ImageWithAlt
       statement?: string
       body?: RichBody
       inside?: {
@@ -10094,6 +10118,8 @@ export type GROWTH_CALL_QUERY_RESULT =
       availableWeekdays?: Array<string>
       bookingWindowDays?: number
       slotLabels?: Array<string>
+      bookingUrl?: string
+      bookingLinkLabel?: string
       callMinutes?: number
       ghlCalendarId?: string
       successTitle?: string
@@ -10897,6 +10923,7 @@ export type BOOK_QUERY_RESULT =
       coverTagline?: string
       author?: string
       spineText?: string
+      photo?: ImageWithAlt
       statement?: string
       body?: RichBody
       inside?: {
@@ -11147,6 +11174,8 @@ export type BOOK_QUERY_RESULT =
       availableWeekdays?: Array<string>
       bookingWindowDays?: number
       slotLabels?: Array<string>
+      bookingUrl?: string
+      bookingLinkLabel?: string
       callMinutes?: number
       ghlCalendarId?: string
       successTitle?: string
@@ -11950,6 +11979,7 @@ export type ASSESSMENT_QUERY_RESULT =
       coverTagline?: string
       author?: string
       spineText?: string
+      photo?: ImageWithAlt
       statement?: string
       body?: RichBody
       inside?: {
@@ -12200,6 +12230,8 @@ export type ASSESSMENT_QUERY_RESULT =
       availableWeekdays?: Array<string>
       bookingWindowDays?: number
       slotLabels?: Array<string>
+      bookingUrl?: string
+      bookingLinkLabel?: string
       callMinutes?: number
       ghlCalendarId?: string
       successTitle?: string
@@ -13006,6 +13038,7 @@ export type ORDER_QUERY_RESULT =
       coverTagline?: string
       author?: string
       spineText?: string
+      photo?: ImageWithAlt
       statement?: string
       body?: RichBody
       inside?: {
@@ -13261,6 +13294,8 @@ export type ORDER_QUERY_RESULT =
       availableWeekdays?: Array<string>
       bookingWindowDays?: number
       slotLabels?: Array<string>
+      bookingUrl?: string
+      bookingLinkLabel?: string
       callMinutes?: number
       ghlCalendarId?: string
       successTitle?: string
@@ -14083,6 +14118,7 @@ export type BLOG_SETTINGS_QUERY_RESULT =
       coverTagline?: string
       author?: string
       spineText?: string
+      photo?: ImageWithAlt
       statement?: string
       body?: RichBody
       inside?: {
@@ -14333,6 +14369,8 @@ export type BLOG_SETTINGS_QUERY_RESULT =
       availableWeekdays?: Array<string>
       bookingWindowDays?: number
       slotLabels?: Array<string>
+      bookingUrl?: string
+      bookingLinkLabel?: string
       callMinutes?: number
       ghlCalendarId?: string
       successTitle?: string

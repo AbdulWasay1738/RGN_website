@@ -95,3 +95,28 @@ export function slotStart(key: string, label: string): Date | null {
   const wallAsUtc = Date.UTC(p.year, p.month, p.day, p.hour, p.minute)
   return new Date(guess + (guess - wallAsUtc))
 }
+
+/**
+ * The address to show a booking page in a frame on the growth call page.
+ * Google Calendar appointment pages only allow framing at their official
+ * embed address (/calendar/appointments/schedules/<id>?gv=true), so their
+ * share links are rewritten to it. Other https booking pages (for example a
+ * GoHighLevel calendar widget) are framed as they are. Null when the address
+ * cannot be framed (not https, or a short link that was not resolved).
+ */
+export function bookingEmbedUrl(raw: string | undefined | null): string | null {
+  if (!raw) return null
+  let u: URL
+  try {
+    u = new URL(raw.trim())
+  } catch {
+    return null
+  }
+  if (u.protocol !== 'https:') return null
+  if (u.hostname === 'calendar.app.google') return null
+  if (u.hostname === 'calendar.google.com') {
+    const m = /\/(?:calendar\/)?appointments\/schedules\/([^/?#]+)/.exec(u.pathname)
+    return m ? `https://calendar.google.com/calendar/appointments/schedules/${m[1]}?gv=true` : null
+  }
+  return u.toString()
+}

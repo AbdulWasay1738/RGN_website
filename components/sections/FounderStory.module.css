@@ -20,6 +20,7 @@
   left: -10px;
   bottom: 48px;
   font: 88px/1 var(--font-hand);
+  text-transform: lowercase; /* client rule: the handwritten font is always lowercase */
   color: var(--lav-i);
   transform: rotate(-8deg);
   z-index: 3;

@@ -39,7 +39,7 @@ export function FounderStory({ section }: SectionProps<FounderStorySection>) {
             <div className="grid" style={{ '--min': '170px', '--gap': '16px' } as CSSProperties}>
               {timeline.map((t) => (
                 <div key={t._id} className={styles.tl}>
-                  {t.homeLabel || t.year ? <span className={`eyebrow ${styles.tlLabel}`}>{t.homeLabel || t.year}</span> : null}
+                  {section.showYears && (t.homeLabel || t.year) ? <span className={`eyebrow ${styles.tlLabel}`}>{t.homeLabel || t.year}</span> : null}
                   <strong>{t.organisation}</strong>
                   {t.homeSummary || t.shortDescription ? (
                     <span className={styles.tlText}>{t.homeSummary || t.shortDescription}</span>

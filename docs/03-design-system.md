@@ -60,6 +60,7 @@ Rules from the client's feedback:
 - **Never mix two typefaces inside one headline.** An accent word inside a headline stays in Anton and changes colour only (`.acc` orange or coral, `.acc-l` lavender).
 - The handwritten font appears only in select subheadlines and editorial accents: "founder to founder", course name labels above course titles, the workshop name line, the signature on the founder photo, card cover words, and the footer line. Never as a primary headline.
 - Long statements and quotes use Nunito Sans 700 or 800, not Anton.
+- **The handwritten font is always lowercase** (round three). Every style that uses `--font-hand` sets `text-transform: lowercase`, so text typed with capitals in the Studio still shows lowercase.
 
 ## Brand components (the client's visual identity, change #10)
 

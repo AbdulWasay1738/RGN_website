@@ -374,6 +374,11 @@ export const book = defineType({
     str('author', { title: 'Author on the cover', group: 'cover' }),
     str('spineText', { title: 'Spine text', group: 'cover' }),
 
+    image('photo', {
+      title: 'Photo',
+      group: 'content',
+      description: 'Shown beside the statement, for example someone reading the book. A landscape photo works best. Leave empty for none.',
+    }),
     accent('statement', { title: 'Statement', group: 'content', rows: 2, max: 200 }),
     defineField({ name: 'body', title: 'Text', type: 'richBody', group: 'content' }),
     obj(

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { validateForm, pickFields } from '@/lib/forms'
-import { bookableDays, dayLabel, easternToday, lastMonthOffset, monthGrid, monthLabel, slotStart } from '@/lib/growth-call'
+import { bookableDays, bookingEmbedUrl, dayLabel, easternToday, lastMonthOffset, monthGrid, monthLabel, slotStart } from '@/lib/growth-call'
 
 describe('growth call calendar (Eastern Time)', () => {
   it('today follows the Eastern date, not UTC', () => {
@@ -54,5 +54,23 @@ describe('growth call form', () => {
       lastName: 'Morgan',
       email: 'alex@example.com',
     })
+  })
+})
+
+describe('booking calendar link', () => {
+  const id = 'AcZssZ2_6tXoG-GIRQsMhCo40CO3A3D9zLZVeVzbzMudMs6lCezUn38asGTUkCCMAcea82bI-qS2WtgC'
+  it('turns a Google appointment page into its embeddable address', () => {
+    const embed = `https://calendar.google.com/calendar/appointments/schedules/${id}?gv=true`
+    expect(bookingEmbedUrl(`https://calendar.google.com/appointments/schedules/${id}`)).toBe(embed)
+    expect(bookingEmbedUrl(`https://calendar.google.com/calendar/appointments/schedules/${id}?gv=true`)).toBe(embed)
+  })
+  it('frames other https booking pages as they are', () => {
+    expect(bookingEmbedUrl('https://api.leadconnectorhq.com/widget/booking/abc')).toBe('https://api.leadconnectorhq.com/widget/booking/abc')
+  })
+  it('refuses what cannot be framed: short links, http, nonsense', () => {
+    expect(bookingEmbedUrl('https://calendar.app.google/tnBVuixeCuReqVt46')).toBeNull()
+    expect(bookingEmbedUrl('http://example.com/book')).toBeNull()
+    expect(bookingEmbedUrl('not a link')).toBeNull()
+    expect(bookingEmbedUrl('')).toBeNull()
   })
 })

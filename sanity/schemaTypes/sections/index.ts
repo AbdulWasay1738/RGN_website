@@ -246,11 +246,12 @@ export const founderStory = defineSection({
   fields: [
     str('eyebrow', { title: 'Eyebrow' }),
     accent('headline', { title: 'Headline', required: true }),
-    str('handLine', { title: 'Handwritten line' }),
+    str('handLine', { title: 'Handwritten line', description: 'Optional. Leave empty for none.' }),
     txt('body', { title: 'Paragraph', rows: 5 }),
     image('photo', { title: 'Photo', description: 'A portrait photo. Leave empty to use the founder portrait.' }),
-    str('signature', { title: 'Signature', description: 'The handwritten name over the photo.' }),
+    str('signature', { title: 'Signature', description: 'Optional handwritten name over the photo. Leave empty for none.' }),
     refs('timeline', ['timelineEntry'], { title: 'Timeline cards' }),
+    bool('showYears', { title: 'Show years on the timeline cards', initialValue: false, description: 'Off: the cards show only the company and the line under it.' }),
     cta('cta', { title: 'Button' }),
   ],
 })

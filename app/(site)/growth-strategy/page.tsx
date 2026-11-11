@@ -7,6 +7,7 @@ import { AccentText } from '@/components/ui/AccentText'
 import { Icon } from '@/components/ui/Icon'
 import { JsonLd } from '@/components/ui/JsonLd'
 import { sanityFetch } from '@/lib/sanity/fetch'
+import { bookingEmbedUrl } from '@/lib/growth-call'
 import { getLayoutData } from '@/lib/sanity/layout'
 import { GROWTH_CALL_QUERY } from '@/lib/sanity/queries'
 import type { GrowthCall } from '@/lib/sanity/types'
@@ -24,6 +25,22 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const delay = (s: string) => ({ '--dl': s }) as CSSProperties
 
+/** The booking calendar to show in step 2. Google's short links (calendar.app.google) are followed to the page they open. */
+async function bookingFor(raw: string | undefined) {
+  const link = raw?.trim()
+  if (!link) return null
+  let target = link
+  try {
+    if (new URL(link).hostname === 'calendar.app.google') {
+      const res = await fetch(link, { redirect: 'manual', next: { revalidate: 3600 } })
+      target = res.headers.get('location') ?? link
+    }
+  } catch {
+    // Unreachable short link: show it as a link that opens in a new tab.
+  }
+  return { embedUrl: bookingEmbedUrl(target), link }
+}
+
 /**
  * The 2027 growth strategy call (client feedback round two), the home page's
  * main call to action: share details (the lead is captured right away), then
@@ -32,6 +49,7 @@ const delay = (s: string) => ({ '--dl': s }) as CSSProperties
 export default async function GrowthStrategyPage() {
   const g = await getData()
   if (!g) notFound()
+  const booking = await bookingFor(clean(g.bookingUrl))
 
   return (
     <>
@@ -72,7 +90,7 @@ export default async function GrowthStrategyPage() {
             ) : null}
           </div>
           <div className={`panel-w stack fade-up ${styles.card}`} style={delay('.2s')}>
-            <GrowthBooking content={g} />
+            <GrowthBooking content={g} booking={booking} />
           </div>
         </div>
       </section>

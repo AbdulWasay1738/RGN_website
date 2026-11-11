@@ -95,10 +95,17 @@ To cancel a sale, untick **Sale is on** and publish, or delete it. A sale that i
 
 The home page's main button leads to **/growth-strategy**. Visitors fill in the form first; their details reach our team as soon as they select Continue, even if they never pick a time. Then they choose a day and a time.
 
-- Open **Growth call** in the sidebar to edit the page text, the form wording (the field labels are fixed), the locked-calendar message and the booked message.
-- **Days with calls**, **Days ahead to show** and **Call times** set the calendar until GoHighLevel is connected; then the real free times from her calendar replace them.
+- Open **Growth call page** in the sidebar to edit the page text, the form wording (the field labels are fixed) and the locked-calendar message.
+- **Booking calendar link** (Step 2 tab): paste the link to your booking calendar. Once a visitor fills out the form, the calendar appears on the page and they pick a time in it. It works with a Google Calendar appointment page (the short calendar.app.google link is fine) and with a GoHighLevel calendar link. Bookings, confirmations and reminders come from that calendar.
+- With no link, a sample calendar shows instead, using **Days with calls**, **Days ahead to show** and **Call times**.
 - **Links elsewhere** holds the line under the workshop tickets ("Not sure the in-person workshop fits?").
 - To add the same kind of line to any other page, add the **Growth call link** section.
+
+## Handwritten words
+
+Everything in the handwritten font (course words, the workshop line, card cover words, the footer line) shows in lowercase on the site, even if you type capitals. That is on purpose: it is the house style.
+
+On the home page's **Founder story**, the handwritten line and the signature are optional (leave them empty for none), and **Show years on the timeline cards** is off.
 
 ## The R emblem
 

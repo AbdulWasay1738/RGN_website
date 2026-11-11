@@ -227,7 +227,7 @@
     },
     "footer": {
       "newsletterEyebrow": "The newsletter",
-      "newsletterHeadline": "Get the *good news* in your inbox.",
+      "newsletterHeadline": "Get *good news* in your inbox.",
       "newsletterBody": "Practical ideas on credibility, authority and expertise. No hype.",
       "tagline": "We help experts communicate their value and earn customer confidence.",
       "handwrittenLine": "Hook. Line. Heart.",
@@ -433,27 +433,27 @@
     ],
     "agenda": [
       {
-        "time": "[TIME]",
+        "time": "Noon",
         "title": "Find the right voices",
         "text": "The customers, partners and experts best placed to speak about the business."
       },
       {
-        "time": "[TIME]",
+        "time": "1 PM",
         "title": "Invite, prepare and write the questions",
         "text": "Interview questions that draw out real stories."
       },
       {
-        "time": "[TIME]",
+        "time": "2 PM",
         "title": "Plan the day",
         "text": "Schedule, introduction and outro, with no wasted time."
       },
       {
-        "time": "[TIME]",
+        "time": "3 PM",
         "title": "Hire the right videographer",
         "text": "What to ask before any booking."
       },
       {
-        "time": "[TIME]",
+        "time": "4 PM",
         "title": "From footage to a year of content",
         "text": "Organize the footage around marketing priorities."
       }
@@ -513,7 +513,7 @@
         "A focused conversation about growth in 2027."
       ]
     ],
-    "callLengthNote": "[Call length and format to confirm.]",
+    "callLengthNote": "Each call is 45 minutes.",
     "consentText": "Optional. Text me about my call and related offers from Reel Good News. Message and data rates may apply. Reply STOP to opt out. [Counsel to review.]",
     "termsLine": "By continuing, you agree to our Terms and Privacy Policy.",
     "continueLabel": "Continue",
@@ -537,6 +537,8 @@
     ],
     "workshopLine": "Not sure the in-person workshop fits?",
     "workshopLinkLabel": "Book a growth strategy call",
-    "_note": "Intro, steps and slots are drafts for client approval. Real availability comes from the GoHighLevel calendar in phase 6."
+    "_note": "Round three: calls are 45 minutes and the client takes them. bookingUrl is her Google Calendar booking page until the GoHighLevel calendar link arrives.",
+    "bookingUrl": "https://calendar.google.com/appointments/schedules/AcZssZ2_6tXoG-GIRQsMhCo40CO3A3D9zLZVeVzbzMudMs6lCezUn38asGTUkCCMAcea82bI-qS2WtgC",
+    "callMinutes": 45
   }
 }

@@ -1,5 +1,7 @@
 # 11. AI chat assistant (client request, not in the current build)
 
+> **Status (round three, Nov 11):** the client decided not to add the chat now, and expects many clients will want it later. Keep this plan for then.
+
 The client asked for "an AI chat feature that pulls from the GTM strategy". Read this so the build leaves room for it. Do not build it until asked.
 
 ## Important: do not feed the GTM document to a public chatbot as-is

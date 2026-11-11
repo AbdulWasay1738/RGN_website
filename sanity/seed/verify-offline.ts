@@ -229,6 +229,10 @@ async function main() {
         expect(r.sections.find((s: Any) => s._type === 'testimonials').items.every((t: Any) => t.quote), 'testimonials not expanded')
         expect(r.sections.find((s: Any) => s._type === 'founderStory').timeline.every((t: Any) => t.organisation), 'timeline not expanded')
         expect(r.sections.find((s: Any) => s._type === 'faqBlock').faqs.length === 6, 'home faqs')
+        const story = r.sections.find((s: Any) => s._type === 'founderStory')
+        expect(!story.handLine && !story.signature && story.showYears === false, 'round three: no handwritten line, signature or years in the founder story')
+        const faq = r.sections.find((s: Any) => s._type === 'faqBlock')
+        expect(faq.headline === 'Got questions? *Get straight answers.*' && !/\[number\]/.test(faq.note), 'round three: home FAQ heading and note')
         const hero = r.sections[0]
         expect(hero.primaryCta?.link?.href === '/growth-strategy', 'hero main button goes to the growth call')
         expect(hero.supportLine && hero.eyebrow && !hero.handLine && !hero.workshopCard && !hero.statCard, 'round-two hero fields')
@@ -237,7 +241,8 @@ async function main() {
         expect(!r.sections.find((s: Any) => s._type === 'statsBlock').showBadge, 'no R badge on the home page')
       }
       if (slug === 'about') {
-        expect(r.sections.find((s: Any) => s._type === 'teamGrid').members.every((m: Any) => m.name), 'team not expanded')
+        const team = r.sections.find((s: Any) => s._type === 'teamGrid')
+        expect(team.headline === 'Join the team.' && team.members.length === 0 && team.hiringCard?.eyebrow === 'We are hiring', 'round three: about team section')
         expect(r.sections.find((s: Any) => s._type === 'timeline').entries.length === 3, 'about timeline')
       }
       if (slug === 'partner') {
@@ -256,6 +261,8 @@ async function main() {
 
   await check<Any>('WORKSHOP_QUERY', Q.WORKSHOP_QUERY, {}, linkMap, (r) => {
     expect(r.slug === 'workshop', 'workshop slug')
+    expect(r.agenda?.items?.map((a: Any) => a.time).join() === 'Noon,1 PM,2 PM,3 PM,4 PM', 'round three: agenda times')
+    expect(r.hostSection?.eyebrow === 'Your host', 'round three: host eyebrow')
     expect(r.faqs?.length === 4 && r.faqs.every((f: Any) => f.question), 'workshop faqs')
     expect(r.archive?.images?.length === 2, 'archive images')
     expect(r.growthCallLink?.workshopLinkLabel, 'growth call line under the tickets')
@@ -265,6 +272,7 @@ async function main() {
     expect(r.headline && r.lockedMessage && r.continueLabel, 'growth call copy')
     expect(r.steps?.length === 3 && r.slotLabels?.length === 5, 'growth call steps and slots')
     expect(r.availableWeekdays?.join() === 'Tue,Wed,Thu' && r.bookingWindowDays === 30, 'growth call days')
+    expect(r.bookingUrl?.startsWith('https://') && r.callMinutes === 45, 'round three: booking calendar link and 45-minute calls')
     expect(r.successCta?.link?.href === '/workshop', 'growth call success button')
   })
 
@@ -291,7 +299,10 @@ async function main() {
     expect(r.courses?.length === 3, 'courses')
   })
 
-  await check<Any>('BOOK_QUERY', Q.BOOK_QUERY, {}, linkMap, (r) => expect(r.title, 'book'))
+  await check<Any>('BOOK_QUERY', Q.BOOK_QUERY, {}, linkMap, (r) => {
+    expect(r.title, 'book')
+    expect(r.price === '$18' && r.photo?.asset, 'round three: book price and photo')
+  })
   await check<Any>('ASSESSMENT_QUERY', Q.ASSESSMENT_QUERY, {}, linkMap, (r) => {
     expect(r.questions?.length === 5 && r.areas?.length === 5, 'assessment questions/areas')
     expect(r.thankYou?.cards?.length === 3, 'thank-you cards')

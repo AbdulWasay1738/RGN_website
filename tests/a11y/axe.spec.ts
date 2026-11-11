@@ -25,7 +25,7 @@ for (const route of ROUTES) {
   })
 }
 
-/** The growth call after step 1: the unlocked calendar with a day and a time chosen. */
+/** The growth call after step 1: her booking calendar (a third-party frame, so its own contents are not ours to test). */
 test('axe: growth call, unlocked calendar', async ({ page }) => {
   await page.addInitScript(() => {
     try {
@@ -41,14 +41,8 @@ test('axe: growth call, unlocked calendar', async ({ page }) => {
   await main.getByLabel('Work email').fill('alex@example.com')
   await page.waitForTimeout(2600)
   await main.getByRole('button', { name: 'Continue' }).click()
-  let day = main.getByRole('button', { name: /, available$/ }).first()
-  if (!(await day.count())) {
-    await main.getByRole('button', { name: 'Next month' }).click()
-    day = main.getByRole('button', { name: /, available$/ }).first()
-  }
-  await day.click()
-  await main.getByRole('group', { name: 'Available times' }).getByRole('button').first().click()
-  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze()
+  await expect(main.locator('iframe[title="Book your call"]')).toBeVisible()
+  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).exclude('iframe').analyze()
   const summary = results.violations.map((v) => ({ id: v.id, impact: v.impact, nodes: v.nodes.slice(0, 5).map((n) => n.target.join(' ')) }))
   expect(summary, JSON.stringify(summary, null, 2)).toEqual([])
 })
